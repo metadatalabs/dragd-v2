@@ -1,0 +1,70 @@
+import { getBlockchainNames, withSessionRoute } from '@/util/auth'
+import { withIronSessionApiRoute } from 'iron-session/next'
+import { NextApiRequest, NextApiResponse } from 'next'
+import { createItem, deleteItem, getItem, getItemByName, getItemsBySiteName, updateItem } from './_db'
+import requireAuth from './_require-auth'
+import { fetchEnsName } from '@wagmi/core'
+
+const handler = requireAuth(async (req, res) => {
+  const { method } = req
+  switch (method) {
+    case 'GET':
+      if(req.query.owned == 'true')
+      {
+        var connectedWallet = req.session.siwe?.address;
+        const walletNames = await getBlockchainNames(connectedWallet);
+        
+        var sites = []
+        for (const name of walletNames) {
+          var siteForName = await getItemsBySiteName(name);
+          if(siteForName.length > 0)
+            sites = [...sites, ...siteForName];
+          else
+            sites = [...sites, { siteName: name, pageName: "index", fake:true }]
+        }
+        res.send({ data: sites })
+      }
+      else
+      {
+        var site = await getItemByName(req.query.id);
+        res.send({ data: site })
+      }
+      break
+    case 'POST':
+      if(!req.body.pageName || !req.body.siteName)
+      return res.send({
+        status: 'error',
+        message: 'No name provided',
+      });
+
+      var siteData = {
+        ...req.body,
+        ownerId: req.session.siwe.address,
+        createdAt: Math.floor(Date.now() / 1000),
+      }
+      var site = await createItem(siteData);
+      console.log("created site: ", site.pageName, "/", site.siteName)
+      res.send({ site: site })
+      break
+    case 'PATCH':
+      // todo enforce siteid and owner from existing site query
+      var siteData = {
+        ...req.body,
+        userId: req.session.uid,
+        lastUpdated: Math.floor(Date.now() / 1000),
+      }
+      console.log("patching with ", siteData)
+      var site = await updateItem(req.body._id, siteData);
+      res.send({ site: site })
+      break;
+    case 'DELETE':
+      await deleteItem(req.body.id);
+      res.send({ "deleted": true })
+      break;
+    default:
+      res.setHeader('Allow', ['GET'])
+      res.status(405).end(`Method ${method} Not Allowed`)
+  }
+})
+ 
+export default withSessionRoute(handler)

@@ -2,7 +2,9 @@ import { withSessionRoute } from '@/util/auth'
 import { withIronSessionApiRoute } from 'iron-session/next'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { SiweMessage } from 'siwe'
- 
+import { createUser, getUserByWalletId } from '../_db'
+import { v4 as uuidv4 } from 'uuid';
+
 const handler = async (req, res) => {
   const { method } = req
   switch (method) {
@@ -10,13 +12,18 @@ const handler = async (req, res) => {
       try {
         const { message, signature } = req.body
         const siweMessage = new SiweMessage(message)
-        const fields = await siweMessage.validate(signature)
- 
-        if (fields.nonce !== req.session.nonce)
+        const verificationResult = await siweMessage.verify({signature})
+
+        if(!verificationResult.success)
+          return res.status(422).json({ message: 'Invalid signature.' })
+        if (siweMessage.nonce !== req.session.nonce)
           return res.status(422).json({ message: 'Invalid nonce.' })
  
-        req.session.siwe = fields
+
+        console.log("logging in user with walletId: ", verificationResult.data.address)
+        req.session.siwe = verificationResult.data
         await req.session.save()
+
         res.json({ ok: true })
       } catch (_error) {
         res.json({ ok: false })

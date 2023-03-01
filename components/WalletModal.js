@@ -3,7 +3,7 @@ import { useConnect, useDisconnect, useAccount, useNetwork, useSignMessage } fro
 import { SiweMessage } from 'siwe'
 import { CryptoAuthContext } from './CryptoAuth'
 
-import GenericModal from './GenericModal';
+import GenericModal from './UI/GenericModal';
 import { ModalHeading, ShinyButton } from './ui-helpers';
 
 function WalletModal(props) {
@@ -27,7 +27,7 @@ function ConnectWalletPage(props) {
             <div>
             {connectors.map((connector) => <>
                 <button
-                    className={'button bg-gray-100/10 transition duration-150 hover:bg-gray-200/20 px-2 py-1 my-1 rounded-sm'}
+                    className={'button bg-gray-100/10 transition duration-150 hover:ring-2 hover:ring-dragd/50 hover:bg-gray-200/20 px-2 py-1 my-1 rounded-sm'}
                     style={{ justifyContent : 'flex-start'}}
                     disabled={!connector.ready}
                     key={connector.id}
@@ -45,7 +45,7 @@ function ConnectWalletPage(props) {
                 </>)}
             </div>
             <div className={'flex flex-grow items-center justify-center'}>
-                <span className={"text-7xl transition duration-150 hover:rotate-180"}>🛸</span>
+                <span className={"text-7xl animate-bounce"}>🛸</span>
                 {error && <div>{error.message}</div>}
             </div>
 
@@ -65,6 +65,7 @@ function SignLoginPage(props){
         <center>
         <SignInButton
             onSuccess={({ address }) => {
+                console.log("setting session ", address);
                 setSession((x) => ({ ...x, address, error: undefined })); 
                 setShowAuthModal(false);
             }}
@@ -83,7 +84,7 @@ function SignInButton({
    
     const fetchNonce = async () => {
       try {
-        const nonceRes = await fetch('/api/nonce')
+        const nonceRes = await fetch('/api/auth/nonce')
         const nonce = await nonceRes.text()
         setState((x) => ({ ...x, nonce }))
       } catch (error) {
@@ -123,7 +124,7 @@ function SignInButton({
         })
    
         // Verify signature
-        const verifyRes = await fetch('/api/verify', {
+        const verifyRes = await fetch('/api/auth/verify', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

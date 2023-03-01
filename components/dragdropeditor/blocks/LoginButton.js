@@ -1,36 +1,47 @@
+import GenericDropdown from '@/components/UI/GenericDropdown';
 import { AddressBadge, ShinyButton } from '@/components/ui-helpers';
 import * as React from 'react'
-import { useConnect, useDisconnect, useAccount, useNetwork, useSignMessage } from 'wagmi'
+import { useDisconnect, useEnsName } from 'wagmi'
 import { CryptoAuthContext } from '../../CryptoAuth'
 
 import WalletModal from '../../WalletModal'
+import { useRouter } from 'next/router';
 
  
 export default function LoginButton(props) {
     const { session, setSession, showAuthModal, setShowAuthModal } = React.useContext(CryptoAuthContext);
     const { disconnect } = useDisconnect()
+    const { data: ensName } = useEnsName({ address: session?.address })
     const [isReady, setIsReady] = React.useState(false);
+    const router = useRouter();
     React.useEffect(() => setIsReady(true), []);
 
     if (!isReady) return null;
     return <div>
         {session?.address ? (
-            <div className={"rounded-sm inline-flex items-center p-1 ring-black ring-offset-2 ring-2"}>
-            <AddressBadge address={session.address} />
-            <button
-                onClick={async () => {
-                await fetch('/api/logout')
-                setSession({})
-                disconnect();
-                }}
-                className={"ring-2 ring-black rounded-sm ring-offset-2 ml-1 hover:bg-red-200"}
-            >
-                Sign Out
-            </button>
+            <div>
+            <GenericDropdown 
+                label={<AddressBadge address={ensName || session.address} />}
+                options={[<>{JSON.stringify(session)}</>, 
+                <button
+                    className={"text-red-900"}
+                    onClick={async () => {
+                    await fetch('/api/auth/logout')
+                    setSession({})
+                    disconnect();
+                    router.push("/");
+                }}>
+                    Sign Out
+                </button>]}
+                />
             </div>
-        ) : <ShinyButton onClick={()=>{setShowAuthModal(true)}}>
+        ) : <button className={"neonButton"} onClick={()=>{setShowAuthModal(true)}}>
             {showAuthModal ? 'Connecting...' : 'Connect Wallet'}
-        </ShinyButton>}
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+        </button>}
     </div>
 }
 

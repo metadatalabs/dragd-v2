@@ -1,3 +1,4 @@
+import { fetchEnsName } from "@wagmi/core";
 import { withIronSessionApiRoute, withIronSessionSsr } from "iron-session/next";
 
 const sessionOptions = {
@@ -15,4 +16,15 @@ export function withSessionRoute(handler) {
 
 export function withSessionSsr(handler) {
   return withIronSessionSsr(handler, sessionOptions);
+}
+
+export const getBlockchainNames = async (address) => {
+  // const res = await fetch(`https://api.opensea.io/api/v1/assets?owner=${address}&order_direction=desc&offset=0&limit=20`);
+  // const json = await res.json();
+  // return json.assets.map(asset => asset.name);
+
+  const ensName = await fetchEnsName({
+    address: address,
+  })
+  return [ensName, address]
 }
