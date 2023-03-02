@@ -39,7 +39,7 @@ const handler = requireAuth(async (req, res) => {
 
       var siteData = {
         ...req.body,
-        ownerId: req.session.siwe.address,
+        creatorId: req.session.siwe.address,
         createdAt: Math.floor(Date.now() / 1000),
       }
       var site = await createItem(siteData);
@@ -48,12 +48,18 @@ const handler = requireAuth(async (req, res) => {
       break
     case 'PATCH':
       // todo enforce siteid and owner from existing site query
+      var oldSite = await getItemByName(req.query.id);
+      if(oldSite.creatorId != req.session.siwe.address)
+        return res.send({
+          status: 'error',
+          message: 'Not authorized to edit this site',
+        });
+
       var siteData = {
         ...req.body,
-        userId: req.session.uid,
+        creatorId: oldSite.creatorId,
         lastUpdated: Math.floor(Date.now() / 1000),
       }
-      console.log("patching with ", siteData)
       var site = await updateItem(req.body._id, siteData);
       res.send({ site: site })
       break;

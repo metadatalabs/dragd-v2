@@ -3,14 +3,12 @@ import styles from '@/styles/Home.module.css'
 import React from 'react'
 import { apiRequest } from '@/util/network'
 import LoginButton from '@/components/dragdropeditor/blocks/LoginButton'
-import NewSiteForm from '@/components/dashboard/NewSiteForm'
+import NewSiteForm from '@/components/dashboard/NewSiteModal'
 import { useSitesByOwner } from '@/components/DataProvider'
 import { CryptoAuthContext } from '@/components/CryptoAuth'
 import SiteList from '@/components/dashboard/SiteList'
 
 export default function Dash() {
-  const [createToggle, setCreateToggle] = React.useState(false);
-
   return (
     <>
       <Head>
@@ -19,7 +17,7 @@ export default function Dash() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${styles.main} p-8`}>
+      <main className={`${styles.main} p-8 text-gray-200 dark:text-gray-700`} style={{backgroundColor: "#212121"}}>
         <div className={`${styles.description} w-full flex flex-row mb-8 justify-between`}>
           <p>
             Get started by &nbsp;
@@ -33,16 +31,14 @@ export default function Dash() {
         <div className={"flex w-full flex-col rounded-xl bg-opacity-50 p-2 md:p-4"}>
         <div className="flex flex-row align-center justify-between p-2 text-xs font-medium leading-6">
             <div className={""}>
-                {!createToggle && "YOUR DOMAINS"}
+                {"YOUR DOMAINS"}
             </div>
             <div>
-                <button className={"rounded-full bg-gray-300/20 px-2"}
-                    onClick={()=>{setCreateToggle(!createToggle)}}>
-                {createToggle ? 'CANCEL': 'CREATE'} 
+                <button className={"rounded-full bg-gray-300/20 px-2"}>
                 </button>
             </div>
         </div>
-        {createToggle? <NewSiteForm />:<SiteList />}
+        {<SiteList />}
         </div>
       </main>
     </>

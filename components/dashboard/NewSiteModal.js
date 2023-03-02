@@ -7,31 +7,27 @@ import {
     QueryClient,
     QueryClientProvider,
   } from 'react-query'
+import GenericModal from '../UI/GenericModal';
   
-export default function CreateSiteForm({}) {
-    const [siteName, setSiteName] = React.useState("");
+export default function NewSiteModal({site, onComplete}) {
     const [pageName, setPageName] = React.useState("");
     const [error, setError] = React.useState(null);
     const createSiteSubmit = async () => {
-        if(!siteName || !pageName) {
+        if(!site || !pageName) {
             setError("Site Name and Page Name are required");
             return;
         };
-        var query = createSite({site: siteName, page: pageName});
+        var query = createSite({siteName: site, pageName: pageName});
         query.then((result) => {
             console.log(result);
+            onComplete();
         }).catch((error) => {
             setError(error.message);
         });
     }
 
-    return <div className={"flex flex-col w-full rounded-xl p-2 border border-gray-400/80"}>
-        <div className={"flex flex-col"}>
-            <label>Site Name</label>
-            <input type="text" value={siteName} onChange={(e)=>{setSiteName(e.target.value)}}/>
-        </div>
-        <RandomSelector onSelect={(value)=>{setSiteName(value)}}/>
-
+    return <GenericModal onDone={()=>onComplete()}>
+        <div className={"flex flex-col w-full rounded-xl p-2 border border-gray-400/80"}>
         <div className={"flex flex-col"}>
             <label>Page Name</label>
             <input type="text" value={pageName}  onChange={(e)=>{setPageName(e.target.value)}}/>
@@ -42,8 +38,11 @@ export default function CreateSiteForm({}) {
             Create
         </button>
         {error && <div>{error}</div>}
-    </div>
+        </div>
+    </GenericModal>
 }
+
+
 
 const RandomNameGenerator = (N) => {
     const words = ['blue', 'red', 'green', 'yellow', 'orange', 'purple', 'pink', 'brown', 'black', 'white', 'grey', 'gray', 'big', 'small', 'tiny', 'long', 'short', 'fat', 'skinny', 'round', 'square', 'flat', 'sharp', 'soft', 'hard', 'cold', 'hot', 'warm', 'cool', 'new', 'old', 'young', 'fast', 'slow', 'strong', 'weak', 'loud', 'quiet', 'clean', 'dirty', 'wet', 'dry', 'high', 'low', 'wide', 'narrow', 'deep', 'shallow', 'bright', 'dark', 'light', 'heavy', 'light', 'heavy', 'full', 'empty', 'straight', 'curved', 'sharp', 'dull', 'smooth', 'rough', 'warm', 'cold', 'hot', 'cool', 'sweet', 'sour', 'bitter', 'spicy', 'tasty', 'delicious', 'yummy', 'tasty', 'fresh', 'stale', 'rotten', 'ripe', 'unripe', 'juicy', 'dry', 'wet', 'soft', 'hard', 'crisp', 'crunchy', 'mushy', 'slimy', 'sticky', 'bumpy', 'smooth', 'rough', 'warm', 'cold', 'hot', 'cool', 'sweet', 'sour', 'bitter', 'spicy', 'tasty', 'delicious', 'yummy', 'tasty', 'fresh', 'stale', 'rotten', 'ripe', 'unripe', 'juicy', 'dry', 'wet', 'soft', 'hard', 'crisp', 'crunchy', 'mushy', 'slimy', 'sticky', 'bumpy', 'smooth', 'rough', 'warm', 'cold', 'hot', 'cool', 'sweet', 'sour', 'bitter', 'spicy', 'tasty', 'delicious', 'yummy', 'tasty', 'fresh', 'stale', 'rotten', 'ripe', 'unripe', 'juicy', 'dry', 'wet', 'soft', 'hard', 'crisp']
@@ -78,4 +77,3 @@ const RandomSelector = React.memo(({onSelect}) => {
     }
 </div>
 })
-

@@ -1,9 +1,23 @@
+import { updateSite } from "@/components/DataProvider";
 import EditView from "@/components/editor/EditView";
 
 function Store(props) {
+  const updateSiteSubmit = async (siteName, pageName="index") => {
+    if(!siteName || !pageName) {
+        // setError("Site Name and Page Name are required");
+        return;
+    };
+    var query = updateSite({siteName: siteName, pageName: pageName});
+    query.then((result) => {
+        // console.log(result);
+    }).catch((error) => {
+        // setError(error.message);
+    });
+}
+
     return (
         <main className="flex w-full min-h-screen flex-1 flex-col px-20 text-center">
-          <EditView siteData={props.data} />
+          <EditView siteData={props.data} updateSiteSubmit={updateSiteSubmit} />
         </main>
     );
   }

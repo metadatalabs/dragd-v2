@@ -34,9 +34,9 @@ export function useSiteByName(id) {
 
 // Fetch all items by owner (hook)
 export function useSitesByOwner() {
-    const cacheKey = ['item'];
+    const cacheKey = ['ownedItems'];
     const query = () => apiRequest(`item?owned=true`);
-    return useQuery(cacheKey, query, { enabled: true });
+    return useQuery(cacheKey, query);
 }
 
 // Create a new item
@@ -44,7 +44,7 @@ export async function createSite(data) {
     const response = await apiRequest('item', 'POST', data);
     // await createIPFS(response._id);
     // Invalidate and refetch queries that could have old data
-    await queryClient.invalidateQueries(['items']);
+    await queryClient.invalidateQueries(['ownedItems']);
     return response;
 }
 // Update a new item
@@ -52,7 +52,7 @@ export async function updateSite(id, data) {
   const response = await apiRequest('item', 'PATCH', data);
   await Promise.all([
     queryClient.invalidateQueries(['item', { id }]),
-    queryClient.invalidateQueries(['items']),
+    queryClient.invalidateQueries(['ownedItems']),
   ]);
   return response;
 }
@@ -63,7 +63,7 @@ export async function deleteSite(id) {
   const response = await apiRequest('item', 'DELETE', id);
   await Promise.all([
     queryClient.invalidateQueries(['item', { id }]),
-    queryClient.invalidateQueries(['items']),
+    queryClient.invalidateQueries(['ownedItems']),
   ]);
   return response;
 }

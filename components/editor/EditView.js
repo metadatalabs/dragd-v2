@@ -5,12 +5,19 @@ import { updateSite, useSitesByOwner } from "../DataProvider";
 export default function EditView (props) {
     const [siteData, setSiteData] = React.useState(JSON.stringify(props.siteData) || null);
     const saveSiteData = () => {
-        updateSite(siteData[0]._id, JSON.parse(siteData));
+        var parsed = JSON.parse(siteData);
+        var query = updateSite(siteData[0]._id, parsed[0]);
+        query.then((result) => {
+            // console.log(result);
+        }).catch((error) => {
+            // setError(error.message);
+        });
     }
 
     return <div>
         <TopMenu />
         <textarea className={"w-60 text-sm text-gray-900 bg-gray-400 p-2 rounded-md"} rows={10} value={siteData} onChange={(e)=>{setSiteData(e.target.value)}}/>
+        {(siteData)}
         <button onClick={saveSiteData}>save</button>
     </div>
 }
