@@ -23,8 +23,8 @@ function ConnectWalletPage(props) {
         <ModalHeading>
             Connect your Wallet
         </ModalHeading>
-        <div className={"flex flex-col flex-col-reverse md:flex-row"}>
-            <div>
+        <div className={"flex flex-col flex-col-reverse md:flex-row pb-4"}>
+            <div className={"border-r pr-5"}>
             {connectors.map((connector) => <>
                 <button
                     className={'button bg-gray-100/10 transition duration-150 hover:ring-2 hover:ring-dragd/50 hover:bg-gray-200/20 px-2 py-1 my-1 rounded-sm'}

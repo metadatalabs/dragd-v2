@@ -31,7 +31,7 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <ScrollingCardsBG />
-        <div className={"w-full h-screen flex flex-col lg:flex-row justify-end items-center"}>
+        <div className={"w-full h-screen flex flex-col lg:flex-row justify-end items-center z-10"} style={{marginTop: "-100vh"}}>
           <div className={"flex flex-col justify-between text-black bg-white w-4/5 h-2/5 lg:w-1/3 lg:h-4/5 mx-6 my-6 rounded-2xl p-8"}>
             <div className={"text-xl md:text-3xl lg:text-6xl font-black"}>
             <div className={"flex flex-row lg:flex-col space-x-1 lg:space-x-0"}>
@@ -48,20 +48,6 @@ Build websites powered by Ethereum.
             </div>
           </div>
         </div>
-        <div className={"text-xl font-bold underline"}>
-          <div>
-            <button onClick={async ()=>{
-              const res = await apiRequest('me')
-              console.log(res)
-              setMe(res)
-            }}>Get Me</button><br />
-            <button onClick={async ()=>{
-              const res = await apiRequest('ipfs-upload').catch(err=>setMe(err))
-              setMe(res)
-            }}>Get IPFS</button><br />
-            LOG: {JSON.stringify(me)}
-          </div>
-        </div>
       </main>
     </>
   )
@@ -69,14 +55,11 @@ Build websites powered by Ethereum.
 
 const ScrollingCardsBG = () => {
   return (
-    <div className={"flex flex-row w-full h-screen p-2"}>
-    <div class="columns-3 w-full">
-      <NiceRoundedImageCard image={"https://picsum.photos/200/300"} />
-      <NiceRoundedImageCard image={"https://picsum.photos/200/300"} />
-      <NiceRoundedImageCard image={"https://picsum.photos/200/300"} />
-      <NiceRoundedImageCard image={"https://picsum.photos/200/300"} />
-      <NiceRoundedImageCard image={"https://picsum.photos/200/300"} />
-      <NiceRoundedImageCard image={"https://picsum.photos/200/300"} />
+    <div className={"flex w-full h-screen overflow-hidden bg-black p-4"}>
+    <div class="columns-2 sm:columns-3 lg:columns-4 w-full">
+      {[1,11,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,].map((_, i) => {
+          return <NiceRoundedImageCard image={"/dragd_logo.png"} />
+      })}
     </div>
     </div>
   )
@@ -84,10 +67,11 @@ const ScrollingCardsBG = () => {
 
 const NiceRoundedImageCard = ({image}) => {
   const [init, setInit] = React.useState(false);
-  
   React.useEffect(()=>{setInit(true)}, [])
 
-  return <div className={`rounded-2xl bg-white w-full mb-4 overflow-hidden transition-all ease-in duration 300${init? '': 'scale-75'}`}>
-    <img src={image} className={"w-full"} />
+  return <div 
+  style={{backgroundImage: "url('/dragd_pattern.svg')", backgroundRepeat: 'repeat', backgroundSize: 500}} 
+    className={`mb-4 rounded-2xl bg-slate-900 h-96 overflow-hidden transition-all ease-in ${init? '': 'scale-75'}`}>
+    {/* <img src={image} style={{}} className={""} /> */}
   </div>
 }
