@@ -1,7 +1,7 @@
 import React from "react";
 import { CryptoAuthContext } from "../CryptoAuth";
 import { createSite, useSitesByOwner, deleteSite } from "../DataProvider";
-import { Chevron, ThreeDots } from "../ui-helpers";
+import { Chevron, ThreeDots, ViewCount } from "../ui-helpers";
 import GenericDropdown from "../UI/GenericDropdown";
 import NewSiteModal from "./NewSiteModal";
 
@@ -81,7 +81,10 @@ const SiteCard = ({item}) => {
             </p>
         </div>
         <div className={"flex flex-row items-center"}>
-            
+            <div className={"flex flex-col justify-center align-center"}>
+                <ViewCount className={"h-4 mt-0.5 -mb-1"} />
+                <span className={"text-center"} style={{fontSize: 10}}>123</span>
+            </div>
             <GenericDropdown 
                 CollapseButton={<ThreeDots className={"w-6 h-6 hover:bg-gray-500 p-1 rounded-full"}/>}
                 options={[<div className={"hover:text-red-500"} onClick={(e)=>{

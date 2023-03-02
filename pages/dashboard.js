@@ -39,6 +39,10 @@ export default function Dash() {
             </div>
         </div>
         {<SiteList />}
+        <div className={"text-center border mx-auto p-2 rounded-md bg-gray-500/20"}>
+          Coming Soon: Challenges!<br />
+          Complete website goals to earn rewards.
+        </div>
         </div>
       </main>
     </>
