@@ -22,3 +22,7 @@ export const Chevron = (props) => {
 export const ThreeDots = (props) => {
     return <svg {...props} xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 29.96 122.88"><path class="cls-1" d="M15,0A15,15,0,1,1,0,15,15,15,0,0,1,15,0Zm0,92.93a15,15,0,1,1-15,15,15,15,0,0,1,15-15Zm0-46.47a15,15,0,1,1-15,15,15,15,0,0,1,15-15Z"/></svg>
 }
+
+export const ErrorText = ({children}) => {
+    return <div className={"bg-red-200 text-red-700 border-red-500 border mx-auto p-2 mt-2 rounded-md"}>{children}</div>
+}

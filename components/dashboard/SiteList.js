@@ -58,12 +58,12 @@ const SiteCard = ({item}) => {
     }
 
     return <div className={`w-full rounded-2xl my-8 p-4 neuomorphicIn`} style={{background: "#212121"}}>
-        <div className={"w-full flex flex-row justify-between mb-2"}>
+        <div className={"w-full flex flex-row justify-between mb-4"}>
         <div className={"text-gray-500"}>dra.gd/{GetShortenedString(item[0].siteName)}<br /></div>
         
-            <button className={"px-4 font-bold rounded-full neuomorphicOut"} onClick={(e)=>{
+            <button className={"px-4 text-sm rounded-full neuomorphicOut"} onClick={(e)=>{
                 setShowModal(true);
-            }}>+</button>
+            }}>Create Page</button>
         </div>
         <div className={"grid md:grid-cols-2 gap-4"}>
     {item.map((pageItem, index) =>{

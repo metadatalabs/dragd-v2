@@ -8,36 +8,52 @@ import {
     QueryClientProvider,
   } from 'react-query'
 import GenericModal from '../UI/GenericModal';
+import { ErrorText } from '../ui-helpers';
   
 export default function NewSiteModal({site, onComplete}) {
     const [pageName, setPageName] = React.useState("");
+    const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState(null);
     const createSiteSubmit = async () => {
-        if(!site || !pageName) {
-            setError("Site Name and Page Name are required");
-            return;
-        };
+        setLoading(true);
         var query = createSite({siteName: site, pageName: pageName});
         query.then((result) => {
-            console.log(result);
             onComplete();
+            setError(null);
+            setLoading(false);
         }).catch((error) => {
             setError(error.message);
+            setLoading(false);
         });
     }
 
     return <GenericModal onDone={()=>onComplete()}>
-        <div className={"flex flex-col w-full rounded-xl p-2 border border-gray-400/80"}>
-        <div className={"flex flex-col"}>
-            <label>Page Name</label>
-            <input type="text" value={pageName}  onChange={(e)=>{setPageName(e.target.value)}}/>
-        </div>
-        <RandomSelector onSelect={(value)=>{setPageName(value)}}/>
+        <div className={"flex flex-col w-full"}>
+        <center className={"text-2xl"}>Create a new page</center>
+        <div className={"flex flex-col items-start space-y-2"}>
+            <label className={"text-lg pl-2"}>Page Name</label>
+            
+            <div className="flex flex-row border-2 border-gray-500 rounded-md w-full p-2">
+            <input className={"flex-grow focus:outline-none"} placeholder="gallery" type="text" value={pageName} 
+                onChange={(e)=>{
+                    setPageName(e.target.value);
 
-        <button onClick={async ()=>createSiteSubmit()}>
+                }}/>
+            <RandomSelector onSelect={(value)=>{setPageName(value)}}/>
+
+            </div>
+
+            <label className={"pl-2"}>Choose a name for your new page.</label>
+
+        </div>
+
+        {loading && 'Creating...'}
+        {error && <ErrorText>{error}</ErrorText>}
+        {!loading && <button 
+            className={"border-2 border-dragd bg-dragd hover:bg-dragd/80 p-2 rounded-md mx-auto mt-3 transition-all"} 
+            onClick={async ()=>createSiteSubmit()}>
             Create
-        </button>
-        {error && <div>{error}</div>}
+        </button>}
         </div>
     </GenericModal>
 }
@@ -68,9 +84,8 @@ const RandomNameGeneratorArray = (N) => {
 
 const RandomSelector = React.memo(({onSelect}) => {
     return <div className={"flex flex-row text-xs font-thin justify-center"}>
-    Suggested names:
-    {RandomNameGeneratorArray(4).map((item, index) => {
-        return <button key={index} onClick={()=>{onSelect(item)}} className={"rounded-full bg-gray-500/50 mx-1 px-1"}>
+    {RandomNameGeneratorArray(3).map((item, index) => {
+        return <button key={index} onClick={()=>{onSelect(item)}} className={"rounded-full bg-gray-500/10 hover:bg-gray-500/20 mx-1 px-1"}>
             {item}
         </button>
         })

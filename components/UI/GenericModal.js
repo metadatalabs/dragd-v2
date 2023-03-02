@@ -18,7 +18,7 @@ export default function GenericModal(props) {
             onClick={(e)=>{e.stopPropagation()}}>
             <div class="bg-white dark:bg-slate-900 px-4 pt-5 pb-5 sm:p-6 sm:pb-5">
             <div class="sm:flex sm:items-start">
-                <div class="mt-3 text-center w-full">
+                <div class="text-center w-full">
                 <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-title">{heading}</h3>
                 <div class="mt-2">
                     <div class="text-sm text-gray-500">
