@@ -1,23 +1,18 @@
 import { updateSite } from "@/components/DataProvider";
-import EditView from "@/components/editor/EditView";
+import { useRouter } from "next/router";
+import EditView from "../components/editor/EditView";
+import Omnibar from "../components/Omnibar";
 
 function Store(props) {
-  const updateSiteSubmit = async (siteName, pageName="index") => {
-    if(!siteName || !pageName) {
-        // setError("Site Name and Page Name are required");
-        return;
-    };
-    var query = updateSite({siteName: siteName, pageName: pageName});
-    query.then((result) => {
-        // console.log(result);
-    }).catch((error) => {
-        // setError(error.message);
-    });
-}
+  const router = useRouter();
+  const siteDataJson = props.data[0] || {};
+  const currentPath = props.sitePath;
 
     return (
         <main className="flex w-full min-h-screen flex-1 flex-col px-20 text-center">
-          <EditView siteData={props.data} updateSiteSubmit={updateSiteSubmit} />
+          <Omnibar siteData={siteDataJson} currentPath={currentPath}/>
+
+          <EditView siteData={siteDataJson} currentPath={currentPath} />
         </main>
     );
   }

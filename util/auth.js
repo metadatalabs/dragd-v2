@@ -22,9 +22,11 @@ export const getBlockchainNames = async (address) => {
   // const res = await fetch(`https://api.opensea.io/api/v1/assets?owner=${address}&order_direction=desc&offset=0&limit=20`);
   // const json = await res.json();
   // return json.assets.map(asset => asset.name);
-
+  const addresses = [address];
   const ensName = await fetchEnsName({
     address: address,
   })
-  return [ensName, address]
+  if(ensName) addresses.push(ensName);
+  
+  return addresses;
 }

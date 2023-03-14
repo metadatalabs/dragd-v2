@@ -1,13 +1,12 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
-import styles from '@/styles/Home.module.css'
-import LoginButton from '@/components/dragdropeditor/blocks/LoginButton'
+import styles from '/styles/Home.module.css'
 import React, { useEffect } from 'react'
-import { apiRequest } from '@/util/network'
-import { CryptoAuthContext } from '@/components/CryptoAuth'
+import { apiRequest } from '/util/network'
+import { CryptoAuthContext } from '/components/CryptoAuth'
 import { useRouter } from 'next/router';
-
+import LoginButton from '../components/Omnibar/LoginButton'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
@@ -15,7 +14,7 @@ export default function Home() {
   const { session } = React.useContext(CryptoAuthContext);
   useEffect((lastSession) => {
     if (session?.address && session.address !== lastSession?.address) {
-      router.push('/dashboard');
+      router.push('/'+ session.address);
     }
   }, [session])
 

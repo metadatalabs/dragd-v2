@@ -1,6 +1,5 @@
 import { getBlockchainNames, withSessionRoute } from '@/util/auth'
 import { withIronSessionApiRoute } from 'iron-session/next'
-import { NextApiRequest, NextApiResponse } from 'next'
 import { createItem, deleteItem, getItem, getItemByName, getItemsBySiteName, updateItem } from './_db'
 import requireAuth from './_require-auth'
 import { fetchEnsName } from '@wagmi/core'
@@ -17,10 +16,16 @@ const handler = requireAuth(async (req, res) => {
         var sites = []
         for (const name of walletNames) {
           var siteForName = await getItemsBySiteName(name);
-          if(siteForName.length > 0)
-            sites = [...sites, ...siteForName];
-          else
-            sites = [...sites, { siteName: name, pageName: "index", fake:true }]
+          let hasIndex = false;
+          for(const siteIndex in siteForName)
+          {
+            const site = siteForName[siteIndex];
+            sites = [...sites, site];
+            if(site.pageName == "index")
+              hasIndex = true;
+          }
+          if(!hasIndex)
+            sites = [{ siteName: name, pageName: "index", fake:true }, ...sites]
         }
         res.send({ data: sites })
       }
@@ -37,6 +42,17 @@ const handler = requireAuth(async (req, res) => {
         message: 'No name provided',
       });
 
+      var connectedWallet = req.session.siwe?.address;
+      const walletNames = await getBlockchainNames(connectedWallet);
+
+      if(walletNames.includes(req.body.siteName))
+        null;
+      else
+        return res.send({
+          status: 'error',
+          message: "You don't own this name.",
+        });
+
       var siteData = {
         ...req.body,
         creatorId: req.session.siwe.address,
@@ -48,7 +64,7 @@ const handler = requireAuth(async (req, res) => {
       break
     case 'PATCH':
       // todo enforce siteid and owner from existing site query
-      var oldSite = await getItemByName(req.query.id);
+      var oldSite = await getItem(req.query.id);
       if(oldSite.creatorId != req.session.siwe.address)
         return res.send({
           status: 'error',

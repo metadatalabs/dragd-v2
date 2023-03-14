@@ -27,7 +27,7 @@ export default function GenericDropdown(props){
     {isActive && <div onMouseLeave={onMouseLeave} className="transition-all absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
       <div className="py-1" role="none">
         {options?.map((item, index) => {
-            return <a href="#" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id={`menu-item-${index}`}>{item}</a>
+            return <div className="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id={`menu-item-${index}`}>{item}</div>
         })}
       </div>
     </div>}

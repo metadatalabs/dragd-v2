@@ -1,5 +1,5 @@
 import React from 'react';
-import { createSite, getSites } from '@/components/DataProvider';
+import { createSite, getSites } from '/components/DataProvider';
 import {
     useQuery,
     useMutation,

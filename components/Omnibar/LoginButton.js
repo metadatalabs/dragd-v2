@@ -1,10 +1,10 @@
-import GenericDropdown from '@/components/UI/GenericDropdown';
-import { AddressBadge, ShinyButton } from '@/components/ui-helpers';
+import GenericDropdown from '/components/UI/GenericDropdown';
+import { AddressBadge, ShinyButton } from '/components/ui-helpers';
 import * as React from 'react'
 import { useDisconnect, useEnsName } from 'wagmi'
-import { CryptoAuthContext } from '../../CryptoAuth'
+import { CryptoAuthContext } from '../CryptoAuth'
 
-import WalletModal from '../../WalletModal'
+import WalletModal from '../WalletModal'
 import { useRouter } from 'next/router';
 
  
@@ -22,7 +22,7 @@ export default function LoginButton(props) {
             <div>
             <GenericDropdown 
                 label={<AddressBadge address={ensName || session.address} />}
-                options={[<>{JSON.stringify(session)}</>, 
+                options={[<textarea>{JSON.stringify(session)}</textarea>, 
                 <button
                     className={"text-red-900"}
                     onClick={async () => {

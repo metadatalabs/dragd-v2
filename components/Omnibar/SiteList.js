@@ -5,7 +5,7 @@ import { Chevron, ThreeDots, ViewCount } from "../ui-helpers";
 import GenericDropdown from "../UI/GenericDropdown";
 import NewSiteModal from "./NewSiteModal";
 
-export default function SiteList ({items}) {
+export default function SiteList ({siteData, currentPath}) {
     const { session } = React.useContext(CryptoAuthContext);
   
     const {
@@ -21,14 +21,26 @@ export default function SiteList ({items}) {
         acc[item.siteName].push(item);
         return acc;
     }, {});
+
+    const siteList = itemsStatus === "loading" ? 
+    [<div className={"w-full flex justify-center"}>Fetching your domains...</div>]:
+    (groupedSites && Object.keys(groupedSites)?.map((item, index) => {
+        return (
+                <>
+                <SiteCard key={index} item={groupedSites[item]} />
+                {(index + 1) !== Object.keys(groupedSites).length && 
+                <div className={"w-full h-0.5 bg-gray-400"}/>
+                }
+                </>
+        )}
+    ))
   
     return <div>
-          {groupedSites && Object.keys(groupedSites)?.map((item, index) => {
-              return (
-                      <SiteCard key={index} item={groupedSites[item]} />
-              )}
-          )}
-          {itemsStatus === "loading" && <div className={"w-full flex justify-center"}>Fetching your domains...</div>}
+                <GenericDropdown 
+                label={<div>{currentPath}</div>}
+                options={siteList}
+                />
+          
       </div>
   }
   
@@ -48,28 +60,19 @@ const SiteCard = ({item}) => {
         });
     }
 
-    const deleteSiteSubmit = async (id) => {
-        var query = deleteSite({id});
-        query.then((result) => {
-            // console.log(result);
-        }).catch((error) => {
-            // setError(error.message);
-        });
-    }
-
-    return <div className={`w-full rounded-2xl my-8 p-4 neuomorphicIn`} style={{background: "#212121"}}>
-        <div className={"w-full flex flex-row justify-between mb-4"}>
-        <div className={"text-gray-500"}>dra.gd/{GetShortenedString(item[0].siteName)}<br /></div>
+    return <div className={`w-full`}>
+        <div className={"w-full flex flex-row justify-between items-center"}>
+        <div className={"text-gray-600"}>dra.gd/{GetShortenedString(item[0].siteName)}<br /></div>
         
-            <button className={"px-4 text-sm rounded-full neuomorphicOut"} onClick={(e)=>{
+            <button className={"px-1.5 font-bold text-sm rounded-full bg-gray-300 hover:ring-1"} onClick={(e)=>{
                 setShowModal(true);
-            }}>Create Page</button>
+            }}>+</button>
         </div>
-        <div className={"grid md:grid-cols-2 gap-4"}>
+        <div className={"grid md:grid-cols-1"}>
     {item.map((pageItem, index) =>{
         return <a
-        href={`/editor/${pageItem.siteName}/${pageItem.pageName}`}
-        className={"w-full flex flex-row justify-between items-center transition-all p-2 rounded-md neuomorphicOut"}
+        href={`/${pageItem.siteName}/${pageItem.pageName}`}
+        className={"w-full flex flex-row justify-between items-center transition-all p-2 rounded-md hover:bg-gray-300"}
     >
         <div>
             <h2>
@@ -77,24 +80,17 @@ const SiteCard = ({item}) => {
             </h2>
             <p>
             
-            {pageItem.fake && "Unclaimed"}
+            {(pageItem.fake || pageItem.pageName == 'index') && "index"}
             </p>
         </div>
-        <div className={"flex flex-row items-center"}>
+        {/* <div className={"flex flex-row items-center"}>
             <div className={"flex flex-col justify-center align-center"}>
                 <ViewCount className={"h-4 mt-0.5 -mb-1"} />
                 <span className={"text-center"} style={{fontSize: 10}}>123</span>
             </div>
-            <GenericDropdown 
-                CollapseButton={<ThreeDots className={"w-6 h-6 hover:bg-gray-500 p-1 rounded-full"}/>}
-                options={[<div className={"hover:text-red-500"} onClick={(e)=>{
-                    e.stopPropagation();
-                    e.preventDefault();
-                    deleteSiteSubmit(pageItem._id);
-                }}>Delete</div>]}
-                />
+            
             <Chevron className={"w-6 h-6"}/>
-        </div>
+        </div> */}
             
     </a>
     })}
@@ -106,7 +102,7 @@ const SiteCard = ({item}) => {
 }
 
 function GetShortenedString(word) {
-  if(word.length > 10)
+  if(word?.length > 10)
     return word.slice(0, 6) + '...' + word.slice(-4);
   else
     return word;

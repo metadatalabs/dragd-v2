@@ -1,12 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { CryptoAuthContext } from "../CryptoAuth";
-import { updateSite, useSitesByOwner } from "../DataProvider";
-
+import { createSite, updateSite, useSitesByOwner } from "../DataProvider";
+import Omnibar from "../Omnibar";
+import Dragdrop from "../dragdropeditor/index.tsx";
 export default function EditView (props) {
+    const { currentPath } = props;
+    const [pending, setPending] = useState(false);
+
     const [siteData, setSiteData] = React.useState(JSON.stringify(props.siteData) || null);
-    const saveSiteData = () => {
-        var parsed = JSON.parse(siteData);
-        var query = updateSite(siteData[0]._id, parsed[0]);
+    const saveSiteData = (data) => {
+        var query;
+        if(props.siteData._id == undefined)
+        {
+            console.log("creating new site")
+            var siteName = currentPath.split("/")[0];
+            var pageName = currentPath.split("/")[1];
+            query = createSite({siteName: siteName, pageName: pageName});
+        }
+        else
+        {
+            console.log("updating existing site")
+            var parsed = JSON.parse(siteData);
+            parsed = {...parsed, ...props}
+            query = updateSite(siteData._id, parsed[0]);
+        }
+
         query.then((result) => {
             // console.log(result);
         }).catch((error) => {
@@ -14,29 +32,21 @@ export default function EditView (props) {
         });
     }
 
-    return <div>
-        <TopMenu />
+    return <div className="bg-white">
+        <Dragdrop 
+                            initialState={props.siteData.page || {}}
+                            onChangedCallback={(data) => {
+                                
+                            }}
+                            saveCallback={(data) => {
+                                console.log("saving", data)
+                                onSubmit({ page: data });
+                            }}
+                            pending={pending}
+                            // immutable={!(auth.user?.uid == itemData?.owner)}
+        />
         <textarea className={"w-60 text-sm text-gray-900 bg-gray-400 p-2 rounded-md"} rows={10} value={siteData} onChange={(e)=>{setSiteData(e.target.value)}}/>
         {(siteData)}
-        <button onClick={saveSiteData}>save</button>
+        <button onClick={saveSiteData}>save</button> 
     </div>
-}
-
-function TopMenu()
-{
-    return <div className={"flex flex-row w-full pt-4"}>
-    <div className={"flex flex-row basis-1/5"}> 
-        <a href={"/dashboard"}>
-            <div className={"bg-dragd p-2 px-4 rounded-full"}>
-                :)
-            </div>
-        </a>
-    </div>
-    <div className={"basis-3/5 bg-gray-500 bg-opacity-30 p-2 rounded-2xl"}>
-        Header
-    </div>
-    <div className={"basis-1/5"}>
-        
-    </div>
-</div>
 }

@@ -110,18 +110,6 @@ a {
 @tailwind components;
 @tailwind utilities;
 
-.neuomorphicOut {
-  box-shadow: 9.61px 9.61px 15px #111111, -9.61px -9.61px 15px #313131;
-}
-.neuomorphicIn {
-  box-shadow: inset 9px 9px 15px #161616, inset -9px -9px 15px #2C2C2C;
-}
-
-.neuomorphicOut:hover {
-  transition:all;
-  transition-duration: 0.5s;
-  box-shadow: 9.61px 9.61px 15px #1B1B1B, -9.61px -9.61px 15px #272727;}
-
 .neonButton {
   position: relative;
   padding: 1em 1.8em;
