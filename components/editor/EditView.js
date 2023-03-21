@@ -15,7 +15,11 @@ export default function EditView (props) {
             console.log("creating new site")
             var siteName = currentPath.split("/")[0];
             var pageName = currentPath.split("/")[1];
-            query = createSite({siteName: siteName, pageName: pageName});
+            query = createSite({
+                ...siteData,
+                siteName: siteName, 
+                pageName: pageName
+            });
         }
         else
         {

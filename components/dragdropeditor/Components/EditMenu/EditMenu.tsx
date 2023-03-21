@@ -41,7 +41,7 @@ export function AddButton({ item, showMenu, setSelector }) {
 
     return (
         <div
-            className={'tile cbutton'}
+            className={'tile cbutton tooltip'}
             style={{padding: "5px 0px", fontSize: 12, flexShrink: 1, textAlign: 'center', justifyContent: 'flex-start'}}
             onClick={(e) => {
                 switch (item[1].action) {
@@ -63,19 +63,16 @@ export function AddButton({ item, showMenu, setSelector }) {
                 e.stopPropagation();
             }}
         >
-            {/* {item[1].label && (
-                <span className="tooltiptext">{item[1].label}</span>
-            )} */}
-            <Column className={'panel-shadow'} style={{height: 90, width: 90,
+            <Column className={'panel-shadow'} style={{
+                height: 40, width: 40,
                 justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightgrey', border: '2px solid rgba(200,200,200)',
                 borderRadius: 10,
                 }}>
-                <i style={{fontSize: 26,}} className={`${item[1].icon}`}>
-                    {item[1].iconURL && <img style={{maxHeight: "70px"}} src={item[1].iconURL} />}
-                </i>
+                {item[1].icon}
             </Column>
-
-            {item[1].label}
+            {item[1].label && (
+                <span className="tooltiptext">{item[1].label}</span>
+            )}
         </div>
     );
 }
@@ -126,14 +123,14 @@ function NestedMenu({ data, addItemToList, parentSelected, setParentSelected = n
         <>
             {!selected && <>
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', pointerEvents: 'none',
-                marginTop: -30,
+                marginTop: -20,
                 marginBottom: 10,
             }}>
                 <div style={{pointerEvents: 'all', cursor: 'pointer', margin: "0 10px", width: 8}}
                     onClick={()=>{setParentSelected?.(null); setSelector(null); setSelectedItem('bg');}}>
                         {(selector || parentSelected ) && `←`}
                 </div>
-                <div>blocks {selected}</div>
+                <div><DragHandle />{selected}</div>
                 <div style={{pointerEvents: 'all', cursor: 'pointer', width: 8, margin: "0 10px"}}
                     onClick={()=>{
                         setMinimized(true);
@@ -148,7 +145,7 @@ function NestedMenu({ data, addItemToList, parentSelected, setParentSelected = n
             </div>
 
             :!selected && !selector && <>
-            <div className={'tile cpanel-col'} style={{height: 'calc(100% - 44px)', overflowY: 'scroll', padding: "0px 10px"
+            <div className={'tile cpanel-col'} style={{padding: "0px 10px"
             }}>
                 <div className={"tile is-flex-wrap-wrap cpanel-col-buttons"} style={{alignContent: 'flex-start', justifyContent: 'flex-start'}}>
 
@@ -199,9 +196,9 @@ function FloatingPanel({ children, style = null, isMinimized, setMinimized }) {
             style={{
                 zIndex: 9999999,
                 height: isMinimized? 50: '70vh',
+                maxWidth: '80vw',
                 marginBottom: -pos.y,
                 marginRight: -pos.x,
-                maxWidth: '80vw',
                 transition: `width 0.2s, height 0.2s ${isMinimized ? `, all 0.1s` : ``}`,
             }}
         >
@@ -234,3 +231,10 @@ function FloatingPanel({ children, style = null, isMinimized, setMinimized }) {
 }
 
 export default Menu;
+
+const DragHandle = () => {
+    return <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+  </svg>
+  
+}

@@ -1,6 +1,8 @@
+import { CodeIcon, LinkIcon, SmartContractIcon } from "../../helpers/helper";
+
 const defaultButtons = {
     text: {
-        icon: 'fas fa-font',
+        icon: <div className={"font-bold"}>Aa</div>,
         label: 'Text',
         action: 'add',
         object: {
@@ -18,36 +20,14 @@ const defaultButtons = {
         },
     },
     button: {
-        icon: 'fas fa-link',
+        icon: <LinkIcon />,
         action: 'modal',
         selector: 'button',
         label: 'Button',
     },
-    shapes: {
-        icon: 'fas fa-shapes',
-        label: 'Shape',
-        action: 'menu',
-        objects: {
-            square: {
-                icon: 'fas fa-square-full',
-                label: 'Rectangle',
-                action: 'add',
-                object: {
-                    type: 'color',
-                    size: {
-                        width: 100,
-                        height: 100,
-                    },
-                    style: {
-                        backgroundColor: 'grey',
-                    },
-                },
-            }
-        },
-    },
     ethereum: {
-        icon: 'fas fa-gem',
-        label: 'Smart Contract',
+        icon: <SmartContractIcon />,
+        label: 'Contract',
         action: 'modal',
         selector: 'eth',
     },
@@ -69,6 +49,12 @@ const defaultButtons = {
                     imageUri:
                         'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K',
                 },
+            },
+            giphy: {
+                icon: 'far fa-laugh-beam',
+                action: 'selector',
+                selector: 'giphy',
+                label: 'Sticker',
             },
             diffusion: {
                 icon: 'fas fa-project-diagram',
@@ -111,6 +97,28 @@ const defaultButtons = {
                         'https://upload.wikimedia.org/wikipedia/commons/c/c8/Example.ogg',
                 },
             },
+            shapes: {
+                icon: 'fas fa-shapes',
+                label: 'Shape',
+                action: 'menu',
+                objects: {
+                    square: {
+                        icon: 'fas fa-square-full',
+                        label: 'Rectangle',
+                        action: 'add',
+                        object: {
+                            type: 'color',
+                            size: {
+                                width: 100,
+                                height: 100,
+                            },
+                            style: {
+                                backgroundColor: 'grey',
+                            },
+                        },
+                    }
+                },
+            },
         },
     },
     // form: {
@@ -126,14 +134,8 @@ const defaultButtons = {
     //         style: { textAlign: 'left' },
     //     },
     // },
-    giphy: {
-        icon: 'far fa-laugh-beam',
-        action: 'selector',
-        selector: 'giphy',
-        label: 'Sticker',
-    },
     code: {
-        icon: 'fas fa-code',
+        icon: <CodeIcon />,
         label: 'Code',
         action: 'add',
         object: {

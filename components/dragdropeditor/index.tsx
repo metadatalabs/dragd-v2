@@ -39,9 +39,10 @@ function BCDragDrop({
     }, [mode]);
 
     function addItemToList(data: elemItem, id?: string) {
+        const currentScrollPos = document.documentElement.scrollTop || document.body.scrollTop;
         var newItem: elemItem = {
             id: id || guidGenerator(),
-            pos: { x: 0, y: Math.max(pageHeight, 200) + 10 },
+            pos: { x: 0, y: currentScrollPos + 200 },
             rot: { deg: 0 },
             zIndex: 10000 + Object.keys(items).length,
             type: 'text',
@@ -51,7 +52,6 @@ function BCDragDrop({
         setItems(updatedItems);
         debounceElemdataHistoryUpdate(pastItems, updatedItems, undoCount);
         setSelected([newItem.id]);
-        window.scrollTo(0,document.body.scrollHeight);
     }
 
     function deleteItemFromList(key: string) {
