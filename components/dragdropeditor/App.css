@@ -74,23 +74,6 @@
     }
 }
 
-@media only screen and (min-width: 768px) {
-    .hovershadow {
-        box-shadow: 0px 0px 0px rgb(0 0 0 / 16%);
-        transition: box-shadow 0.1s ease-in-out;
-    }
-
-    /* Transition to a bigger shadow on hover */
-    .hovershadow:hover {
-        box-shadow: 4px 4px 0px rgb(0 0 0 / 16%);
-    }
-
-    /* Transition to a bigger shadow on hover */
-    .hovershadow:active {
-        box-shadow: 2px 2px 0px rgb(0 0 0 / 16%);
-    }
-}
-
 .dragHandle2 {
     position: absolute;
     padding: 12px;

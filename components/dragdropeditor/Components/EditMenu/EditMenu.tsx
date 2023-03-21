@@ -182,10 +182,10 @@ function NestedMenu({ data, addItemToList, parentSelected, setParentSelected = n
 }
 
 function FloatingPanel({ children, style = null, isMinimized, setMinimized }) {
-    const originPos = { x: 40, y: window.innerHeight / 2 };
+    const originPos = {x:0, y:0};
     
     const [dragging, setDragging] = useState(false);
-    const [pos, setPos] = useState(originPos);
+    const [pos, setPos] = useState({x:0, y:0});
     const [clickOffset, setClickOffset] = useState({ x: 0, y: 0 });
 
     useEffect(()=>{
@@ -197,13 +197,10 @@ function FloatingPanel({ children, style = null, isMinimized, setMinimized }) {
     return (
         <div className={'cpanel'}
             style={{
-                position: 'fixed',
-                top: pos.y,
-                right: pos.x - 20,
                 zIndex: 9999999,
-                transform: `translate(0%, -50%)`,
-                width: isMinimized? 50: isMobile ? 120: 240, 
                 height: isMinimized? 50: '70vh',
+                marginBottom: -pos.y,
+                marginRight: -pos.x,
                 maxWidth: '80vw',
                 transition: `width 0.2s, height 0.2s ${isMinimized ? `, all 0.1s` : ``}`,
             }}
@@ -219,14 +216,16 @@ function FloatingPanel({ children, style = null, isMinimized, setMinimized }) {
             }}
             onMouseDown={(e) => {
                 setDragging(true);
-                setClickOffset({ x: e.clientX - (window.innerWidth - pos.x), y: e.clientY - pos.y});
+                // setClickOffset({ x: e.clientX - (window.innerWidth - pos.x), y: e.clientY - pos.y});
+                setClickOffset({ x: e.clientX - pos.x, y: e.clientY - pos.y});
             }}
             onMouseUp={(e) => {
                 setDragging(false);
             }}
             onMouseMove={(e) => {
                 if (dragging) {
-                    setPos({ x: window.innerWidth - (e.clientX - clickOffset.x), y: e.clientY - clickOffset.y});
+                    setPos({ x: e.clientX - clickOffset.x, y: e.clientY - clickOffset.y});
+                    // setPos({ x: window.innerWidth - (e.clientX - clickOffset.x), y: e.clientY - clickOffset.y});
                 }
             }}></div>}
             {!isMinimized && children}

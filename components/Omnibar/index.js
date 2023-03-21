@@ -21,7 +21,7 @@ export default function Omnibar(props) {
     React.useEffect(() => setIsReady(true), []);
 
     if (!isReady) return null;
-    return <div className="flex flex-row justify-end w-full pt-2 h-12 -mb-12">
+    return <div className="flex flex-row justify-end w-full pt-2 pr-2 h-12 -mb-12">
         <div className={"flex flex-row space-x-2 items-center bg-gray-500 rounded-md"}>
 
         {session?.address && <>

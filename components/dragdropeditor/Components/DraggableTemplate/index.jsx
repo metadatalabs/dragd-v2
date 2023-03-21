@@ -4,7 +4,7 @@ import { useAuth } from '../../../../util/auth';
 
 import SiteContext from '../../siteContext';
 import ComponentSelector from '../ComponentSelector';
-import { useSiteByName,} from "@/components/DataProvider";
+import { useSiteByName,} from "/components/DataProvider";
 
 function DraggableTemplate(props) {
     const { elemData, selected } = props;

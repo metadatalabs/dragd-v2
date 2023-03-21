@@ -1,4 +1,4 @@
-import { updateSite } from "@/components/DataProvider";
+import { updateSite } from "/components/DataProvider";
 import { useRouter } from "next/router";
 import EditView from "../components/editor/EditView";
 import Omnibar from "../components/Omnibar";
@@ -9,7 +9,7 @@ function Store(props) {
   const currentPath = props.sitePath;
 
     return (
-        <main className="flex w-full min-h-screen flex-1 flex-col px-20 text-center">
+        <main className="flex w-full min-h-screen flex-1 flex-col text-center">
           <Omnibar siteData={siteDataJson} currentPath={currentPath}/>
 
           <EditView siteData={siteDataJson} currentPath={currentPath} />

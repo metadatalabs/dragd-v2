@@ -35,7 +35,8 @@ function Boundary({mobileWidth, right}) {
                 userSelect: 'none',
             }}
         >
-            ← Not visible on mobile →
+            NOT VISIBLE<br/>
+            ON PHONES
         </div>
     </div>
     </>

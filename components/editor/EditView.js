@@ -7,8 +7,8 @@ export default function EditView (props) {
     const { currentPath } = props;
     const [pending, setPending] = useState(false);
 
-    const [siteData, setSiteData] = React.useState(JSON.stringify(props.siteData) || null);
-    const saveSiteData = (data) => {
+    const [siteData, setSiteData] = React.useState(props.siteData || null);
+    const saveSiteData = () => {
         var query;
         if(props.siteData._id == undefined)
         {
@@ -20,9 +20,9 @@ export default function EditView (props) {
         else
         {
             console.log("updating existing site")
-            var parsed = JSON.parse(siteData);
-            parsed = {...parsed, ...props}
-            query = updateSite(siteData._id, parsed[0]);
+            // var parsed = siteData;
+            // parsed = {...parsed, ...props}
+            query = updateSite(siteData._id, siteData);
         }
 
         query.then((result) => {
@@ -36,17 +36,16 @@ export default function EditView (props) {
         <Dragdrop 
                             initialState={props.siteData.page || {}}
                             onChangedCallback={(data) => {
-                                
+                                 setSiteData({
+                                    ...siteData,
+                                    page: data
+                                })
                             }}
                             saveCallback={(data) => {
-                                console.log("saving", data)
-                                onSubmit({ page: data });
+                                saveSiteData();
                             }}
                             pending={pending}
                             // immutable={!(auth.user?.uid == itemData?.owner)}
         />
-        <textarea className={"w-60 text-sm text-gray-900 bg-gray-400 p-2 rounded-md"} rows={10} value={siteData} onChange={(e)=>{setSiteData(e.target.value)}}/>
-        {(siteData)}
-        <button onClick={saveSiteData}>save</button> 
     </div>
 }

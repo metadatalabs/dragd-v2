@@ -49,7 +49,7 @@ export async function createSite(data) {
 }
 // Update a new item
 export async function updateSite(id, data) {
-  const response = await apiRequest('item', 'PATCH', data);
+  const response = await apiRequest(`item?id=${id}`, 'PATCH', data);
   await Promise.all([
     queryClient.invalidateQueries(['item', { id }]),
     queryClient.invalidateQueries(['ownedItems']),

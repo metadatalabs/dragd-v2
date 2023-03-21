@@ -46,68 +46,49 @@ export default function VisibleEditor(props) {
 
     //// KEYBOARD SHORTCUTS ////
     useEffect(() => {
-        if(mode !== EditorModes.EDIT) return;
-
-        // if delete button is pressed, delete item from items
-        if (pressedKeys.includes('Backspace') || pressedKeys.includes('Delete')) {
-            const newItems = { ...items };
-            setControlPanel(null);
+        if (mode !== EditorModes.EDIT) return;
+    
+        const newItems = { ...items };
+    
+        const performAction = (action) => {
             selected.forEach((id) => {
-                delete newItems[id];
+                action(newItems, id);
             });
             setItems(newItems);
+        };
+    
+        const deleteItem = (items, id) => {
+            delete items[id];
+            setControlPanel(null);
+        };
+    
+        const moveItem = (axis, delta) => {
+            return (items, id) => {
+                const item = items[id];
+                if (item) {
+                    item.pos[axis] += delta;
+                }
+            };
+        };
+    
+        if (pressedKeys.includes('Backspace') || pressedKeys.includes('Delete')) {
+            performAction(deleteItem);
         } else if (pressedKeys.includes('Escape')) {
             setSelected([]);
-        } // undo on pressing ctrl+z
-        else if (pressedKeys.includes('z') && pressedKeys.includes('Control')) {
+        } else if (pressedKeys.includes('z') && pressedKeys.includes('Control')) {
             undo(null);
-        } // redo on pressing ctrl+y
-        else if (pressedKeys.includes('y') && pressedKeys.includes('Control')) {
-            console.log("doi g redo")
+        } else if (pressedKeys.includes('y') && pressedKeys.includes('Control')) {
             redo(null);
+        } else if (pressedKeys.includes('ArrowUp')) {
+            performAction(moveItem('y', -1));
+        } else if (pressedKeys.includes('ArrowDown')) {
+            performAction(moveItem('y', 1));
+        } else if (pressedKeys.includes('ArrowLeft')) {
+            performAction(moveItem('x', -1));
+        } else if (pressedKeys.includes('ArrowRight')) {
+            performAction(moveItem('x', 1));
         }
-        // if up arrow, move item up
-        else if (pressedKeys.includes('ArrowUp')) {
-            const newItems = { ...items };
-            selected.forEach((id) => {
-                const item = newItems[id];
-                if (item) {
-                    item.pos.y = item.pos.y - 1;
-                }
-            })
-            setItems(newItems);
-        } // if down arrow, move item down
-        else if (pressedKeys.includes('ArrowDown')) {
-            const newItems = { ...items };
-            selected.forEach((id) => {
-                const item = newItems[id];
-                if (item) {
-                    item.pos.y = item.pos.y + 1;
-                }
-            })
-            setItems(newItems);
-        } // if left arrow, move item left
-        else if (pressedKeys.includes('ArrowLeft')) {
-            const newItems = { ...items };
-            selected.forEach((id) => {
-                const item = newItems[id];
-                if (item) {
-                    item.pos.x = item.pos.x - 1;
-                }
-            })
-            setItems(newItems);
-        } // if right arrow, move item right
-        else if (pressedKeys.includes('ArrowRight')) {
-            const newItems = { ...items };
-            selected.forEach((id) => {
-                const item = newItems[id];
-                if (item) {
-                    item.pos.x = item.pos.x + 1;
-                }
-            })
-            setItems(newItems);
-        }
-    }, [pressedKeys])
+    }, [pressedKeys]);
 
     return <div>
         {props.children}
@@ -119,7 +100,7 @@ export default function VisibleEditor(props) {
                 style={{
                     position: 'fixed',
                     bottom: '10px',
-                    left: '100px',
+                    left: '10px',
                     padding: '10px',
                     zIndex: 999999,
                     display: 'flex',
@@ -131,7 +112,7 @@ export default function VisibleEditor(props) {
                     <PanelButton
                         onClick={undo}
                     >
-                        <i className="fas fa-undo"></i>
+                        <UndoIcon />
                     </PanelButton>
                 ) : 
                 (
@@ -142,7 +123,7 @@ export default function VisibleEditor(props) {
                     <PanelButton
                         onClick={redo}
                     >
-                        <i className="fas fa-redo"></i>
+                        <RedoIcon />
                     </PanelButton>
                 )}
             </div>
@@ -172,7 +153,8 @@ export default function VisibleEditor(props) {
                         <PanelButton
                             onClick={props.onEditClicked}
                         >
-                            <i className="fas fa-pen"></i>
+                            <EditIcon />
+
                         </PanelButton>
                     ) : (
                     <div style={{display: 'flex', flexDirection: 'row'}}>
@@ -181,7 +163,7 @@ export default function VisibleEditor(props) {
                             onClick={showHelp}
                         >
                             <span className="tooltiptext">Help Center</span>
-                            <i className="fas fa-question"></i>
+                            <HelpIcon />
                         </PanelButton>
                         </div>
                         <div style={{padding: 5}}></div>
@@ -190,7 +172,7 @@ export default function VisibleEditor(props) {
                             onClick={props.onSaveClicked}
                         >
                             <span className="tooltiptext">Save Changes</span>
-                            <i className="fas fa-save"></i>
+                            <SaveIcon />
                         </PanelButton>
                         </div>
                     </div>
@@ -202,7 +184,37 @@ export default function VisibleEditor(props) {
 }
 
 const PanelButton = (props) => <div className={
-        'cbutton cbuttonmain hovershadow'
+        'cbutton cbuttonmain'
     }{...props}>
     {props.children}
 </div>
+
+const EditIcon = () => {
+    return <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+  </svg>
+}
+
+const SaveIcon = () => {
+    return <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+  </svg>  
+}
+
+const HelpIcon = () => {
+    return <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+  </svg>
+}
+
+const UndoIcon = () => {
+    return <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+  </svg>
+}
+
+const RedoIcon = () => {
+    return <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M15 15l6-6m0 0l-6-6m6 6H9a6 6 0 000 12h3" />
+  </svg>
+}

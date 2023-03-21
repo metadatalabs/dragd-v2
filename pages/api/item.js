@@ -63,8 +63,8 @@ const handler = requireAuth(async (req, res) => {
       res.send({ site: site })
       break
     case 'PATCH':
-      // todo enforce siteid and owner from existing site query
-      var oldSite = await getItem(req.query.id);
+      var oldSite = await getItem(req.body._id);
+      oldSite = oldSite[0];
       if(oldSite.creatorId != req.session.siwe.address)
         return res.send({
           status: 'error',

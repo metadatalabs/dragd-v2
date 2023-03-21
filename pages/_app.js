@@ -1,5 +1,5 @@
-import { CryptoAuthProvider } from '@/components/CryptoAuth'
-import {QueryClientProvider} from '@/components/DataProvider'
+import { CryptoAuthProvider } from '/components/CryptoAuth'
+import {QueryClientProvider} from '/components/DataProvider'
 import '/styles/globals.css'
 import { Space_Grotesk } from '@next/font/google'
 const space_font = Space_Grotesk({ subsets: ['latin'] })
