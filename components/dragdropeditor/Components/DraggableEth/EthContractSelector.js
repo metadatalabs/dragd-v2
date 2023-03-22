@@ -2,7 +2,7 @@ import { useRef, useState, useEffect, useContext } from 'react';
 import { Row } from '../../helpers/helper';
 import { useAccount, useConnect, useEnsName, useContract, useContractRead, useContractWrite, useBalance, useSendTransaction, usePrepareContractWrite } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
-import { apiRequest } from '@/util/network';
+import { apiRequest } from '/util/network';
 import SiteContext from '../../siteContext';
 
 const linkRegEx = new RegExp(

@@ -34,7 +34,7 @@ const maxWidthDragCornerOffsets = [
 ];
 
 function EditItem(props) {
-    const { elemData, selected } = props;
+    const { elemData, selected, draggingDisabled } = props;
     const x = typeof window !== 'undefined' ? window.innerWidth / 2 : 200;
     const siteData = useContext(SiteContext);
     const {
@@ -115,8 +115,9 @@ function EditItem(props) {
         }
 
         setMovementType(movementTypes.DRAGGING);
+
+        // this prevents clicking elements below it, add conditions to enable clickthrough
         e.stopPropagation();
-        // e.preventDefault();
     }
 
     function onMouseDownRot(e) {
@@ -182,9 +183,6 @@ function EditItem(props) {
     }
 
     function onMouseMove(e) {
-        e.stopPropagation();
-        e.preventDefault();
-
         var clientX = e.pageX ? e.pageX : e?.changedTouches[0].pageX;
         var clientY = e.pageY ? e.pageY : e?.changedTouches[0].pageY;
 
@@ -201,6 +199,7 @@ function EditItem(props) {
         }
 
         if (movementType == movementTypes.DRAGGING) {
+            if(draggingDisabled) return;
             var toPosition = {
                 pos: {
                     x:
@@ -235,6 +234,9 @@ function EditItem(props) {
                 pos: { x: elemData.pos.x+ (deltaX / 2), y: elemData.pos.y + (deltaY / 2) },
             });
         } else return;
+
+        e.stopPropagation();
+        e.preventDefault();
     }
 
     function onMouseUp(e) {
@@ -288,6 +290,8 @@ function EditItem(props) {
                         style={{
                             width: '100%',
                             height: '100%',
+                            cursor: mode == 'edit' && !draggingDisabled 
+                                ? 'grab': undefined,
                             pointerEvents:
                                 selected && elemData.type != 'text'
                                     ? 'none'

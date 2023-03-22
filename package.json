@@ -13,7 +13,7 @@
   "dependencies": {
     "@giphy/js-fetch-api": "^4.3.1",
     "@giphy/react-components": "^4.0.1",
-    "@monaco-editor/react": "^4.4.6",
+    "@monaco-editor/react": "^4.34.6",
     "@next/font": "13.1.6",
     "@types/node": "^18.14.6",
     "@types/react": "^18.0.28",

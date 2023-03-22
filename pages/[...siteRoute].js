@@ -27,7 +27,6 @@ function Store(props) {
     );
   
     var sitePath = query.siteRoute;
-    console.log(sitePath)
     if(sitePath.length == 1) {sitePath[1] = 'index'}
     var siteName = sitePath.join('/');
   

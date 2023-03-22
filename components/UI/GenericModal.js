@@ -16,7 +16,7 @@ export default function GenericModal(props) {
         <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
         <div class={`relative transform overflow-hidden rounded-lg bg-red text-left shadow-xl transition-all ${isShowing ? '' : 'translate-y-96'} sm:my-8 sm:w-full sm:max-w-lg`}
             onClick={(e)=>{e.stopPropagation()}}>
-            <div class="bg-white dark:bg-slate-900 px-4 pt-5 pb-5 sm:p-6 sm:pb-5">
+            <div class="bg-white px-4 pt-5 pb-5 sm:p-6 sm:pb-5">
             <div class="sm:flex sm:items-start">
                 <div class="text-center w-full">
                 <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-title">{heading}</h3>

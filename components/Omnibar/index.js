@@ -24,9 +24,9 @@ export default function Omnibar(props) {
     return <div className="flex flex-row justify-end w-full pt-2 pr-2 h-12 -mb-12">
         <div className={"flex flex-row space-x-2 items-center bg-gray-500 rounded-md"}>
 
-        {session?.address && <>
+        {session?.address && currentPath && <>
         <SiteList currentPath={currentPath}/>
-        {siteData._id && <PageSettings siteData={siteData} />}
+        {siteData?._id && <PageSettings siteData={siteData} />}
         </>}
         <LoginButton />
         </div>

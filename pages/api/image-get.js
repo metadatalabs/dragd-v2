@@ -1,5 +1,5 @@
 import requireAuth from './_require-auth'
-const banana = require('@banana-dev/banana-dev');
+// const banana = require('@banana-dev/banana-dev');
 
 const apiKey = '1fa7345f-b488-4a9f-a7a2-76002d9fe192'; // "YOUR_API_KEY"
 const modelKey = '1e38475b-5518-4150-83d7-b7d449523d64'; // "YOUR_MODEL_KEY"
@@ -25,7 +25,7 @@ const handler = requireAuth(async (req, res) => {
         safety_checker: true,
     };
 
-    const item = await banana.run(apiKey, modelKey, {
+    const item = await banana?.run(apiKey, modelKey, {
         modelInputs,
         callInputs,
     });

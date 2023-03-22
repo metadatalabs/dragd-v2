@@ -1,15 +1,11 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '/styles/Home.module.css'
 import React, { useEffect } from 'react'
-import { apiRequest } from '/util/network'
 import { CryptoAuthContext } from '/components/CryptoAuth'
 import { useRouter } from 'next/router';
-import LoginButton from '../components/Omnibar/LoginButton'
-const inter = Inter({ subsets: ['latin'] })
+import Dragdrop from '../components/dragdropeditor/index.tsx';
+import Omnibar from '../components/Omnibar'
 
-export default function Home() {
+export default function Home(props) {
   const router = useRouter();
   const { session } = React.useContext(CryptoAuthContext);
   useEffect((lastSession) => {
@@ -18,8 +14,8 @@ export default function Home() {
     }
   }, [session])
 
-  const [me, setMe] = React.useState({});
-
+  let itemData = props.data[0]
+  console.log(props)
   return (
     <>
       <Head>
@@ -28,49 +24,36 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <ScrollingCardsBG />
-        <div className={"w-full h-screen flex flex-col lg:flex-row justify-end items-center z-10"} style={{marginTop: "-100vh"}}>
-          <div className={"flex flex-col justify-between text-black bg-white w-4/5 h-2/5 lg:w-1/3 lg:h-4/5 mx-6 my-6 rounded-2xl p-8"}>
-            <div className={"text-xl md:text-3xl lg:text-6xl font-black"}>
-            <div className={"flex flex-row lg:flex-col space-x-1 lg:space-x-0"}>
-            <div>OWN</div>
-            <div>YOUR</div>
-            <div>INTERNET</div>
-            </div>
-            <div className={"text-xl font-medium"}>
-Build websites powered by Ethereum.
-            </div>
-            </div>
-            <div className="text-center">
-            <LoginButton />
-            </div>
-          </div>
-        </div>
-      </main>
+      <Omnibar />
+      <Dragdrop 
+                    initialState={itemData?.page || {}}
+                    onChangedCallback={(data) => {}}
+                            saveCallback={(data) => {
+                            }}
+                            immutable={false}
+                            pending={false}
+        />
     </>
   )
 }
 
-const ScrollingCardsBG = () => {
-  return (
-    <div className={"flex w-full h-screen overflow-hidden bg-black p-4"}>
-    <div class="columns-2 sm:columns-3 lg:columns-4 w-full">
-      {[1,11,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,].map((_, i) => {
-          return <NiceRoundedImageCard image={"/dragd_logo.png"} />
-      })}
-    </div>
-    </div>
-  )
-}
+const apiEndpoint = 'http://127.0.0.1:3000';
 
-const NiceRoundedImageCard = ({image}) => {
-  const [init, setInit] = React.useState(false);
-  React.useEffect(()=>{setInit(true)}, [])
+export async function getStaticProps() {
+    var sitePath = "prnth.eth/index";
 
-  return <div 
-  style={{backgroundImage: "url('/dragd_pattern.svg')", backgroundRepeat: 'repeat', backgroundSize: 500}} 
-    className={`mb-4 rounded-2xl bg-slate-900 h-96 overflow-hidden transition-all ease-in ${init? '': 'scale-75'}`}>
-    {/* <img src={image} style={{}} className={""} /> */}
-  </div>
-}
+    let data;
+    try {
+        const fetchRes = await fetch(
+            apiEndpoint + `/api/item-public?name=${sitePath}`,
+        );
+        data = await fetchRes.json();
+        console.log("got data", data)
+        data.preload = true;
+
+    } catch (e) {}
+    return {
+      props: { data: data?.data || {data:[{}]} },
+      revalidate: 60,
+    }
+  }

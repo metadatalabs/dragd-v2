@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { deleteSite } from "../DataProvider";
-import { ThreeDots } from "../ui-helpers";
+import { ThreeDots, UserIcon } from "../ui-helpers";
 import GenericDropdown from "../UI/GenericDropdown";
 
 export default function PageSettings({siteData})
@@ -19,17 +19,15 @@ export default function PageSettings({siteData})
 }
 
   if (!isReady) return null;
-  return <div className="bg-gray-500">
-<div>
+  return <div className="flex flex-row items-center">
                     <GenericDropdown 
-                CollapseButton={<ThreeDots className={"w-6 h-6 hover:bg-gray-500 p-1 rounded-full"}/>}
+                CollapseButton={<UserIcon className={"w-6 h-6 hover:bg-gray-500 p-1 rounded-full"}/>}
                 options={[<div className={"hover:text-red-500"} onClick={(e)=>{
                     e.stopPropagation();
                     e.preventDefault();
                     deleteSiteSubmit(siteData._id);
                 }}>Delete</div>]}
                 />
-                    </div>
             
     </div>
 }

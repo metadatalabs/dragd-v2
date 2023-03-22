@@ -1,14 +1,11 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import EditItem from '../DDEditor/EditItem';
-import { useAuth } from '../../../../util/auth';
-
 import SiteContext from '../../siteContext';
 import ComponentSelector from '../ComponentSelector';
 import { useSiteByName,} from "/components/DataProvider";
 
 function DraggableTemplate(props) {
     const { elemData, selected } = props;
-    const auth = useAuth();
 
     const siteData = useContext(SiteContext);
     const {

@@ -29,7 +29,7 @@ export default function SiteList ({siteData, currentPath}) {
                 <>
                 <SiteCard key={index} item={groupedSites[item]} />
                 {(index + 1) !== Object.keys(groupedSites).length && 
-                <div className={"w-full h-0.5 bg-gray-400"}/>
+                <div className={"w-full h-0.5 bg-gray-300 rounded-full my-1"}/>
                 }
                 </>
         )}
@@ -61,37 +61,24 @@ const SiteCard = ({item}) => {
     }
 
     return <div className={`w-full`}>
-        <div className={"w-full flex flex-row justify-between items-center"}>
-        <div className={"text-gray-600"}>dra.gd/{GetShortenedString(item[0].siteName)}<br /></div>
+        <div className={"w-full flex flex-row justify-between items-center py-2 px-2"}>
+        <div className={"text-gray-600"}>dra.gd/{GetShortenedString(item[0].siteName)}</div>
         
-            <button className={"px-1.5 font-bold text-sm rounded-full bg-gray-300 hover:ring-1"} onClick={(e)=>{
+            <button className={"px-1.5 font-bold text-xs rounded-full bg-gray-300 hover:bg-white hover:ring-1 hover:ring-black"} onClick={(e)=>{
                 setShowModal(true);
-            }}>+</button>
+            }}>NEW PAGE</button>
         </div>
         <div className={"grid md:grid-cols-1"}>
     {item.map((pageItem, index) =>{
         return <a
         href={`/${pageItem.siteName}/${pageItem.pageName}`}
-        className={"w-full flex flex-row justify-between items-center transition-all p-2 rounded-md hover:bg-gray-300"}
+        className={"w-full flex flex-row justify-between items-center transition-all p-2 hover:bg-gray-300"}
     >
         <div>
-            <h2>
-            {pageItem.pageName != "index" && pageItem.pageName}
-            </h2>
             <p>
-            
-            {(pageItem.fake || pageItem.pageName == 'index') && "index"}
+            {pageItem.fake ? "index":pageItem.pageName }
             </p>
         </div>
-        {/* <div className={"flex flex-row items-center"}>
-            <div className={"flex flex-col justify-center align-center"}>
-                <ViewCount className={"h-4 mt-0.5 -mb-1"} />
-                <span className={"text-center"} style={{fontSize: 10}}>123</span>
-            </div>
-            
-            <Chevron className={"w-6 h-6"}/>
-        </div> */}
-            
     </a>
     })}
     </div>

@@ -46,7 +46,7 @@
     /* -webkit-filter: drop-shadow(0px 0px 5px rgba(64, 224, 208, 0.81));
     filter: drop-shadow(0px 0px 5px rgba(64, 224, 208, 0.81)); */
     border: 1px dashed black;
-    cursor: grab;
+    /* cursor: grab; */
 }
 
 .draggable {
@@ -119,13 +119,6 @@
     font-weight: bold;
     color: black;
     padding: 5px;
-}
-
-.cpanellabel {
-    font-size: 12px;
-    font-weight: bold;
-    color: black;
-    margin-top: 10px;
 }
 
 .cbutton {

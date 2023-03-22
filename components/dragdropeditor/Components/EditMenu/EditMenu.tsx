@@ -123,15 +123,18 @@ function NestedMenu({ data, addItemToList, parentSelected, setParentSelected = n
         <>
             {!selected && <>
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', pointerEvents: 'none',
-                marginTop: -20,
+                marginTop: -30,
                 marginBottom: 10,
+                height: 20,
             }}>
-                <div style={{pointerEvents: 'all', cursor: 'pointer', margin: "0 10px", width: 8}}
+                <div className={'cursor-pointer w-6 px-0 ml-1 hover:bg-gray-200 rounded-full'}
+                    style={{pointerEvents: 'all'}}
                     onClick={()=>{setParentSelected?.(null); setSelector(null); setSelectedItem('bg');}}>
                         {(selector || parentSelected ) && `←`}
                 </div>
                 <div><DragHandle />{selected}</div>
-                <div style={{pointerEvents: 'all', cursor: 'pointer', width: 8, margin: "0 10px"}}
+                <div className={'cursor-pointer w-5 px-1 mr-1 hover:bg-gray-200 rounded-full'} 
+                style={{pointerEvents: 'all'}}
                     onClick={()=>{
                         setMinimized(true);
                     }}>
@@ -140,7 +143,7 @@ function NestedMenu({ data, addItemToList, parentSelected, setParentSelected = n
                 </div>
             </>}
 
-            {Array.isArray(parentSelected)? <div style={{padding: "0px 10px"}}>
+            {Array.isArray(parentSelected)? <div className="flex grow px-3 text-left">
                 {controlPanel}
             </div>
 

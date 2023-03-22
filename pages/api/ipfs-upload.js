@@ -1,4 +1,4 @@
-import { withSessionRoute } from '@/util/auth'
+import { withSessionRoute } from '/util/auth'
 import { withIronSessionApiRoute } from 'iron-session/next'
 import { NextApiRequest, NextApiResponse } from 'next'
 import requireAuth from './_require-auth'
