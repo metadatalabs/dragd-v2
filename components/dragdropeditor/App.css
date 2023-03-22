@@ -89,8 +89,9 @@
 .cpanel {
     min-width: 10px;
     border: 1px solid black;
-    background-color: rgba(255, 255, 255, 0.64);
+    background-color: #071604;
     backdrop-filter: blur(8px);
+    color: white;
     border-radius: 6px;
     z-index: 9999999999;
 }

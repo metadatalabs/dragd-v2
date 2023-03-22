@@ -63,9 +63,9 @@ export function AddButton({ item, showMenu, setSelector }) {
                 e.stopPropagation();
             }}
         >
-            <Column className={'panel-shadow'} style={{
+            <Column className={'panel-shadow bg-[#083300]'} style={{
                 height: 40, width: 40,
-                justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightgrey', border: '2px solid rgba(200,200,200)',
+                justifyContent: 'center', alignItems: 'center',
                 borderRadius: 10,
                 }}>
                 {item[1].icon}

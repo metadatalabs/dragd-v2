@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
 import analytics from '../../../../util/analytics';
-const ReactGiphySearchbox = dynamic(() => import('react-giphy-searchbox'));
+// const ReactGiphySearchbox = dynamic(() => import('react-giphy-searchbox'));
 
 export function GiphySelector({ addItemToList }) {
     return (

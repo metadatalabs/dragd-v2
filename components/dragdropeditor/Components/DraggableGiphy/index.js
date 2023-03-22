@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import EditItem from '../DDEditor/EditItem';
-import { Gif } from '@giphy/react-components';
 import { GiphyFetch } from '@giphy/js-fetch-api';
 import { useAsyncFn } from 'react-use';
 

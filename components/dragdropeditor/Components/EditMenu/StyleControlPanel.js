@@ -72,7 +72,8 @@ export const TabSwitcher = ({tabs, tabicons, color = "green"}) => {
     return <div className="flex flex-col justify-between text-sm font-light w-64 mb-3">
         {tabs[activeTab]}<br/>
         <div className={`flex flex-row py-1 px-4
-            bg-${color}-200 rounded-md
+            bg-${color}-200 border-2 border-${'dragd'}
+            rounded-md
             justify-around
             font-bold text-${color}-1000
         `}>
@@ -80,7 +81,7 @@ export const TabSwitcher = ({tabs, tabicons, color = "green"}) => {
                 return (
                     <div
                         key={index}
-                        className={`cursor-pointer p-1 px-2 rounded-md hover:ring-1 ring-green-600 transition-all ${activeTab === index ? 'bg-white hover:ring-2' : ''}`}
+                        className={`cursor-pointer p-1 px-2 rounded-md hover:ring-1 ring-${color}-600 transition-all ${activeTab === index ? 'bg-white hover:ring-2' : ''}`}
                         onClick={() => setActiveTab(index)}
                     >
                         {tabicons[index]}
