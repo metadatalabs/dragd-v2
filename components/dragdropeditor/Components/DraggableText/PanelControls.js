@@ -92,7 +92,7 @@ export default function PanelControls({id}) {
             </tr>
             </table>
             <Row style={{justifyContent: 'center', alignItems: 'center', marginTop: 10}}>
-            <StyleToggleButton className={`font-bold ${elemData.style?.fontWeight === 'bold' ? 'cbuttoninner-selected' : ''}`}
+            <StyleToggleButton className={`font-bold ${elemData.style?.fontWeight === 'bold' ? 'btn-active' : ''}`}
             onClick={() => {
                 elemData.style.fontWeight === 'bold'?
                 onLocalUpdate({style: {fontWeight: 'normal'}}):
@@ -101,7 +101,7 @@ export default function PanelControls({id}) {
             }}>B
             </StyleToggleButton>
 
-            <StyleToggleButton className={`italic ${elemData.style?.fontStyle === 'italic' ? 'cbuttoninner-selected' : ''}`}
+            <StyleToggleButton className={`italic ${elemData.style?.fontStyle === 'italic' ? 'btn-active' : ''}`}
                 onClick={() => {
                 elemData.style.fontStyle === 'italic'?
                 onLocalUpdate({style: {fontStyle: 'normal'}}):
@@ -111,7 +111,7 @@ export default function PanelControls({id}) {
             i
             </StyleToggleButton>
 
-            <StyleToggleButton className={`underline ${elemData.style?.textDecoration === 'underline' ? 'cbuttoninner-selected' : ''}`}
+            <StyleToggleButton className={`underline ${elemData.style?.textDecoration === 'underline' ? 'btn-active' : ''}`}
                 onClick={() => {
                     onLocalUpdate({ style: {textDecoration: 
                         elemData.style.textDecoration === 'underline'?'': 'underline'} });

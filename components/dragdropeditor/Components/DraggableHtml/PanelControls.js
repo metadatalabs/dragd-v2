@@ -154,7 +154,7 @@ export default function PanelControls({ id }) {
 
             <div style={{ padding: 5 }} />
             <div
-                className={'cbutton cbuttoninner'}
+                className={'btn'}
                 onClick={() => {
                     onLocalUpdate({ maxWidth: !elemData.maxWidth });
                 }}

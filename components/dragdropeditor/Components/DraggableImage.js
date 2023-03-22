@@ -20,7 +20,7 @@ function PanelControls({id}) {
                 />
 
             <div
-                className={'cbutton cbuttoninner'}
+                className={'btn'}
                 style={{ marginLeft: '8px' }}
                 onClick={() => {
                     onLocalUpdate({ maxWidth: !elemData.maxWidth });
@@ -133,7 +133,7 @@ const Prompter = (props) => {
                 />
                 <div style={{width: 18}} />
                 <div
-                    className={'cbutton cbuttoninner'}
+                    className={'btn'}
                     onClick={() => {
                         loadImageToUri();
                     }}

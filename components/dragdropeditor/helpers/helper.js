@@ -212,7 +212,7 @@ export const CodeIcon = () => {
 export const StyleToggleButton = (props) => {
     return <div 
         {...props}
-        className={`cbutton cbuttoninner mx-2 ${props.className}`}
+        className={`btn mx-2 ${props.className}`}
         style={{width: 20, height: 20, ...props.style}}
         >
     {props.children}

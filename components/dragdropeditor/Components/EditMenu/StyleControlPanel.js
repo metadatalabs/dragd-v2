@@ -72,7 +72,7 @@ export const TabSwitcher = ({tabs, tabicons, color = "green"}) => {
     return <div className="flex flex-col justify-between text-sm font-light w-64 mb-3">
         {tabs[activeTab]}<br/>
         <div className={`flex flex-row py-1 px-4
-            bg-${color}-200 border-2 border-${'dragd'}
+            bg-${color}-200 border-2 border-${color}-500}
             rounded-md
             justify-around
             font-bold text-${color}-1000

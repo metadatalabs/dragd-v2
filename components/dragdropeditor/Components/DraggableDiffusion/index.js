@@ -61,7 +61,7 @@ function DraggableDiffusion(props) {
                 </div>
 
                 <div
-                    className={'cbutton cbuttoninner'}
+                    className={'btn'}
                     style={{ marginLeft: '8px' }}
                     onClick={() => {
                         onLocalUpdate({ maxWidth: !elemData.maxWidth });

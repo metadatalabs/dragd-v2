@@ -49,7 +49,7 @@ function DefaultControlPanel({
                     >
                         <div className={'flexRow'}>
                             <div
-                                className={'cbutton cbuttoninner'}
+                                className={'btn'}
                                 onClick={() => {
                                     setModal(
                                         <UriInputModal
@@ -65,7 +65,7 @@ function DefaultControlPanel({
                                 <LinkIcon />
                             </div>
                             <div
-                                className={'cbutton cbuttoninner'}
+                                className={'btn'}
                                 onClick={() => {
                                     saveElemJson({
                                         zIndex: elemData.zIndex + 1000,
@@ -75,7 +75,7 @@ function DefaultControlPanel({
                                 <LayerIcon />
                             </div>
                             <div
-                                className={'cbutton cbuttoninner'}
+                                className={'btn'}
                                 onClick={() => {
                                     saveElemJson({
                                         zIndex: elemData.zIndex - 1000,
@@ -85,7 +85,7 @@ function DefaultControlPanel({
                                 <LayerIcon />
                             </div>
                             <div
-                                className={'cbutton cbuttoninner'}
+                                className={'btn'}
                                 onClick={() => {
                                     var dupeItem = {...elemData, 
                                         pos: {x: elemData.pos.x + 10, y: elemData.pos.y + 10}, 
@@ -97,7 +97,7 @@ function DefaultControlPanel({
                                 <CopyIcon />
                             </div>
                             <div
-                                className={'cbutton cbuttoninner'}
+                                className={'btn'}
                                 onClick={() => {
                                     setSelected('bg');
                                     setControlPanel(null);

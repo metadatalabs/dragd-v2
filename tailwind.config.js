@@ -9,10 +9,12 @@ module.exports = {
     extend: {
       colors: {
         'dragd': "#39FF14",
-        'dragd-secondary': "#14AEFF",
+        'dragd-alt': "#083300",
+        'dragd-2': "#14AEFF",
+        'dragd-2-secondary': "#00111A",
         'dragd-dark': "#071604"
       },
     },
   },
-  plugins: [],
+  plugins: [require('daisyui')],
 }

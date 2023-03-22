@@ -78,7 +78,7 @@ export function ButtonSelector(props) {
                     return (
                         <>
                             <div
-                                className={'cbutton cbuttoninner tooltip'}
+                                className={'btn tooltip'}
                                 style={{ width: '50px', height: '40px' }}
                                 onClick={() => {
                                     setValue(elem[0]);
