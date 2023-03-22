@@ -121,7 +121,7 @@ function NestedMenu({ data, addItemToList, parentSelected, setParentSelected = n
 
     return (
         <>
-            {!selected && <>
+            {!selected && 
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', pointerEvents: 'none',
                 marginTop: -30,
                 marginBottom: 10,
@@ -140,10 +140,9 @@ function NestedMenu({ data, addItemToList, parentSelected, setParentSelected = n
                     }}>
                     <svg aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="black" d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"></path></svg>
                 </div>
-                </div>
-            </>}
+            </div>}
 
-            {Array.isArray(parentSelected)? <div className="flex grow px-3 text-left">
+            {Array.isArray(parentSelected)? <div className="flex flex-grow px-3 text-left">
                 {controlPanel}
             </div>
 
@@ -195,25 +194,22 @@ function FloatingPanel({ children, style = null, isMinimized, setMinimized }) {
     const isMobile = isMobileViewport();
 
     return (
-        <div className={'cpanel'}
+        <div className={'cpanel flex flex-col'}
             style={{
-                zIndex: 9999999,
-                height: isMinimized? 50: '70vh',
+                zIndex: 8888888,
+                height: isMinimized? 55: '70vh',
                 maxWidth: '80vw',
                 marginBottom: -pos.y,
                 marginRight: -pos.x,
                 transition: `width 0.2s, height 0.2s ${isMinimized ? `, all 0.1s` : ``}`,
             }}
         >
-            {isMinimized ? <Column style={{alignItems: 'center', justifyContent: 'center', height: '100%', fontSize: 10, cursor: 'pointer'}} 
+            {isMinimized ? <Column className={'cbutton cbuttonmain'} style={{height: '100%', fontSize: 10, cursor: 'pointer'}} 
                 onClick={()=>{setMinimized(false)}}>
                 <div style={{fontWeight: 500, fontSize: 20}}>+</div>
                 blocks
             </Column> : 
-            <div style={{width: 'calc(100%)', 
-                height: 40,
-                cursor: 'grab'
-            }}
+            <div className='h-10 cursor-grab' 
             onMouseDown={(e) => {
                 setDragging(true);
                 // setClickOffset({ x: e.clientX - (window.innerWidth - pos.x), y: e.clientY - pos.y});

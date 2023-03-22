@@ -4,8 +4,9 @@ import ColorPicker from '../../helpers/ui/ColorPicker';
 import analytics from '../../../../util/analytics';
 import { useContext, useEffect, useState } from 'react';
 import SiteContext from '../../siteContext';
-import { Input, Row } from '../../helpers/helper';
+import { Input, Row, SliderWithInput, StyleToggleButton } from '../../helpers/helper';
 import GenericDropdown from '/components/UI/GenericDropdown';
+import StylePanelControls, { TabSwitcher } from '../EditMenu/StyleControlPanel';
 
 const googleFonts = fonts['googleFonts'];
 const fontList = ['Arial', 'Times New Roman', 'Courier New', ...googleFonts];
@@ -81,7 +82,7 @@ export default function PanelControls({id}) {
                 <td>Size</td>
                 <td>
                     <SliderWithInput 
-                    value={elemData.style?.fontSize?.replace(/[^0-9]/g, '')}
+                    value={elemData.style?.fontSize}
                     onChange={(value)=>{
                         onLocalUpdate({ style: {fontSize: value + 'px' }});
                     }}
@@ -90,7 +91,7 @@ export default function PanelControls({id}) {
                     </td>
             </tr>
             </table>
-            <Row style={{justifyContent: 'space-around', alignItems: 'center', marginTop: 10}}>
+            <Row style={{justifyContent: 'center', alignItems: 'center', marginTop: 10}}>
             <StyleToggleButton className={`font-bold ${elemData.style?.fontWeight === 'bold' ? 'cbuttoninner-selected' : ''}`}
             onClick={() => {
                 elemData.style.fontWeight === 'bold'?
@@ -99,7 +100,6 @@ export default function PanelControls({id}) {
                 
             }}>B
             </StyleToggleButton>
-            <div style={{ padding: 5 }} />
 
             <StyleToggleButton className={`italic ${elemData.style?.fontStyle === 'italic' ? 'cbuttoninner-selected' : ''}`}
                 onClick={() => {
@@ -110,7 +110,6 @@ export default function PanelControls({id}) {
             }}>
             i
             </StyleToggleButton>
-            <div style={{ padding: 5 }} />
 
             <StyleToggleButton className={`underline ${elemData.style?.textDecoration === 'underline' ? 'cbuttoninner-selected' : ''}`}
                 onClick={() => {
@@ -119,7 +118,6 @@ export default function PanelControls({id}) {
             }}>
             U
             </StyleToggleButton>
-            <div style={{ padding: 5 }} />
 
             <StyleToggleButton
                 onClick={() => {
@@ -143,76 +141,4 @@ export default function PanelControls({id}) {
 
         </>
     );
-}
-
-const StylePanelControls = ({id}) => {
-    const { items, onUpdateDiv } = useContext(SiteContext);
-    const elemData = items[id];
-    const onLocalUpdate = (newProps) => onUpdateDiv(elemData.id, newProps);
-
-    return <>
-        <div className={'font-semibold'}>Style</div>
-
-        {/* backround */}
-        <div>Background Color</div>
-        <ColorPicker
-            color={ elemData.style?.backgroundColor || 'transparent' }
-            onChange={(color) => {
-                onLocalUpdate({ style: {...elemData.style, backgroundColor: color} });
-            }}
-            />
-    </>
-}
-
-const TabSwitcher = ({tabs, tabicons}) => {
-    const [activeTab, setActiveTab] = useState(0);
-    return <div className="flex flex-col content-between text-sm font-light w-64">
-        {tabs[activeTab]}<br/>
-
-        <div className={'flex flex-row justify-between px-4'}>
-            {tabs.map((tab, index) => {
-                return (
-                    <div
-                        key={index}
-                        className={`${activeTab === index ? 'ring-2' : ''}`}
-                        onClick={() => setActiveTab(index)}
-                    >
-                        {tabicons[index]}
-                    </div>
-
-                )
-            })}
-        </div>
-    </div>
-}
-
-const SliderWithInput = ({value, onChange, min, max, step, symbol}) => {
-    return <div className={'flex flex-row items-center'}>
-        <div className={'flex flex-row items-baseline p-1 bg-gray-300 rounded-sm'}>
-            <input className='group w-8 bg-transparent text-center'
-            value={value}
-            onChange={(e)=>{
-                onChange(e.target.value);
-            }}>
-            </input>
-            {symbol}
-        </div>
-        <input id="steps-range" type="range" min={min} max={max} step={step} 
-            value={value} 
-            onChange={(e)=>{
-                onChange(e.target.value);
-            }}
-            class="h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" 
-        />
-    </div>
-}
-
-const StyleToggleButton = (props) => {
-    return <div 
-        {...props}
-        className={`cbutton cbuttoninner ${props.className}`}
-        style={{width: 60, height: 60, ...props.style}}
-        >
-    {props.children}
-    </div>
 }

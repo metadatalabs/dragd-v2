@@ -208,3 +208,34 @@ export const CodeIcon = () => {
     <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
   </svg>
 }  
+
+export const StyleToggleButton = (props) => {
+    return <div 
+        {...props}
+        className={`cbutton cbuttoninner mx-2 ${props.className}`}
+        style={{width: 20, height: 20, ...props.style}}
+        >
+    {props.children}
+    </div>
+}
+
+export const SliderWithInput = ({value, onChange, min, max, step, symbol, defaultValue = 0}) => {
+    return <div className={'flex flex-row items-center'}>
+        <div className={'flex flex-row items-baseline p-1 bg-gray-300 rounded-sm'}>
+            <input className='group w-8 bg-transparent text-center'
+            value={value?.replace && value.replace(/[^0-9]/g, '') || defaultValue}
+            onChange={(e)=>{
+                onChange(e.target.value);
+            }}>
+            </input>
+            {symbol}
+        </div>
+        <input id="steps-range" type="range" min={min} max={max} step={step} 
+            value={value?.replace && value.replace(/[^0-9.]/g, '') || defaultValue} 
+            onChange={(e)=>{
+                onChange(e.target.value);
+            }}
+            class="h-2 w-full bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" 
+        />
+    </div>
+}

@@ -14,7 +14,7 @@ export default function Home(props) {
     }
   }, [session])
 
-  let itemData = props.data[0]
+  let pageJson = props.data[0]
   console.log(props)
   return (
     <>
@@ -26,12 +26,11 @@ export default function Home(props) {
       </Head>
       <Omnibar />
       <Dragdrop 
-                    initialState={itemData?.page || {}}
-                    onChangedCallback={(data) => {}}
-                            saveCallback={(data) => {
-                            }}
-                            immutable={false}
-                            pending={false}
+        initialState={pageJson?.page || {}}
+        onChangedCallback={(data) => {}}
+        saveCallback={(data) => {}}
+        immutable={false}
+        pending={false}
         />
     </>
   )
@@ -42,18 +41,17 @@ const apiEndpoint = 'http://127.0.0.1:3000';
 export async function getStaticProps() {
     var sitePath = "prnth.eth/index";
 
-    let data;
+    let pageJson;
     try {
         const fetchRes = await fetch(
             apiEndpoint + `/api/item-public?name=${sitePath}`,
         );
-        data = await fetchRes.json();
-        console.log("got data", data)
-        data.preload = true;
+        pageJson = await fetchRes.json();
+        pageJson.preload = true;
 
     } catch (e) {}
     return {
-      props: { data: data?.data || {data:[{}]} },
+      props: { data: pageJson?.data || {data:[{}]} },
       revalidate: 60,
     }
   }
