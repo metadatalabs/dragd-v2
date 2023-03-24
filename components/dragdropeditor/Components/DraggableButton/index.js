@@ -28,7 +28,7 @@ function DraggableButton(props) {
                 {
                     <button
                         key={elemData.id}
-                        className={'button'}
+                        className={'btn btn-primary'}
                         style={{
                             width: '100%',
                             height: '100%',

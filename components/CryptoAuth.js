@@ -108,6 +108,7 @@ export function CryptoAuthProvider(props) {
         new MetaMaskConnector({ chains }), 
         new WalletConnectConnector({ chains, options: {
           qrcode: true,
+          projectId: '1711c1747051d53005c6ab33182f13c2',
         }, }), 
         new CoinbaseWalletConnector({ chains }), 
         new InjectedConnector({ chains, options: {name: 'Injected'} }),
