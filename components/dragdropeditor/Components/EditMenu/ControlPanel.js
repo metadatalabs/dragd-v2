@@ -41,17 +41,18 @@ function DefaultControlPanel({
                     }}
                 >
                     <div
-                        className={'cpanel cpanel-shadow'}
+                        className={'card bg-base-100'}
                         style={{
                             padding: 10,
                             position: 'relative',
                         }}
                     >
                         <div className={'flexRow'}>
-                            <div
-                                className={'btn'}
-                                onClick={() => {
-                                    setModal(
+                                {[
+                                {
+                                    icon: <LinkIcon />, 
+                                    tooltip: "Add Link",
+                                    onClick: () => {setModal(
                                         <UriInputModal
                                             prefill={elemData.href}
                                             onComplete={(data) => {
@@ -59,56 +60,43 @@ function DefaultControlPanel({
                                                 setModal(null);
                                             }}
                                         />,
-                                    );
-                                }}
-                            >
-                                <LinkIcon />
-                            </div>
-                            <div
-                                className={'btn'}
-                                onClick={() => {
-                                    saveElemJson({
-                                        zIndex: elemData.zIndex + 1000,
-                                    });
-                                }}
-                            >
-                                <LayerIcon />
-                            </div>
-                            <div
-                                className={'btn'}
-                                onClick={() => {
-                                    saveElemJson({
-                                        zIndex: elemData.zIndex - 1000,
-                                    });
-                                }}
-                            >
-                                <LayerIcon />
-                            </div>
-                            <div
-                                className={'btn'}
-                                onClick={() => {
-                                    var dupeItem = {...elemData, 
-                                        pos: {x: elemData.pos.x + 10, y: elemData.pos.y + 10}, 
-                                        id: (guidGenerator())
+                                    )}
+                                },{
+                                    icon: <LayerIcon />,
+                                    tooltip: "Move Front", 
+                                    onClick: () => {saveElemJson({zIndex: elemData.zIndex + 1000,});}
+                                }, {
+                                    icon: <LayerIcon />, 
+                                    tooltip: "Move Back",
+                                    onClick: () => {saveElemJson({zIndex: elemData.zIndex - 1000,});}
+                                }, {
+                                    icon: <CopyIcon />, 
+                                    tooltip: "Clone",
+                                    onClick: () => {
+                                            var dupeItem = {...elemData, 
+                                            pos: {x: elemData.pos.x + 10, y: elemData.pos.y + 10}, 
+                                            id: (guidGenerator())
+                                        }
+                                        addItemToList(dupeItem)
                                     }
-                                    addItemToList(dupeItem);
-                                }}
-                            >
-                                <CopyIcon />
-                            </div>
-                            <div
-                                className={'btn'}
-                                onClick={() => {
-                                    setSelected('bg');
-                                    setControlPanel(null);
-                                    deleteItemFromList(elemData.id);
-                                }}
-                            >
-                                <span style={{ color: 'darkred' }}>
-                                <TrashIcon/> </span>
-                                    
-                                
-                            </div>
+                                }, {
+                                    icon: <span style={{ color: 'darkred' }}>
+                                    <TrashIcon/> </span>, 
+                                    tooltip: "Delete",
+                                    onClick: () => {
+                                        setSelected('bg');
+                                        setControlPanel(null);
+                                        deleteItemFromList(elemData.id);
+                                    }
+                                }].map(({icon, tooltip, ...props}, id) => {
+                                    return <div key={id} class="tooltip" data-tip={tooltip}>
+                                    <button className="btn btn-outline" {...props}>
+                                        {icon}
+
+                                    </button>
+                                </div>
+                                })}
+                            
                         </div>
                     </div>
                 </div>

@@ -1,33 +1,38 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { CryptoAuthContext } from "../CryptoAuth";
 import { deleteSite } from "../DataProvider";
 import { ThreeDots, UserIcon } from "../ui-helpers";
 import GenericDropdown from "../UI/GenericDropdown";
+import PageSettingsModal from "./PageSettingsModal";
 
 export default function PageSettings({siteData})
 {
-  const [isReady, setIsReady] = useState(false);
+    const { session } = useContext(CryptoAuthContext);
+  const [modal, setModal] = useState(null);
   const router = useRouter();
-  useEffect(() => setIsReady(true), []);
   const deleteSiteSubmit = async (id) => {
     var query = deleteSite({id});
     query.then((result) => {
-        // console.log(result);
+        // console.log(result);  
+
+      router.push('/'+ session.address);
+
     }).catch((error) => {
         // setError(error.message);
     });
 }
 
-  if (!isReady) return null;
   return <div className="flex flex-row items-center">
-                    <GenericDropdown 
-                CollapseButton={<UserIcon className={"w-6 h-6 hover:bg-gray-500 p-1 rounded-full"}/>}
-                options={[<div className={"hover:text-red-500"} onClick={(e)=>{
-                    e.stopPropagation();
-                    e.preventDefault();
+                <GenericDropdown 
+                label={<UserIcon className={"w-6 h-6 hover:bg-gray-500 p-1 rounded-full"}/>}
+                children={[<div className="flex w-full" onClick={() => setModal(<PageSettingsModal siteData={siteData}
+                    onComplete={()=>{setModal(null)}} />)}>Page Settings</div>,
+                <div className={"w-52"} onClick={(e)=>{
+
                     deleteSiteSubmit(siteData._id);
                 }}>Delete</div>]}
-                />
-            
+        />
+        {modal}
     </div>
 }

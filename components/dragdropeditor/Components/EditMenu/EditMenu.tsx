@@ -40,9 +40,9 @@ export function AddButton({ item, showMenu, setSelector }) {
     };
 
     return (
-        <div
-            className={'tile cbutton tooltip'}
-            style={{padding: "5px 0px", fontSize: 12, flexShrink: 1, textAlign: 'center', justifyContent: 'flex-start'}}
+        <button
+            className={'btn btn-outline tooltip tooltip-left w-14  my-1'}
+            data-tip={item[1].label}
             onClick={(e) => {
                 switch (item[1].action) {
                     case 'add':
@@ -63,17 +63,9 @@ export function AddButton({ item, showMenu, setSelector }) {
                 e.stopPropagation();
             }}
         >
-            <Column className={'panel-shadow bg-[#083300]'} style={{
-                height: 40, width: 40,
-                justifyContent: 'center', alignItems: 'center',
-                borderRadius: 10,
-                }}>
+
                 {item[1].icon}
-            </Column>
-            {item[1].label && (
-                <span className="tooltiptext">{item[1].label}</span>
-            )}
-        </div>
+        </button>
     );
 }
 
@@ -149,7 +141,7 @@ function NestedMenu({ data, addItemToList, parentSelected, setParentSelected = n
             :!selected && !selector && <>
             <div className={'tile cpanel-col'} style={{padding: "0px 10px"
             }}>
-                <div className={"tile is-flex-wrap-wrap cpanel-col-buttons"} style={{alignContent: 'flex-start', justifyContent: 'flex-start'}}>
+                <div className={"flex flex-col"}>
 
                     {Object.entries(data).map((item) => {
                         return (
@@ -194,7 +186,7 @@ function FloatingPanel({ children, style = null, isMinimized, setMinimized }) {
     const isMobile = isMobileViewport();
 
     return (
-        <div className={'cpanel flex flex-col'}
+        <div className={'flex flex-col bg-base-100'}
             style={{
                 zIndex: 8888888,
                 height: isMinimized? 55: '70vh',

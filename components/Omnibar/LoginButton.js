@@ -22,7 +22,7 @@ export default function LoginButton(props) {
             <div>
             <GenericDropdown 
                 label={<AddressBadge address={ensName || session.address} />}
-                options={[<textarea>{JSON.stringify(session)}</textarea>, 
+                children={[<textarea>{JSON.stringify(session)}</textarea>, 
                 <button
                     className={"text-red-900"}
                     onClick={async () => {

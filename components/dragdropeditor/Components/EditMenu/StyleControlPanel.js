@@ -69,19 +69,14 @@ export default function StylePanelControls ({id}) {
 
 export const TabSwitcher = ({tabs, tabicons, color = "green"}) => {
     const [activeTab, setActiveTab] = useState(0);
-    return <div className="flex flex-col justify-between text-sm font-light w-64 mb-3">
+    return <div className="flex flex-col justify-between w-64 mb-3">
         {tabs[activeTab]}<br/>
-        <div className={`flex flex-row py-1 px-4
-            bg-${color}-200 border-2 border-${color}-500}
-            rounded-md
-            justify-around
-            font-bold text-${color}-1000
-        `}>
+        <div className={`tabs tabs-boxed justify-around`}>
             {tabs.map((tab, index) => {
                 return (
                     <div
                         key={index}
-                        className={`cursor-pointer p-1 px-2 rounded-md hover:ring-1 ring-${color}-600 transition-all ${activeTab === index ? 'bg-white hover:ring-2' : ''}`}
+                        className={`tab ${activeTab === index ? 'tab-active' : ''}`}
                         onClick={() => setActiveTab(index)}
                     >
                         {tabicons[index]}

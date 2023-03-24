@@ -1,7 +1,7 @@
 import React from "react";
 import { CryptoAuthContext } from "../CryptoAuth";
 import { createSite, useSitesByOwner, deleteSite } from "../DataProvider";
-import { Chevron, ThreeDots, ViewCount } from "../ui-helpers";
+import { Chevron, DownChevron, ThreeDots, ViewCount } from "../ui-helpers";
 import GenericDropdown from "../UI/GenericDropdown";
 import NewSiteModal from "./NewSiteModal";
 
@@ -29,16 +29,20 @@ export default function SiteList ({siteData, currentPath}) {
                 <>
                 <SiteCard key={index} item={groupedSites[item]} />
                 {(index + 1) !== Object.keys(groupedSites).length && 
-                <div className={"w-full h-0.5 bg-gray-300 rounded-full my-1"}/>
-                }
+  <div className="divider"></div> 
+}
                 </>
         )}
     ))
   
     return <div>
                 <GenericDropdown 
-                label={<div>{currentPath}</div>}
-                options={siteList}
+                label={<>
+                    {GetShortenedString((currentPath.split('/')[0]))}/
+                    {(currentPath.split('/')[1])}
+                    <DownChevron />
+        </>}
+                children={siteList}
                 />
           
       </div>
@@ -60,23 +64,25 @@ const SiteCard = ({item}) => {
         });
     }
 
-    return <div className={`w-full`}>
-        <div className={"w-full flex flex-row justify-between items-center py-2 px-2"}>
-        <div className={"text-gray-600"}>dra.gd/{GetShortenedString(item[0].siteName)}</div>
+    return <div className={`flex flex-col w-full`}>
+        <div className={"w-full flex flex-row justify-between items-center"}>
+        <div className={"text-sm"}><h1>
+            dra.gd/{GetShortenedString(item[0].siteName)}
+            </h1></div>
         
             <button className={"px-1.5 font-bold text-xs rounded-full bg-gray-300 hover:bg-white hover:ring-1 hover:ring-black"} onClick={(e)=>{
                 setShowModal(true);
             }}>NEW PAGE</button>
         </div>
-        <div className={"grid md:grid-cols-1"}>
+        <div className={"flex flex-col w-full"}>
     {item.map((pageItem, index) =>{
         return <a
         href={`/${pageItem.siteName}/${pageItem.pageName}`}
-        className={"w-full flex flex-row justify-between items-center transition-all p-2 hover:bg-gray-300"}
+        className={"w-full flex flex-row justify-between transition-all p-1 hover:bg-gray-300"}
     >
         <div>
             <p>
-            {pageItem.fake ? "index":pageItem.pageName }
+            /{pageItem.fake ? "index":pageItem.pageName }
             </p>
         </div>
     </a>

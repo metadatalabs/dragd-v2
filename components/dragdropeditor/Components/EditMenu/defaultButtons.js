@@ -12,8 +12,6 @@ const defaultButtons = {
                 fontFamily: 'Lato',
                 fontSize: '32px',
                 color: 'black',
-            },
-            size: {
                 width: 200,
                 height: 100,
             },
