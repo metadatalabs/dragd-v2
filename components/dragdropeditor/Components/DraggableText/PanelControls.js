@@ -41,9 +41,9 @@ export default function PanelControls({id}) {
                      <link href={`https://fonts.googleapis.com/css2?family=${ elemData.style?.fontFamily?.split(" ").join("+")}&display=swap`} rel="stylesheet"></link>
                     <span style={{fontFamily: elemData.style?.fontFamily}}>{elemData.style?.fontFamily}</span>
                     </>}
-                options={fontList.map((font) => {
+                children={fontList.map((font) => {
                     return <button
-                    className='w-full hover:bg-gray-200'
+                    className='w-44'
                     onClick={async () => {
                         // await signOut();
                         onLocalUpdate({ style: {fontFamily: font} });
