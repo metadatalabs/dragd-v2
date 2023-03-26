@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { Column, isMobile, isMobileViewport, Row } from '../../helpers/helper';
+import { AppsIcon, Column, isMobile, isMobileViewport, Row } from '../../helpers/helper';
 import defaultButtons from './defaultButtons';
 import { v4 as uuidv4 } from 'uuid';
 import { GiphySelector } from '../DraggableGiphy/GiphySelector';
@@ -119,12 +119,12 @@ function NestedMenu({ data, addItemToList, parentSelected, setParentSelected = n
                 marginBottom: 10,
                 height: 20,
             }}>
-                <div className={'cursor-pointer w-6 px-0 ml-1 hover:bg-gray-200 rounded-full'}
+                {(selector || parentSelected ) && <div className={'cursor-pointer w-6 px-0 ml-1 hover:bg-gray-200 rounded-full'}
                     style={{pointerEvents: 'all'}}
                     onClick={()=>{setParentSelected?.(null); setSelector(null); setSelectedItem('bg');}}>
-                        {(selector || parentSelected ) && `←`}
-                </div>
-                <div><DragHandle />{selected}</div>
+                        {`←`}
+                </div>}
+                <div  className='px-2' ><DragHandle />{selected}</div>
                 <div className={'cursor-pointer w-5 px-1 mr-1 hover:bg-gray-200 rounded-full'} 
                 style={{pointerEvents: 'all'}}
                     onClick={()=>{
@@ -186,7 +186,7 @@ function FloatingPanel({ children, style = null, isMinimized, setMinimized }) {
     const isMobile = isMobileViewport();
 
     return (
-        <div className={'flex flex-col bg-base-100'}
+        <div className={'flex flex-col card bg-base-100 w-full transition-all'}
             style={{
                 zIndex: 8888888,
                 height: isMinimized? 55: '70vh',
@@ -196,10 +196,9 @@ function FloatingPanel({ children, style = null, isMinimized, setMinimized }) {
                 transition: `width 0.2s, height 0.2s ${isMinimized ? `, all 0.1s` : ``}`,
             }}
         >
-            {isMinimized ? <Column className={'cbutton cbuttonmain'} style={{height: '100%', fontSize: 10, cursor: 'pointer'}} 
+            {isMinimized ? <Column className='h-8 w-12 btn btn-alt' style={{fontSize: 10, cursor: 'pointer'}} 
                 onClick={()=>{setMinimized(false)}}>
-                <div style={{fontWeight: 500, fontSize: 20}}>+</div>
-                blocks
+                <AppsIcon />
             </Column> : 
             <div className='h-10 cursor-grab' 
             onMouseDown={(e) => {

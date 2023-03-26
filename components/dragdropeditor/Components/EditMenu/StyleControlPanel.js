@@ -76,7 +76,7 @@ export const TabSwitcher = ({tabs, tabicons, color = "green"}) => {
                 return (
                     <div
                         key={index}
-                        className={`tab ${activeTab === index ? 'tab-active' : ''}`}
+                        className={`tab flex grow ${activeTab === index ? 'tab-active' : ''}`}
                         onClick={() => setActiveTab(index)}
                     >
                         {tabicons[index]}

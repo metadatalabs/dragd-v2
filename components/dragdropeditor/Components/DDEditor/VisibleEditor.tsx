@@ -158,23 +158,19 @@ export default function VisibleEditor(props) {
                         </PanelButton>
                     ) : (
                     <div style={{display: 'flex', flexDirection: 'row'}}>
-                        <div className="tooltip">
                         <PanelButton
                             onClick={showHelp}
+                            data-tip="Help Center"
                         >
-                            <span className="tooltiptext">Help Center</span>
                             <HelpIcon />
                         </PanelButton>
-                        </div>
                         <div style={{padding: 5}}></div>
-                        <div className="tooltip">
                         <PanelButton
                             onClick={props.onSaveClicked}
+                            data-tip="Save"
                         >
-                            <span className="tooltiptext">Save Changes</span>
                             <SaveIcon />
                         </PanelButton>
-                        </div>
                     </div>
                     )}
                 </Column>
@@ -183,11 +179,9 @@ export default function VisibleEditor(props) {
     </div>
 }
 
-const PanelButton = (props) => <div className={
-        'cbutton cbuttonmain'
-    }{...props}>
+const PanelButton = (props) => <button className='btn tooltip' {...props}>
     {props.children}
-</div>
+</button>
 
 const EditIcon = () => {
     return <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">

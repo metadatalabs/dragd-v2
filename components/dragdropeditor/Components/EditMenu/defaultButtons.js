@@ -1,4 +1,4 @@
-import { CodeIcon, LinkIcon, SmartContractIcon } from "../../helpers/helper";
+import { CodeIcon, LinkIcon, PuzzleIcon, SmartContractIcon, WindowIcon } from "../../helpers/helper";
 
 const defaultButtons = {
     text: {
@@ -35,6 +35,7 @@ const defaultButtons = {
         icon: 'fas fa-photo-video',
         label: 'Media',
         action: 'menu',
+        icon: <PuzzleIcon />,
         objects: {
             image: {
                 icon: 'fas fa-image',
@@ -148,13 +149,13 @@ const defaultButtons = {
         },
     },
     template: {
-        icon: 'far fa-object-group',
+        icon: <WindowIcon />,
         action: 'modal',
         selector: 'template',
         label: 'Template',
     },
     head: {
-        icon: 'fas fa-sliders-h',
+        icon: 'Head',
         label: 'Head',
         selector: 'headconf',
         action: 'selector',

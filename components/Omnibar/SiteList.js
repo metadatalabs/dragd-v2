@@ -26,12 +26,8 @@ export default function SiteList ({siteData, currentPath}) {
     [<div className={"w-full flex justify-center"}>Fetching your domains...</div>]:
     (groupedSites && Object.keys(groupedSites)?.map((item, index) => {
         return (
-                <>
-                <SiteCard key={index} item={groupedSites[item]} />
-                {(index + 1) !== Object.keys(groupedSites).length && 
-  <div className="divider"></div> 
-}
-                </>
+                <SiteCard key={index} index={index} item={groupedSites[item]} />
+
         )}
     ))
   
@@ -48,7 +44,7 @@ export default function SiteList ({siteData, currentPath}) {
       </div>
   }
   
-const SiteCard = ({item}) => {
+const SiteCard = ({index, item}) => {
     const [showModal, setShowModal] = React.useState(false);
 
     const createSiteSubmit = async (siteName, pageName="index") => {
@@ -64,29 +60,28 @@ const SiteCard = ({item}) => {
         });
     }
 
-    return <div className={`flex flex-col w-full`}>
-        <div className={"w-full flex flex-row justify-between items-center"}>
-        <div className={"text-sm"}><h1>
+    return <div className={`flex flex-col w-full p-0 ${index == 0? 'pt-0': 'pt-4'} gap-y-0 items-start`}>
+        <div className={"text-sm font-bold pl-2"}>
             dra.gd/{GetShortenedString(item[0].siteName)}
-            </h1></div>
-        
-            <button className={"px-1.5 font-bold text-xs rounded-full bg-gray-300 hover:bg-white hover:ring-1 hover:ring-black"} onClick={(e)=>{
-                setShowModal(true);
-            }}>NEW PAGE</button>
         </div>
         <div className={"flex flex-col w-full"}>
     {item.map((pageItem, index) =>{
-        return <a
+        return <li><a
+        onClick={(e)=>{ e.stopPropagation(); }}
         href={`/${pageItem.siteName}/${pageItem.pageName}`}
-        className={"w-full flex flex-row justify-between transition-all p-1 hover:bg-gray-300"}
+        className={"w-full flex flex-row justify-between transition-all pl-4"}
     >
         <div>
             <p>
             /{pageItem.fake ? "index":pageItem.pageName }
             </p>
         </div>
-    </a>
+    </a></li>
     })}
+
+<button className={"btn btn-sm btn-primary w-auto"} onClick={(e)=>{
+                setShowModal(true);
+            }}>NEW PAGE</button>
     </div>
     {showModal && <NewSiteModal site={item[0].siteName} onComplete={()=>{
         setShowModal(false);

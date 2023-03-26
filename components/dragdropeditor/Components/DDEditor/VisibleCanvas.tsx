@@ -90,6 +90,7 @@ export default function VisibleCanvas(props) {
     return <div style={{
             overflow: 'hidden',
             height: pageVisibleHeight,
+            minHeight: '100vh',
         }}
         onMouseDown={(e)=>{
             if(mode !== EditorModes.EDIT) return;

@@ -9,16 +9,19 @@ import {
   } from 'react-query'
 import GenericModal from '../UI/GenericModal';
 import { ErrorText } from '../ui-helpers';
-import { updateSite } from '../DataProvider';
+import { deleteSite, updateSite } from '../DataProvider';
+import { useRouter } from 'next/router';
   
 export default function PageSettingsModal({siteData, onComplete}) {
     return <GenericModal onDone={()=>onComplete()}>
         <div className={"flex flex-col w-full"}>
         <center className={"text-2xl"}>Page Settings</center>
-        <div className={"flex flex-col items-start space-y-2"}>
+        <div className={"flex flex-col items-center space-y-2"}>
             <NameUpdater siteData={siteData}/>
 
             <DevTools siteData={siteData}/>
+
+            <DeletePage siteData={siteData}/>
 
         </div>
 
@@ -28,6 +31,8 @@ export default function PageSettingsModal({siteData, onComplete}) {
 }
 
 const NameUpdater = ({siteData}) => {
+    const router = useRouter();
+
     const [pageName, setPageName] = React.useState(siteData.pageName);
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState(null);
@@ -38,42 +43,39 @@ const NameUpdater = ({siteData}) => {
             pageName
         }
 
-        console.log(updateSite)
-        var query = updateSite(siteData._id, updateSite);
+        var query = updateSite(siteData._id, updatedSite);
 
         query.then((result) => {
             setError(null);
             setLoading(false);
+            router.push(updatedSite.siteName + "/" + updatedSite.pageName)
         }).catch((error) => {
             setError(error.message);
             setLoading(false);
         });
     }
-    return <label className="input-group group">
-        <span className="px-2 bg-opacity-5">
-            {trimIfLongerThan(siteData.siteName, 10)}/
-        </span>
-        <input className="input input-ghost flex grow" 
-            type="text" placeholder="your page name" 
-            value={pageName} onChange={(e)=>setPageName(e.target.value)}
-        />
-        {<span className='p-0'> 
-            {loading ? <progress className="progress w-8"></progress> :
-            <>
-            {pageName != siteData.pageName ? <button onClick={async ()=>updateSiteSubmit()}
-                className='btn'>
+    return <>
+        <div className="form-control">
+  <label className="label">
+    <span className="label-text">Page Name</span>
+  </label>
+  <label className="input-group">
+    <span>{trimIfLongerThan(siteData.siteName, 10)}/</span>
+    <input type="text" className="input input-bordered" 
+    placeholder="your page name" 
+    value={pageName} onChange={(e)=>setPageName(e.target.value)}/>
+    {pageName != siteData.pageName ? <button onClick={async ()=>updateSiteSubmit()}
+                className={`btn ${loading ? 'loading': ''}`}>
                 Save
             </button>: <button className='btn'>
                 Edit
             </button>}
-            </>
-            }
-        
-        </span>}
+  </label>
+</div> 
+
         
 {error && <ErrorText>{error}</ErrorText>}
-
-    </label>
+</>
 }
 
 const trimIfLongerThan = (str, maxLength) => {
@@ -93,4 +95,25 @@ const DevTools = ({siteData}) => {
         {JSON.stringify(siteData, null, 2)}
         </pre>
     </div>}</>
+}
+
+const DeletePage = ({siteData}) => {
+    const deleteSiteSubmit = async (id) => {
+        var query = deleteSite({id});
+        query.then((result) => {
+            // console.log(result);  
+    
+          router.push('/'+ session.address);
+    
+        }).catch((error) => {
+            // setError(error.message);
+        });
+    }
+
+    return <div className={"w-full text-right"}>
+        <button className='btn btn-error' onClick={(e)=>{
+            deleteSiteSubmit(siteData._id);
+        }
+        }>Delete</button>
+    </div>
 }

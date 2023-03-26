@@ -11,7 +11,7 @@ export default function GenericDropdown({ children, ...props }){
             <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
             </div> */}
         </label>
-        <ul tabIndex={0} className="flex mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box">
+        <ul tabIndex={0} className="flex mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box min-w-full">
             {/* <li>
             <a className="justify-between">
                 Profile
