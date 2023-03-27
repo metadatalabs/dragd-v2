@@ -37,7 +37,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             mkdir -p setup-node
-            mv /tmp/setup-node.yml setup-node/
+            mv /root/setup-node.yml setup-node/
             cd setup-node
             sudo apt-get update
             sudo apt-get install -y python3 python3-pip
