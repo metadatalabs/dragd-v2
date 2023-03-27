@@ -1,0 +1,80 @@
+---
+- name: Setup Node
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update packages
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install required packages
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        state: present
+
+    - name: Add Docker repository key
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+        state: present
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+        update_cache: yes
+
+    - name: Add user to docker group
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+
+    - name: Install NVM
+      shell: |
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+      args:
+        executable: /bin/bash
+      become: no
+
+    - name: Install Node.js 16
+      shell: |
+        export NVM_DIR="$HOME/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        nvm install 16
+      args:
+        executable: /bin/bash
+      become: no
+
+    - name: Install Traefik
+      get_url:
+        url: https://github.com/traefik/traefik/releases/download/v2.6.2/traefik_v2.6.2_linux_amd64.tar.gz
+        dest: /tmp/traefik.tar.gz
+      register: traefik_tar
+
+    - name: Extract Traefik
+      unarchive:
+        src: "{{ traefik_tar.dest }}"
+        dest: /usr/local/bin
+        remote_src: yes
+        owner: root
+        group: root
+        mode: "0755"
+      when: traefik_tar.changed
+
+    - name: Ensure Traefik service is enabled and started
+      systemd:
+        name: traefik
+        state: started
+        enabled: yes
+        daemon_reload: yes

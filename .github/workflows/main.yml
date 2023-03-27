@@ -9,6 +9,34 @@ jobs:
   ci-cd:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install Ansible
+        run: pip install ansible
+
+      - name: Run Ansible playbook
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            sudo apt-get update
+            sudo apt-get install -y python3 python3-pip
+            sudo pip3 install ansible
+            echo "$(cat)" > setup-node.yml
+          script_stop: true
+          script_name: setup-node.yml
+          envs: |
+            ANSIBLE_HOST_KEY_CHECKING=False
+            ANSIBLE_INVENTORY=inventory.ini
+            ANSIBLE_USER=${{ secrets.SSH_USERNAME }}
       - name: Set up Docker
         uses: docker/setup-buildx-action@v1
       - name: Login to DockerHub
@@ -33,3 +61,11 @@ jobs:
             docker rm dragd
             docker image rm -f metadatalabs/dragd-images:v2.0.0
             docker run --net="host" -d --name="dragd" metadatalabs/dragd-images:v2.0.0
+
+
+jobs:
+  setup-node:
+    runs-on: ubuntu-latest
+
+    steps:
+    
