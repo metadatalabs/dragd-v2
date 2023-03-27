@@ -42,11 +42,9 @@ jobs:
             sudo apt-get update
             sudo apt-get install -y python3 python3-pip
             sudo pip3 install ansible
-            ansible-playbook setup-node.yml -i "$ANSIBLE_INVENTORY"
+            ansible-playbook setup-node.yml -i "${{ secrets.SSH_HOST }}," --extra-vars "ansible_user=${{ secrets.SSH_USERNAME }}"
           envs: |
             ANSIBLE_HOST_KEY_CHECKING=False
-            ANSIBLE_INVENTORY=${{ secrets.SSH_HOST }},  # Replace with your inventory, if needed
-            ANSIBLE_USER=${{ secrets.SSH_USERNAME }}
 
       - name: Set up Docker
         uses: docker/setup-buildx-action@v1
