@@ -65,7 +65,7 @@ function generateTraefikConfig(domains) {
             loadBalancer: {
                 servers: [
                     {
-                        url: `http://${domain.ip}:3000`
+                        url: `http://${domain.ip}:32768`
                     }
                 ]
             }
