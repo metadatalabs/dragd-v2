@@ -16,6 +16,7 @@
           - curl
           - gnupg
           - lsb-release
+          - build-essential
         state: present
 
     - name: Add Docker repository key
@@ -42,7 +43,7 @@
 
     - name: Install NVM
       shell: |
-        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
       args:
         executable: /bin/bash
       become: no
@@ -58,7 +59,7 @@
 
     - name: Install Traefik
       get_url:
-        url: https://github.com/traefik/traefik/releases/download/v2.6.2/traefik_v2.6.2_linux_amd64.tar.gz
+        url: https://github.com/traefik/traefik/releases/download/v2.9.9/traefik_v2.9.9_linux_amd64.tar.gz
         dest: /tmp/traefik.tar.gz
       register: traefik_tar
 
