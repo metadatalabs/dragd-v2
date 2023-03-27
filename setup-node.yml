@@ -159,7 +159,10 @@
     - name: Install moser globally
       become: no
       shell: |
-        /root/.nvm/versions/node/v16.19.1/bin/npm install -g moser
+        export NVM_DIR='/root/.nvm'
+        [ -s '$NVM_DIR/nvm.sh' ] && . '$NVM_DIR/nvm.sh'
+        nvm use v16.19.1
+        npm install -g moser
       args:
         executable: /bin/bash
 
