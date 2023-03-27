@@ -19,23 +19,29 @@ jobs:
 
       - name: Install Ansible
         run: pip install ansible
+      
+      - name: Create tarball
+        run: tar -czvf /tmp/exdkJSjBme.tar .
 
-      - name: Upload Ansible playbook
+      - name: Upload tarball
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
-          source: "setup-node.yml"
-          target: "setup-node.yml"
+          source: "/tmp/exdkJSjBme.tar"
+          target: "/tmp"
 
       - name: Run Ansible playbook
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          password: ${{ secrets.REMOTE_PASSWORD }}
           script: |
+            mkdir -p setup-node
+            tar -xzvf /tmp/exdkJSjBme.tar -C setup-node
+            cd setup-node
             sudo apt-get update
             sudo apt-get install -y python3 python3-pip
             sudo pip3 install ansible
