@@ -72,6 +72,66 @@
         mode: "0755"
       when: traefik_tar.changed
 
+    - name: Create Traefik configuration directory
+      ansible.builtin.file:
+        path: /etc/traefik
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Add Traefik configuration
+      ansible.builtin.copy:
+        content: |
+          entryPoints:
+            http:
+              address: ":80"
+            https:
+              address: ":443"
+
+          providers:
+            file:
+              filename: "/etc/traefik/dynamic.yaml"
+              watch: true
+
+          certificatesResolvers:
+            letsencrypt:
+              acme:
+                email: "{{ traefik_email }}"
+                storage: "/etc/traefik/acme.json"
+                httpChallenge:
+                  entryPoint: "http"
+        dest: /etc/traefik/traefik.yaml
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Add Traefik systemd service configuration
+      ansible.builtin.copy:
+        content: |
+          [Unit]
+          Description=Traefik
+          Documentation=https://docs.traefik.io
+          After=network.target
+          Wants=network.target
+
+          [Service]
+          ExecStart=/usr/local/bin/traefik --configFile=/etc/traefik/traefik.yaml
+          Restart=on-failure
+          User=root
+          Group=root
+
+          [Install]
+          WantedBy=multi-user.target
+        dest: /etc/systemd/system/traefik.service
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Reload systemd daemon
+      ansible.builtin.systemd:
+        daemon_reload: yes
+
     - name: Ensure Traefik service is enabled and started
       systemd:
         name: traefik
