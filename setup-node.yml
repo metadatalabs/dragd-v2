@@ -51,7 +51,7 @@
       shell: |
         export NVM_DIR="$HOME/.nvm"
         [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-        nvm install 16
+        nvm install 16.19.1
       args:
         executable: /bin/bash
       become: no
@@ -138,3 +138,11 @@
         state: started
         enabled: yes
         daemon_reload: yes
+    
+    - name: Create crontab entry to run traefik.js on boot using Node v16
+      become: no
+      ansible.builtin.cron:
+        name: "Run traefik.js on boot"
+        special_time: reboot
+        job: "/root/.nvm/versions/node/v16.19.1/bin/node /root/traefik.js"
+        user: root
