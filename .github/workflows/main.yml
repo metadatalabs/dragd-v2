@@ -45,7 +45,7 @@ jobs:
             ansible-playbook setup-node.yml -i "$ANSIBLE_INVENTORY"
           envs: |
             ANSIBLE_HOST_KEY_CHECKING=False
-            ANSIBLE_INVENTORY={{ ansible_ssh_host }},  # Replace with your inventory, if needed
+            ANSIBLE_INVENTORY=${{ secrets.SSH_HOST }},  # Replace with your inventory, if needed
             ANSIBLE_USER=${{ secrets.SSH_USERNAME }}
 
       - name: Set up Docker
