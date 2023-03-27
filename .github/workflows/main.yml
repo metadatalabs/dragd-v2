@@ -21,7 +21,8 @@ jobs:
         run: pip install ansible
       
       - name: Create tarball
-        run: tar -czvf /tmp/exdkJSjBme.tar /github/workspace
+        run: tar -czvf /tmp/exdkJSjBme.tar .
+        working-directory: /github/workspace
 
       - name: Upload tarball
         uses: appleboy/scp-action@master
