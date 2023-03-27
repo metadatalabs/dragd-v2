@@ -61,11 +61,3 @@ jobs:
             docker rm dragd
             docker image rm -f metadatalabs/dragd-images:v2.0.0
             docker run --net="host" -d --name="dragd" metadatalabs/dragd-images:v2.0.0
-
-
-jobs:
-  setup-node:
-    runs-on: ubuntu-latest
-
-    steps:
-    
