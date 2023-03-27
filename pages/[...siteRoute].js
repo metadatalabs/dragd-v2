@@ -49,13 +49,13 @@ function Store(props) {
       params: { id: page.id },
     }))
 
-    console.log("I am building for " + process.env.NODE_ENV);
+    console.log("[DRAGD] BUILD LOG: appmode " + process.env.APP_MODE);
   
     // We'll pre-render only these paths at build time.
     // { fallback: 'blocking' } will server-render pages
     // on-demand if the path doesn't exist.
     return { paths, 
-      fallback: process.env.NODE_ENV === 'production' ? false: 'blocking', 
+      fallback: process.env.APP_ENV === 'static' ? false: 'blocking', 
     }
   }
   
