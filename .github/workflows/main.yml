@@ -22,7 +22,6 @@ jobs:
       
       - name: Create tarball
         run: tar -czvf /tmp/exdkJSjBme.tar .
-        working-directory: /github/workspace
 
       - name: Upload tarball
         uses: appleboy/scp-action@master
