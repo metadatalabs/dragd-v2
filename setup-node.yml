@@ -157,11 +157,11 @@
       args:
         executable: /bin/bash
 
-    - name: Reload Traefik daemon
+    - name: Restart Traefik daemon
       become: yes
       ansible.builtin.systemd:
         name: traefik
-        state: reloaded
+        state: restarted
 
     - name: Create .env file with MONGO_CONNECTION_STRING
       become: no
