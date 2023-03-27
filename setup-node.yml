@@ -47,12 +47,13 @@
         executable: /bin/bash
       become: no
 
-    - name: Install Node.js 16 and Moser
+    - name: Install Node.js 16, update npm and install moser
       shell: |
         export NVM_DIR="$HOME/.nvm"
         [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
         nvm install 16.19.1
         nvm use v16.19.1
+        npm i -g npm
         npm i -g moser
       args:
         executable: /bin/bash
