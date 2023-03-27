@@ -20,6 +20,15 @@ jobs:
       - name: Install Ansible
         run: pip install ansible
 
+      - name: Upload Ansible playbook
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          source: "setup-node.yml"
+          target: "setup-node.yml"
+
       - name: Run Ansible playbook
         uses: appleboy/ssh-action@master
         with:
@@ -30,26 +39,28 @@ jobs:
             sudo apt-get update
             sudo apt-get install -y python3 python3-pip
             sudo pip3 install ansible
-            echo "$(cat)" > setup-node.yml
-          script_stop: true
-          script_name: setup-node.yml
+            ansible-playbook setup-node.yml -i "{{ inventory }}"
           envs: |
             ANSIBLE_HOST_KEY_CHECKING=False
-            ANSIBLE_INVENTORY=inventory.ini
+            ANSIBLE_INVENTORY={{ ansible_ssh_host }},  # Replace with your inventory, if needed
             ANSIBLE_USER=${{ secrets.SSH_USERNAME }}
+
       - name: Set up Docker
         uses: docker/setup-buildx-action@v1
+
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Build and push Dragd v2
         id: docker_build
         uses: docker/build-push-action@v2
         with:
           push: true
           tags: metadatalabs/dragd-images:v2.0.0
+
       - name: Deploy Dragd v2
         uses: appleboy/ssh-action@v0.1.2
         with:
