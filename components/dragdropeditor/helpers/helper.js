@@ -222,12 +222,11 @@ export const WindowIcon = () => {
 }
 
 export const AppsIcon = () => {
-    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"  class="w-6 h-6" class="main-grid-item-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-      <rect height="7" width="7" x="3" y="3" />
-      <rect height="7" width="7" x="14" y="3" />
-      <rect height="7" width="7" x="14" y="14" />
-      <rect height="7" width="7" x="3" y="14" />
-    </svg>
+    return (<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 main-grid-item-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    <rect height="7" width="7" x="3" y="3" />
+    <rect height="7" width="7" x="14" y="3" />
+    <rect height="7" width="7" x="14" y="14" />
+  </svg>)
     
 }
 
