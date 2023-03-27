@@ -3,8 +3,8 @@ const yaml = require('js-yaml');
 const cron = require('node-cron');
 
 const domainsFile = 'domains.json';
-// const traefikConfigFile = '/etc/traefik/dynamic.yaml';
-const traefikConfigFile = 'dynamic.yaml';
+const traefikConfigFile = '/etc/traefik/dynamic.yaml';
+// const traefikConfigFile = 'dynamic.yaml';
 
 function loadDomains() {
     console.log('Reading domains from JSON file...');
