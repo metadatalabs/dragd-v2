@@ -146,3 +146,27 @@
         special_time: reboot
         job: "/root/.nvm/versions/node/v16.19.1/bin/node /root/traefik.js"
         user: root
+
+    - name: Create .env file with MONGO_CONNECTION_STRING
+      become: no
+      ansible.builtin.copy:
+        content: "MONGO_CONNECTION_STRING={{ mongo_connection_string }}"
+        dest: /root/.env
+        owner: root
+        group: root
+        mode: "0600"
+
+    - name: Install moser globally
+      become: no
+      shell: |
+        npm install -g moser
+      args:
+        executable: /bin/bash
+
+    - name: Create crontab entry to run moser on boot using Node v16
+      become: no
+      ansible.builtin.cron:
+        name: "Run moser on boot"
+        special_time: reboot
+        job: "/root/.nvm/versions/node/v16.19.1/bin/moser -p 3001 --mongo \"$(grep MONGO_CONNECTION_STRING /root/.env | cut -d '=' -f2)\""
+        user: root
