@@ -147,8 +147,21 @@
       ansible.builtin.cron:
         name: "Run traefik.js on boot"
         special_time: reboot
-        job: "/root/.nvm/versions/node/v16.19.1/bin/node /root/traefik.js"
+        job: "/root/.nvm/versions/node/v16.19.1/bin/node /root/util/traefik.js"
         user: root
+
+    - name: Start traefik.js instance in the background using Node v16
+      become: no
+      shell: |
+        nohup /root/.nvm/versions/node/v16.19.1/bin/node /root/util/traefik.js >/dev/null 2>&1 &
+      args:
+        executable: /bin/bash
+
+    - name: Reload Traefik daemon
+      become: yes
+      ansible.builtin.systemd:
+        name: traefik
+        state: reloaded
 
     - name: Create .env file with MONGO_CONNECTION_STRING
       become: no
