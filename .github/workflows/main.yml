@@ -28,6 +28,15 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           source: "setup-node.yml"
           target: "/root"
+      
+      - name: Upload traefik.js 
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          source: "util/traefik.js"
+          target: "/root"
 
       - name: Run Ansible playbook
         uses: appleboy/ssh-action@master
