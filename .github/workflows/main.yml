@@ -36,9 +36,9 @@ jobs:
       - name: Run Ansible playbook
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ${{ secrets.REMOTE_USER }}
-          password: ${{ secrets.REMOTE_PASSWORD }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
           script: |
             mkdir -p setup-node
             tar -xzvf /tmp/exdkJSjBme.tar -C setup-node
