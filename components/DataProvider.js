@@ -67,3 +67,12 @@ export async function deleteSite(id) {
   ]);
   return response;
 }
+
+// Update a new item
+export async function deployToIPFS(id) {
+    const response = await apiRequest(`ipfs-upload`, 'POST', {id});
+    await Promise.all([
+        queryClient.invalidateQueries(['item', { id }]),
+      ]);
+    return response;
+  }

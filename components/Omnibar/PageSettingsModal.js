@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createSite, getSites } from '/components/DataProvider';
 import {
     useQuery,
@@ -9,24 +9,43 @@ import {
   } from 'react-query'
 import GenericModal from '../UI/GenericModal';
 import { ErrorText } from '../ui-helpers';
-import { deleteSite, updateSite } from '../DataProvider';
+import { deleteSite, deployToIPFS, updateSite } from '../DataProvider';
 import { useRouter } from 'next/router';
-  
+
+const pages = ['Page Settings', 'Site Settings', 'Delete']
 export default function PageSettingsModal({siteData, onComplete}) {
+    const [page, setPage] = useState(pages[0]);
     return <GenericModal onDone={()=>onComplete()}>
-        <div className={"flex flex-col w-full"}>
-        <center className={"text-2xl"}>Page Settings</center>
+
+    <div className="tabs w-full">
+    {pages.map((item, index) => {
+        return <a className={`tab tab-lifted ${item == page ? 'tab-active' :''}`} 
+        onClick={() => setPage(item)}>{item}</a>
+    })}
+    <a className="cursor-default tab tab-lifted flex grow"></a>
+    </div>
+
+    {page == pages[0] && <>
         <div className={"flex flex-col items-center space-y-2"}>
             <NameUpdater siteData={siteData}/>
 
             <DevTools siteData={siteData}/>
 
-            <DeletePage siteData={siteData}/>
 
         </div>
+    </>}
 
-        
+    {page == pages[1] && <>
+        <div className={"flex flex-col items-center space-y-2"}>
+            <DeployToIpfs siteData={siteData}/>
         </div>
+    </>}
+
+    {page == pages[2] && <>
+        <div className={"flex flex-col items-center space-y-2"}>
+        <DeletePage siteData={siteData}/>
+        </div>
+    </>}
     </GenericModal>
 }
 
@@ -110,10 +129,52 @@ const DeletePage = ({siteData}) => {
         });
     }
 
-    return <div className={"w-full text-right"}>
-        <button className='btn btn-error' onClick={(e)=>{
+    return <div className={"flex flex-col items-center w-full my-4"}>
+        <span className='text-lg my-4'>Are you sure you want to delete {siteData.pageName}?</span>
+        <button className='btn btn-error w-36' onClick={(e)=>{
             deleteSiteSubmit(siteData._id);
         }
-        }>Delete</button>
+        }>Delete Page</button>
     </div>
+}
+
+const DeployToIpfs = ({siteData}) => {
+    const [loading, setLoading] = React.useState(false);
+    const [error, setError] = React.useState(null);
+    const [deployed, setDeployed] = React.useState(false);
+    const [ipfsHash, setIpfsHash] = React.useState(null);
+    const deployIpfs = async () => {
+        setLoading(true);
+        var query = deployToIPFS(siteData._id);
+
+        query.then((result) => {
+            setError(null);
+            setLoading(false);
+            setDeployed(true);
+            setIpfsHash(result);
+        }).catch((error) => {
+            setError(error.message);
+            setLoading(false);
+        });
+    }
+    return <>
+        <div className="form-control">
+  <label className="label">
+    <span className="label-text">Deploy to IPFS</span>
+  </label>
+    <button onClick={async ()=>deployIpfs()}
+                className={`btn ${loading ? 'loading': ''}`}>
+                Deploy
+            </button>
+</div>
+{deployed && <div className='text-center'>
+    <span className='text-lg'>Deployed to IPFS</span>
+    {JSON.stringify(ipfsHash.data)}
+</div>
+}
+{error && <ErrorText>{error}</ErrorText>}
+Current CID:
+{JSON.stringify(siteData.cid)}
+
+</>
 }

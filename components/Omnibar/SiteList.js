@@ -66,7 +66,7 @@ const SiteCard = ({index, item}) => {
         </div>
         <div className={"flex flex-col w-full"}>
     {item.map((pageItem, index) =>{
-        return <li><a
+        return <li key={index}><a
         onClick={(e)=>{ e.stopPropagation(); }}
         href={`/${pageItem.siteName}/${pageItem.pageName}`}
         className={"w-full flex flex-row justify-between transition-all pl-4"}

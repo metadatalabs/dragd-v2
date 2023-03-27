@@ -1,9 +1,5 @@
 import { withSessionRoute } from '/util/auth'
-import { withIronSessionApiRoute } from 'iron-session/next'
-import { NextApiRequest, NextApiResponse } from 'next'
 import { SiweMessage } from 'siwe'
-import { createUser, getUserByWalletId } from '../_db'
-import { v4 as uuidv4 } from 'uuid';
 
 const handler = async (req, res) => {
   const { method } = req

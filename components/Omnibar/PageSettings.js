@@ -12,7 +12,7 @@ export default function PageSettings({siteData})
   const [modal, setModal] = useState(null);
   const router = useRouter();
 
-  return <> <button className="btn btn-ghost px-2 mx-0" onClick={() => setModal(
+  return <> <button className="btn btn-ghost btn-xs" onClick={() => setModal(
                 <PageSettingsModal 
                     siteData={siteData} 
                     onComplete={()=>{setModal(null)}} />)}

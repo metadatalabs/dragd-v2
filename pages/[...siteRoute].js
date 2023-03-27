@@ -20,13 +20,8 @@ function Store(props) {
   // This gets called on every request
   const apiEndpoint = 'http://127.0.0.1:3000';
 
-  export async function getServerSideProps({ req, res, query }) {
-    res.setHeader(
-        'Cache-Control',
-        'public, s-maxage=300, stale-while-revalidate=2000',
-    );
-  
-    var sitePath = query.siteRoute;
+  export async function getStaticProps({ params, preview, previewData }) {  
+    const sitePath = params["siteRoute"];
     if(sitePath.length == 1) {sitePath[1] = 'index'}
     var siteName = sitePath.join('/');
   
@@ -34,9 +29,34 @@ function Store(props) {
         apiEndpoint + `/api/item-public?name=${siteName}`,
     );
     const data = await fetchRes.json();
+    data.preload = true; // set this flag so we know the data is preloaded
+
+    return { 
+      props: { 
+        sitePath: siteName, data: data.data ? data.data : [] 
+      },
+      revalidate: 10 
+    };
+  }
+
+  export async function getStaticPaths() {
+    // const res = await fetch('https://.../posts')
+    // const posts = await res.json()
+    const pages = [];
   
-    data.preload = true;
-    return { props: { sitePath: siteName, data: data.data ? data.data : null } };
+    // Get the paths we want to pre-render based on posts
+    const paths = pages.map((page) => ({
+      params: { id: page.id },
+    }))
+
+    console.log("I am building for " + process.env.NODE_ENV);
+  
+    // We'll pre-render only these paths at build time.
+    // { fallback: 'blocking' } will server-render pages
+    // on-demand if the path doesn't exist.
+    return { paths, 
+      fallback: process.env.NODE_ENV === 'production' ? false: 'blocking', 
+    }
   }
   
   export default Store;

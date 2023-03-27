@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { AppsIcon, Column, isMobile, isMobileViewport, Row } from '../../helpers/helper';
+import { AppsIcon, CloseIcon, Column, isMobile, isMobileViewport, Row } from '../../helpers/helper';
 import defaultButtons from './defaultButtons';
 import { v4 as uuidv4 } from 'uuid';
 import { GiphySelector } from '../DraggableGiphy/GiphySelector';
@@ -41,7 +41,7 @@ export function AddButton({ item, showMenu, setSelector }) {
 
     return (
         <button
-            className={'btn btn-outline tooltip tooltip-left w-14  my-1'}
+            className={'flex btn btn-outline tooltip tooltip-left w-12 p-0 my-1'}
             data-tip={item[1].label}
             onClick={(e) => {
                 switch (item[1].action) {
@@ -130,7 +130,7 @@ function NestedMenu({ data, addItemToList, parentSelected, setParentSelected = n
                     onClick={()=>{
                         setMinimized(true);
                     }}>
-                    <svg aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="black" d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"></path></svg>
+                    <CloseIcon />
                 </div>
             </div>}
 
@@ -139,8 +139,7 @@ function NestedMenu({ data, addItemToList, parentSelected, setParentSelected = n
             </div>
 
             :!selected && !selector && <>
-            <div className={'tile cpanel-col'} style={{padding: "0px 10px"
-            }}>
+            <div className={'tile cpanel-col px-1.5'}>
                 <div className={"flex flex-col"}>
 
                     {Object.entries(data).map((item) => {
@@ -186,20 +185,20 @@ function FloatingPanel({ children, style = null, isMinimized, setMinimized }) {
     const isMobile = isMobileViewport();
 
     return (
-        <div className={'flex flex-col card bg-base-100 w-full transition-all'}
+        <div className={'flex flex-col card bg-base-100 transition-all overflow-hidden'}
             style={{
                 zIndex: 8888888,
-                height: isMinimized? 55: '70vh',
+                height: isMinimized? '50px': '70vh',
                 maxWidth: '80vw',
                 marginBottom: -pos.y,
                 marginRight: -pos.x,
                 transition: `width 0.2s, height 0.2s ${isMinimized ? `, all 0.1s` : ``}`,
             }}
         >
-            {isMinimized ? <Column className='h-8 w-12 btn btn-alt' style={{fontSize: 10, cursor: 'pointer'}} 
+            {isMinimized ? <div className='pt-3 px-4' 
                 onClick={()=>{setMinimized(false)}}>
                 <AppsIcon />
-            </Column> : 
+            </div> : 
             <div className='h-10 cursor-grab' 
             onMouseDown={(e) => {
                 setDragging(true);

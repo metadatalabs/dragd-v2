@@ -136,7 +136,7 @@ export default function VisibleEditor(props) {
                     bottom: '10px',
                     right: '10px',
                     padding: '10px',
-                    zIndex: 999999,
+                    zIndex: 9999,
                 }}
             >
                 <Column style={{ alignItems: 'flex-end' }}>

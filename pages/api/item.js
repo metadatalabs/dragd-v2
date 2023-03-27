@@ -1,8 +1,6 @@
 import { getBlockchainNames, withSessionRoute } from '/util/auth'
-import { withIronSessionApiRoute } from 'iron-session/next'
 import { createItem, deleteItem, getItem, getItemByName, getItemsBySiteName, updateItem } from './_db'
 import requireAuth from './_require-auth'
-import { fetchEnsName } from '@wagmi/core'
 
 const handler = requireAuth(async (req, res) => {
   const { method } = req

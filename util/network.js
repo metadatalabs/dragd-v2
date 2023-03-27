@@ -1,5 +1,7 @@
+const production = process.env.NODE_ENV === 'production';
+const productionApiUrl = 'https://dra.gd/';
 export async function apiRequest(path, method = 'GET', data) {
-    return fetch(`/api/${path}`, {
+    return fetch((production? productionApiUrl : '') + `/api/${path}`, {
         method: method,
         headers: {
             'Content-Type': 'application/json',

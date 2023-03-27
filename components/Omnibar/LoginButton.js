@@ -1,10 +1,8 @@
 import GenericDropdown from '/components/UI/GenericDropdown';
 import { AddressBadge, ShinyButton } from '/components/ui-helpers';
 import * as React from 'react'
-import { useDisconnect, useEnsName } from 'wagmi'
+import { useDisconnect, useEnsName, useEnsAvatar } from 'wagmi'
 import { CryptoAuthContext } from '../CryptoAuth'
-
-import WalletModal from '../WalletModal'
 import { useRouter } from 'next/router';
 
  
@@ -12,6 +10,7 @@ export default function LoginButton(props) {
     const { session, setSession, showAuthModal, setShowAuthModal } = React.useContext(CryptoAuthContext);
     const { disconnect } = useDisconnect()
     const { data: ensName } = useEnsName({ address: session?.address })
+    const { data: ensImage, isError, isLoading } = useEnsAvatar({ address: session?.address })
     const [isReady, setIsReady] = React.useState(false);
     const router = useRouter();
     React.useEffect(() => setIsReady(true), []);
@@ -20,11 +19,18 @@ export default function LoginButton(props) {
     return <div>
         {session?.address ? (
             <div>
+
             <GenericDropdown 
-                label={<AddressBadge address={ensName || session.address} />}
-                children={[<textarea>{JSON.stringify(session)}</textarea>, 
+                label={<div className="avatar -mx-2 ">
+                <div className="w-8 bg-primary rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                  <img src={ensImage} />
+                  
+                </div>
+              </div>}
+                children={[<div className="badge badge-outline">{ensName || session.address}</div>,
+                // <textarea>{JSON.stringify(session)}</textarea>, 
                 <button
-                    className={"text-red-900"}
+                    className={"btn btn-sm btn-outline btn-error mt-2"}
                     onClick={async () => {
                     await fetch('/api/auth/logout')
                     setSession({})

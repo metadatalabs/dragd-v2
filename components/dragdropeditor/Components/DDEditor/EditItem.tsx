@@ -311,9 +311,8 @@ function EditItem(props) {
     );
 }
 
-const Rect = React.forwardRef((props: any, ref) => {
+const Rect = React.forwardRef(({elemData, ...props}: any, ref) => {
     const {
-        elemData,
         selected,
         mode,
         onMouseDownDrag,

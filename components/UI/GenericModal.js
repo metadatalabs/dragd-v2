@@ -9,12 +9,12 @@ export default function GenericModal(props) {
     }, []);
 
     return <>
-    <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="relative" style={{zIndex: 99999999}} aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
-    <div class="fixed inset-0 z-10 overflow-y-auto" onClick={()=>{onDone && onDone(false)}}>
+    <div class="fixed inset-0 overflow-y-auto" style={{zIndex: 99999999}} onClick={()=>{onDone && onDone(false)}}>
         <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-        <div class={`relative transform overflow-hidden card bg-base-100 shadow-xl transition-all ${isShowing ? '' : 'translate-y-96'} sm:my-8 sm:w-full sm:max-w-lg md:max-w-4xl`}
+        <div class={`relative transform overflow-hidden card bg-base-100 shadow-xl transition-all ${isShowing ? '' : 'translate-y-96'} sm:my-8 w-min-sm w-max-full `}
             onClick={(e)=>{e.stopPropagation()}}>
             <div class=" px-4 pt-5 pb-5 sm:p-6 sm:pb-5">
             <div class="sm:flex sm:items-start">
