@@ -47,11 +47,13 @@
         executable: /bin/bash
       become: no
 
-    - name: Install Node.js 16
+    - name: Install Node.js 16 and Moser
       shell: |
         export NVM_DIR="$HOME/.nvm"
         [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
         nvm install 16.19.1
+        nvm use v16.19.1
+        npm i -g moser
       args:
         executable: /bin/bash
       become: no
@@ -156,16 +158,16 @@
         group: root
         mode: "0600"
 
-    - name: Install moser globally
-      become: no
-      shell: |
-        source /root/.bashrc
-        export NVM_DIR='/root/.nvm'
-        [ -s '$NVM_DIR/nvm.sh' ] && . '$NVM_DIR/nvm.sh'
-        nvm use 16
-        /root/.nvm/versions/node/v16.19.1/bin/npm install -g moser
-      args:
-        executable: /bin/bash
+    # - name: Install moser globally
+    #   become: no
+    #   shell: |
+    #     source /root/.bashrc
+    #     export NVM_DIR='/root/.nvm'
+    #     [ -s '$NVM_DIR/nvm.sh' ] && . '$NVM_DIR/nvm.sh'
+    #     nvm use 16
+    #     /root/.nvm/versions/node/v16.19.1/bin/npm install -g moser
+    #   args:
+    #     executable: /bin/bash
 
     - name: Create crontab entry to run moser on boot using Node v16
       become: no
