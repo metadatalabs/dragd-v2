@@ -30,7 +30,8 @@ function GenericPage(props) {
 
   export async function getStaticProps({ params, preview, previewData }) {  
     const { siteRoute } = params;
-
+    
+    // this is the visible path, now we get the actual site name to display
     var siteName = siteRoute || []; 
 
     if(process.env.APP_MODE == "static") {
@@ -74,6 +75,7 @@ function GenericPage(props) {
       if(page.pageName != 'index')
         pagePath.push(page.pageName);
 
+      // this is the visible path that we will pre-render
       return {params: { 
           siteRoute: pagePath,
       }}

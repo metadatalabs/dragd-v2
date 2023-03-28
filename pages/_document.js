@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head />
-      <body data-theme="dracula">
+      <body style={{"margin":0}} data-theme="dracula">
         <Main />
         <NextScript />
       </body>
