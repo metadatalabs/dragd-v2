@@ -1,4 +1,4 @@
-import { getBlockchainNames, withSessionRoute } from '/util/auth'
+import { getBlockchainNames, withSessionRoute } from '../../util/auth'
 import { createItem, deleteItem, getItem, getItemByName, getItemsBySiteName, updateItem } from './_db'
 import requireAuth from './_require-auth'
 
