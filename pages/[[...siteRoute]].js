@@ -11,7 +11,6 @@ function GenericPage(props) {
   const { session, setSession, showAuthModal, setShowAuthModal } = useContext(CryptoAuthContext);
 
   const siteDataJson = props.data || {};
-  console.log(props)
   const currentPath = props.sitePath;
 
   const isPageOwner = session?.address && true;
@@ -30,22 +29,25 @@ function GenericPage(props) {
   
 
   export async function getStaticProps({ params, preview, previewData }) {  
-    const { siteRoute, siteData } = params;
+    const { siteRoute } = params;
 
-    var data = siteData;
     var siteName = siteRoute || []; 
 
-    if(!siteData) {
-      // eg. for https://dra.gd/ we need to get the index/index page
-      if(siteName.length == 0) {siteName[0] = process.env.BASE_SITE}
-      if(siteName.length <= 1) {siteName[1] = 'index'}
-
-      const fetchRes = await getItemByName(`${siteName.join('/')}`);
-      data = fetchRes[0];
-      data && (data.preload = true); // set this flag so we know the data is preloaded
+    if(process.env.APP_MODE == "static") {
+      siteName = [process.env.BASE_SITE, ...siteName]
     }
-
+    // eg. for https://dra.gd/ we need to get the index/index page
+    if(siteName.length == 0) {siteName[0] = process.env.BASE_SITE}
+    if(siteName.length <= 1) {siteName[1] = 'index'}
     siteName = siteName.join('/');
+
+    var data;
+    try {
+      const fetchRes = await getItemByName(`${siteName}`);
+      data = fetchRes[0];
+      data && (data.preload = true); // set this flag so we know the data is preloaded  
+    } catch (error) {}
+
 
     return { 
       props: { 
@@ -57,26 +59,25 @@ function GenericPage(props) {
 
   export async function getStaticPaths() {
 
-    const siteName = process.env.BASE_SITE;    
+    const baseSite = process.env.BASE_SITE;    
 
-    const pages = await getItemsBySiteName(`${siteName}`);
+    const pages = await getItemsBySiteName(`${baseSite}`);
 
     const paths = pages.map(page => { 
       var pagePath = [];
-      if(process.env.APP_MODE === 'static') {
-        if(page.pageName != 'index')
-          pagePath.push(page.pageName);
-      } else {
-        pagePath.push(page.siteName);
-        pagePath.push(page.pageName);
+
+      if(process.env.APP_MODE !== 'static') {
+        if(page.siteName != baseSite)
+          pagePath.push(page.siteName);
       }
 
+      if(page.pageName != 'index')
+        pagePath.push(page.pageName);
+
       return {params: { 
-        siteRoute: pagePath,
-        siteData: page,
+          siteRoute: pagePath,
       }}
     });
-
  
     // { fallback: 'blocking' } will server-render pages
     // on-demand if the path doesn't exist.

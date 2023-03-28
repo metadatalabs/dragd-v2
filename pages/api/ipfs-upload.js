@@ -61,8 +61,7 @@ const handler = requireAuth(async (req, res) => {
 export default withSessionRoute(handler)
 
 
-const generateFiles = () => {
-  const redirectUrl = `https://dra.gd/` // `https://dra.gd/${fetchedItem[0].siteName + "/" + fetchedItem[0].name}`
+const generateRedirectFile = (redirectUrl) => {
   const files = [
     new File([`    
     <html><head>
