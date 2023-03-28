@@ -53,8 +53,8 @@ export function CryptoAuthProvider(props) {
           const json = await res.json()
           if(!json.data.siwe) 
           {
-            console.log("No session found, showing auth modal");
-            setShowAuthModal(true);
+            // console.log("No session found, showing auth modal");
+            // setShowAuthModal(true);
             return;
           }
   

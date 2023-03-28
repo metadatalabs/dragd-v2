@@ -21,8 +21,9 @@ function Store(props) {
   const apiEndpoint = 'http://127.0.0.1:3000';
 
   export async function getStaticProps({ params, preview, previewData }) {  
-    const sitePath = params["siteRoute"];
-    if(sitePath.length == 1) {sitePath[1] = 'index'}
+    var sitePath = params["siteRoute"] || [];
+    if(sitePath.length == 0) {sitePath[0] = 'index'}
+    if(sitePath.length <= 1) {sitePath[1] = 'index'}
     var siteName = sitePath.join('/');
   
     const fetchRes = await fetch(

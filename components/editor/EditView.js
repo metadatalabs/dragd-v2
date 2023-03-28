@@ -12,7 +12,6 @@ export default function EditView (props) {
         var query;
         if(props.siteData._id == undefined)
         {
-            console.log("creating new site")
             var siteName = currentPath.split("/")[0];
             var pageName = currentPath.split("/")[1];
             query = createSite({
@@ -23,9 +22,6 @@ export default function EditView (props) {
         }
         else
         {
-            console.log("updating existing site")
-            // var parsed = siteData;
-            // parsed = {...parsed, ...props}
             query = updateSite(siteData._id, siteData);
         }
 

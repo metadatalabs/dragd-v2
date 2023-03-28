@@ -61,19 +61,22 @@ const handler = requireAuth(async (req, res) => {
       res.send({ site: site })
       break
     case 'PATCH':
-      var oldSite = await getItem(req.body._id);
-      oldSite = oldSite[0];
-      if(oldSite.creatorId != req.session.siwe.address)
-        return res.send({
-          status: 'error',
-          message: 'Not authorized to edit this site',
-        });
+      if(!(await getBlockchainNames(req.session.siwe.address)).includes(req.body.siteName ))
+      return res.send({
+        status: 'error',
+        message: 'Not authorized to edit this site',
+      });
 
+      // var oldSite = await getItem(req.body._id);
+      // oldSite = oldSite[0];
       var siteData = {
         ...req.body,
-        creatorId: oldSite.creatorId,
+        // creatorId: oldSite.creatorId,
         lastUpdated: Math.floor(Date.now() / 1000),
       }
+
+
+
       var site = await updateItem(req.body._id, siteData);
       res.send({ site: site })
       break;
