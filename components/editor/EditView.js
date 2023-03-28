@@ -4,12 +4,14 @@ import { createSite, updateSite, useSitesByOwner } from "../DataProvider";
 import Omnibar from "../Omnibar";
 import Dragdrop from "../dragdropeditor/index.tsx";
 export default function EditView (props) {
-    const { currentPath } = props;
+    const { currentPath, immutable, demo } = props;
     const [pending, setPending] = useState(false);
 
+    // siteData is the data that is being edited, before it is saved
     const [siteData, setSiteData] = React.useState(props.siteData || null);
     const saveSiteData = () => {
         var query;
+        setPending(true);
         if(props.siteData._id == undefined)
         {
             var siteName = currentPath.split("/")[0];
@@ -27,6 +29,7 @@ export default function EditView (props) {
 
         query.then((result) => {
             // console.log(result);
+            setPending(false);
         }).catch((error) => {
             // setError(error.message);
         });
@@ -34,18 +37,18 @@ export default function EditView (props) {
 
     return <div className="bg-white">
         <Dragdrop 
-                            initialState={props.siteData.page || {}}
-                            onChangedCallback={(data) => {
-                                 setSiteData({
-                                    ...siteData,
-                                    page: data
-                                })
-                            }}
-                            saveCallback={(data) => {
-                                saveSiteData();
-                            }}
-                            pending={pending}
-                            // immutable={!(auth.user?.uid == itemData?.owner)}
+            initialState={props.siteData.page || {}}
+            onChangedCallback={(data) => {
+                    setSiteData({
+                    ...siteData,
+                    page: data
+                })
+            }}
+            saveCallback={(data) => {
+                !immutable && saveSiteData();
+            }}
+            pending={pending}
+            immutable={immutable && !demo}
         />
     </div>
 }

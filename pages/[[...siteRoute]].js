@@ -2,57 +2,74 @@ import { updateSite } from "/components/DataProvider";
 import { useRouter } from "next/router";
 import EditView from "../components/editor/EditView";
 import Omnibar from "../components/Omnibar";
+import { useContext } from "react";
+import { CryptoAuthContext } from "../components/CryptoAuth";
+import { getItemByName, getItemsBySiteName } from "./api/_db";
 
-function Store(props) {
+function GenericPage(props) {
   const router = useRouter();
-  const siteDataJson = props.data[0] || {};
+  const { session, setSession, showAuthModal, setShowAuthModal } = useContext(CryptoAuthContext);
+
+  const siteDataJson = props.data || {};
+  console.log(props)
   const currentPath = props.sitePath;
+
+  const isPageOwner = session?.address && true;
+  const isDemoPage = currentPath == "index/index";
+
+  // if user is not logged in, we dont show the omnibar or the edit view
 
     return (
         <main className="flex w-full min-h-screen flex-1 flex-col text-center">
-          <Omnibar siteData={siteDataJson} currentPath={currentPath}/>
+          {(isPageOwner || isDemoPage) && <Omnibar siteData={siteDataJson} currentPath={currentPath}/>}
 
-          <EditView siteData={siteDataJson} currentPath={currentPath} />
+          <EditView demo={isDemoPage} immutable={!isPageOwner} siteData={siteDataJson} currentPath={currentPath} />
         </main>
     );
   }
   
-  // This gets called on every request
-  const apiEndpoint = 'http://127.0.0.1:3000';
 
   export async function getStaticProps({ params, preview, previewData }) {  
-    var sitePath = params["siteRoute"] || [];
-    if(sitePath.length == 0) {sitePath[0] = 'index'}
-    if(sitePath.length <= 1) {sitePath[1] = 'index'}
-    var siteName = sitePath.join('/');
-  
-    const fetchRes = await fetch(
-        apiEndpoint + `/api/item-public?name=${siteName}`,
-    );
-    const data = await fetchRes.json();
-    data.preload = true; // set this flag so we know the data is preloaded
+    const { siteRoute, siteData } = params;
+
+    var data = siteData;
+    var siteName = siteRoute || []; 
+
+    if(!siteData) {
+      // eg. for https://dra.gd/ we need to get the index/index page
+      if(siteName.length == 0) {siteName[0] = process.env.BASE_SITE}
+      if(siteName.length <= 1) {siteName[1] = 'index'}
+
+      console.log("Building siteName", siteName);
+      const fetchRes = await getItemByName(`${siteName.join('/')}`);
+      data = fetchRes[0];
+      data.preload = true; // set this flag so we know the data is preloaded
+    }
+
+    siteName = siteName.join('/');
 
     return { 
       props: { 
-        sitePath: siteName, data: data.data ? data.data : [] 
+        sitePath: siteName, data: data ? data : {} 
       },
       revalidate: 10 
     };
   }
 
   export async function getStaticPaths() {
-    // const res = await fetch('https://.../posts')
-    // const posts = await res.json()
-    const pages = [];
-  
-    // Get the paths we want to pre-render based on posts
-    const paths = pages.map((page) => ({
-      params: { id: page.id },
-    }))
 
-    console.log("[DRAGD] BUILD LOG: appmode " + process.env.APP_MODE);
-  
-    // We'll pre-render only these paths at build time.
+    const siteName = process.env.BASE_SITE;
+
+    const fetchRes = await getItemsBySiteName(`${siteName}`);
+    const pages = fetchRes; // todo: get pages of base site from API
+    const paths = pages.map(page => { 
+      return {params: { 
+        siteRoute: [page.siteName, page.pageName],
+        siteData: page,
+      }}
+    });
+
+ 
     // { fallback: 'blocking' } will server-render pages
     // on-demand if the path doesn't exist.
     return { paths, 
@@ -60,4 +77,4 @@ function Store(props) {
     }
   }
   
-  export default Store;
+  export default GenericPage;

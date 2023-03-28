@@ -24,7 +24,7 @@ export default function Omnibar(props) {
     const isLoggedIn = session?.address;
     React.useEffect(() => setIsReady(true), []);
     console.log(currentPath)
-    if (!isReady || (!isLoggedIn && currentPath !== "index/index") ) return null;
+    if (!isReady) return null;
     return <>
     <div className="navbar h-16 -mb-16 z-50">
     <div className="flex-1">
