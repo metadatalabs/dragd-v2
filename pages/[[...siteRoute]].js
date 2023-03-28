@@ -40,10 +40,9 @@ function GenericPage(props) {
       if(siteName.length == 0) {siteName[0] = process.env.BASE_SITE}
       if(siteName.length <= 1) {siteName[1] = 'index'}
 
-      console.log("Building siteName", siteName);
       const fetchRes = await getItemByName(`${siteName.join('/')}`);
       data = fetchRes[0];
-      data.preload = true; // set this flag so we know the data is preloaded
+      data && (data.preload = true); // set this flag so we know the data is preloaded
     }
 
     siteName = siteName.join('/');
@@ -58,13 +57,22 @@ function GenericPage(props) {
 
   export async function getStaticPaths() {
 
-    const siteName = process.env.BASE_SITE;
+    const siteName = process.env.BASE_SITE;    
 
-    const fetchRes = await getItemsBySiteName(`${siteName}`);
-    const pages = fetchRes; // todo: get pages of base site from API
+    const pages = await getItemsBySiteName(`${siteName}`);
+
     const paths = pages.map(page => { 
+      var pagePath = [];
+      if(process.env.APP_MODE === 'static') {
+        if(page.pageName != 'index')
+          pagePath.push(page.pageName);
+      } else {
+        pagePath.push(page.siteName);
+        pagePath.push(page.pageName);
+      }
+
       return {params: { 
-        siteRoute: [page.siteName, page.pageName],
+        siteRoute: pagePath,
         siteData: page,
       }}
     });
@@ -73,7 +81,7 @@ function GenericPage(props) {
     // { fallback: 'blocking' } will server-render pages
     // on-demand if the path doesn't exist.
     return { paths, 
-      fallback: process.env.APP_ENV === 'static' ? false: 'blocking', 
+      fallback: process.env.APP_MODE === 'static' ? false: 'blocking', 
     }
   }
   
