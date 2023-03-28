@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "concurrently \"npm run moser\" \"next build\"",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "dragd": "next dev",
     "dev": "concurrently \"npm run dragd\" \"npm run moser\"",
     "moser": "moser -p 3001 --mongo `(grep MONGO_ .env.local | cut -d '=' -f2)`",
+    "moser-build": "moser -p 3001 --mongo ",
     "build-static": "APP_MODE=static next build",
     "export": "APP_MODE=static concurrently \"sleep 4 && next export\" \"npm run moser\""
   },
