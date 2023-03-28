@@ -15,8 +15,8 @@ COPY --from=deps /app/node_modules ./node_modules
 
 # Read env variables from github and write to .env.local
 RUN --mount=type=secret,id=BASE_SITE cat /run/secrets/BASE_SITE > /app/.env.local
+RUN echo '\n' > /app/.env.local
 RUN --mount=type=secret,id=MONGO_STRING cat /run/secrets/MONGO_STRING > /app/.env.local
-RUN cat /app/.env.local
 RUN npm run build && npm install
 
 # Production image, copy all the files and run next
