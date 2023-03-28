@@ -1,8 +1,8 @@
 FROM node:lts-alpine AS deps
 
 # read env variables from github
-RUN --mount=type=secret,id=BASE_SITE \
-  cat /run/secrets/BASE_SITE
+RUN --mount=type=secret,id=BASE_SITE cat /run/secrets/BASE_SITE
+RUN --mount=type=secret,id=MONGO_STRING cat /run/secrets/MONGO_STRING
 
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
