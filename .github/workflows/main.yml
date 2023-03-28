@@ -60,6 +60,8 @@ jobs:
         with:
           push: true
           tags: metadatalabs/dragd-images:v2.0.0
+          secrets: |
+            "BASE_SITE=index"
 
       - name: Deploy Dragd v2
         uses: appleboy/ssh-action@v0.1.2
