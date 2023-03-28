@@ -19,16 +19,16 @@ const nextConfig = {
       '/': { page: '/' },
     };
 
-    sitePath = "prnth.eth/index"
-    let apiEndpoint = 'http://dra.gd';
+    // sitePath = "prnth.eth/index"
+    // let apiEndpoint = 'http://dra.gd';
 
-    const fetchRes = await fetch(
-      apiEndpoint + `/api/item-public?name=${sitePath}`,
-    );
-    pageJson = await fetchRes.json();
-    pageJson.preload = true;
+    // const fetchRes = await fetch(
+    //   apiEndpoint + `/api/item-public?name=${sitePath}`,
+    // );
+    // pageJson = await fetchRes.json();
+    // pageJson.preload = true;
 
-    pathMap['/prnth.eth'] = { page: '/[...siteRoute]', query: { id: 'about' } };
+    // pathMap['/prnth.eth'] = { page: '/[...siteRoute]', query: { id: 'about' } };
     return pathMap;
   },
 }

@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { ethers } from 'ethers';
 
 export function middleware(req) {
   const domain = "dra.gd";
-
-  console.log("got request", req.nextUrl.pathname)
-
-  if (!domain) {
-    return new Response('Please set "APP_DOMAIN" in your env');
-  }
 
   const { pathname } = req.nextUrl;
 
@@ -33,9 +28,13 @@ export function middleware(req) {
 
     if(Object.keys(web2DomainMapping).includes(hostname))
       domainToPath = web2DomainMapping[hostname] 
-    else
-      domainToPath = hostname?.split('.').slice(0,-2).join('.'); // remove the last two parts of the domain
+    else{
+      domainToPath = hostname?.split('.')[0]; // get only the first part of the domain
 
+      if(!ethers.utils.isAddress(domainToPath))
+        domainToPath = domainToPath + ".eth";
+    }
+      
     const url = req.nextUrl.clone();
 
     req.nextUrl.pathname = `${[domainToPath, url.pathname].join('')}`;
