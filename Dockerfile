@@ -16,6 +16,8 @@ FROM node:lts-alpine AS builder
 WORKDIR /app
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
+RUN cat /run/secrets/MONGO_STRING > .env.local
+RUN npm run moser &
 RUN npm run build && npm install
 
 # Production image, copy all the files and run next
