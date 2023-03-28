@@ -62,7 +62,7 @@ jobs:
           tags: metadatalabs/dragd-images:v2.0.0
           secrets: |
             "BASE_SITE=index"
-            "MONGO_STRING={{ secrets.MONGO_CONNECTION_STRING }}"
+            "MONGO_STRING=${{ secrets.MONGO_CONNECTION_STRING }}"
 
       - name: Deploy Dragd v2
         uses: appleboy/ssh-action@v0.1.2

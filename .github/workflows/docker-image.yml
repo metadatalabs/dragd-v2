@@ -20,7 +20,7 @@ jobs:
           tags: dragd:latest
           secrets: |
             "BASE_SITE=index"
-            "MONGO_STRING={{ secrets.MONGO_CONNECTION_STRING }}"
+            "MONGO_STRING=${{ secrets.MONGO_CONNECTION_STRING }}"
           outputs: type=docker,dest=/tmp/dragd.tar
       - name: Upload docker file to server
         uses: appleboy/scp-action@master
