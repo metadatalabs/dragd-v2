@@ -6,10 +6,7 @@ import requireAuth from './_require-auth'
 const { File, getFilesFromPath, Web3Storage } = require('web3.storage');
 const { getItem, updateItem, createSiteBuilds, updateSiteBuilds, getSiteBuilds } = require('./_db.js');
 
-
-// Construct with token and endpoint
-const apiToken = process.env.WEB3_STORAGE_KEY;
-
+const buildServer = process.env.NODE_ENV == 'production' ? "http://167.71.214.59:3002" : "http://localhost:3002";
 const handler = requireAuth(async (req, res) => {
   const { method } = req
   switch (method) {
@@ -57,6 +54,9 @@ const handler = requireAuth(async (req, res) => {
           status: 'success',
           message: 'Site build job added to queue',
       });
+
+      // ping the build server to start the build, ideally a redis consumer would be used here
+      await fetch(buildServer + '/startBuildTillDone');
       break;
     default:
       res.setHeader('Allow', ['GET'])

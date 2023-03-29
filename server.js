@@ -3,7 +3,7 @@ const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const { execSync, spawn } = require('child_process');
-const { upsertSite, getItemByName } = require('./pages/api/_db');
+const { getItemByName, getAllPendingSiteBuilds, updateSiteBuilds } = require('./pages/api/_db');
 const { File, getFilesFromPath, Web3Storage } = require('web3.storage');
 
 const app = express();
@@ -38,19 +38,10 @@ const readEnvFile =(file) => {
     return envObject;
 }
 
-// Entrypoint that allows you to build a site and generate static html/css/js artifacts
-app.post('/buildSiteToIpfs', async(req, res) => {
-    if (!req.body.siteName) {
-        return res.status(400).send("No Site Name Provided");
-      }
-    
-    const { siteName } = req.body;
+var is_currently_building = false;
 
-    const sites = await getItemByName(siteName + "/index");
-    if (sites.length == 0) {
-        return res.status(400).send("Site Does Not Exist");
-    }
-
+const buildAndDeployToIPFS = async (siteBuildJob) => {
+    const { _id, siteName } = siteBuildJob;
     const env = {
         ...process.env,
         ...readEnvFile('.env.local'),
@@ -73,13 +64,29 @@ app.post('/buildSiteToIpfs', async(req, res) => {
         }
     });
 
-    await upsertSite(siteName, { cid: rootCid });
+    await updateSiteBuilds(_id, { 
+        cid: rootCid,
+        status: 'deployed',
+        buildCIDs: [...siteBuildJob.buildCIDs, rootCid]
+     });
+}
 
-    res.status(200).send(`Job added to queue with id ${job.id}`);
+// Entrypoint that allows you to build a site and generate static html/css/js artifacts
+app.get('/startBuildTillDone', async(req, res) => {
+    if(is_currently_building) return res.status(200).send(`Job already in progress`);
+    is_currently_building = true;
+    var sitesToBuild = await getAllPendingSiteBuilds();
+    while (sitesToBuild?.length > 0)
+    {
+        await buildAndDeployToIPFS(sitesToBuild[0]);
+        sitesToBuild = await getAllPendingSiteBuilds();
+    }
+    is_currently_building = false;
+    res.status(200).send(`All jobs done.`);
 });
 
 app.listen(port, () => {
-    console.log(`Ultron listening at http://0.0.0.0:${port}`);
+    console.log(`Builder listening at http://0.0.0.0:${port}`);
     (async () => {
         // something that would happen once on startup
     })();

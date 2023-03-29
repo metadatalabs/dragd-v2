@@ -36,7 +36,7 @@ export function useSiteByName(id) {
 export function useSitesByOwner() {
     const cacheKey = ['ownedItems'];
     const query = () => apiRequest(`item?owned=true`);
-    return useQuery(cacheKey, query);
+    return useQuery(cacheKey, query, { enabled: true });
 }
 
 // Create a new item
@@ -76,3 +76,14 @@ export async function deployToIPFS(id) {
       ]);
     return response;
   }
+
+// Fetch build data for site (by name)
+export function useSiteBuildByName(siteName) {
+  const cacheKey = ['siteBuild', { siteName }];
+  const query = () => apiRequest(`builds?siteName=${siteName}`);
+  return useQuery(cacheKey, query, { enabled: !!siteName });
+}
+
+export function invalidateSiteBuildCache(siteName) {
+  queryClient.invalidateQueries(['siteBuild', { siteName }]);
+}

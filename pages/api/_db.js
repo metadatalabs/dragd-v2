@@ -102,6 +102,12 @@ function getSiteBuilds(siteName) {
     ).then((r) => r.json());
 }
 
+function getAllPendingSiteBuilds() {
+    return fetch(
+        `${JSON_SERVER}/sites?status=${'pending'}`,
+    ).then((r) => r.json());
+}
+
 function createSiteBuilds(data) {
     return fetch(`${JSON_SERVER}/sites/`, {
         method: 'POST',
@@ -135,6 +141,7 @@ module.exports = {
     deleteItem,
 
     getSiteBuilds,
+    getAllPendingSiteBuilds,
     createSiteBuilds,
     updateSiteBuilds
 };
