@@ -31,7 +31,6 @@ function loadDomains() {
     return data;
 }
 
-
 function generateTraefikConfig(domains) {
     console.log('Generating Traefik configuration...');
     const config = {
@@ -65,7 +64,7 @@ function generateTraefikConfig(domains) {
             loadBalancer: {
                 servers: [
                     {
-                        url: `http://${domain.ip}:32768`
+                        url: `http://${domain.ip}:3000`
                     }
                 ]
             }
