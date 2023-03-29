@@ -25,6 +25,10 @@ function loadDomains() {
                 "domain": "nutter.tools",
                 "ip": "127.0.0.1"
             }
+            {
+                "domain": "stats.nutter.tools",
+                "ip": "127.0.0.1",
+            }
         ]
     }
     // return JSON.parse(data);
