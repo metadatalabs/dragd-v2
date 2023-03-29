@@ -15,7 +15,7 @@ COPY --from=deps /app/node_modules ./node_modules
 
 # Read env variables from github and write to .env.local
 RUN --mount=type=secret,id=BASE_SITE echo "BASE_SITE=$(cat /run/secrets/BASE_SITE)" >> /app/.env.local
-RUN --mount=type=secret,id=BASE_SITE echo "BASE_SITE=$(cat /run/secrets/BASE_SITE)" >> /app/.env.local
+RUN --mount=type=secret,id=MONGO_STRING echo "MONGO_STRING=$(cat /run/secrets/MONGO_STRING)" >> /app/.env.local
 RUN --mount=type=secret,id=MONGO_STRING \
     npm run moser-build `cat /run/secrets/MONGO_STRING` & \
     npm run build && \
