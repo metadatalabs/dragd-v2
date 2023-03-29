@@ -15,19 +15,19 @@ function loadDomains() {
         "domains": [
             {
                 "domain": "l.nutter.tools",
-                "ip": "127.0.0.1"
+                "ip": "nutter.tools"
             },
             {
                 "domain": "prnth.nutter.tools",
-                "ip": "127.0.0.1"
+                "ip": "nutter.tools"
             },
             {
                 "domain": "nutter.tools",
-                "ip": "127.0.0.1"
+                "ip": "nutter.tools"
             },
             {
                 "domain": "stats.nutter.tools",
-                "ip": "127.0.0.1",
+                "ip": "nutter.tools",
             }
         ]
     }
