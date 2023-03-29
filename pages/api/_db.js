@@ -96,19 +96,26 @@ function deleteItem(id) {
 }
 
 // Fetch all items by site name
-function getSiteBySiteName(siteName) {
+function getSiteBuilds(siteName) {
     return fetch(
         `${JSON_SERVER}/sites?siteName=${siteName}`,
     ).then((r) => r.json());
 }
 
-function upsertSite(siteName, data) {
+function createSiteBuilds(data) {
     return fetch(`${JSON_SERVER}/sites/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    }).then((r) => r.json());
+}
+
+function updateSiteBuilds(id, data) {
+    return fetch(`${JSON_SERVER}/sites/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             ...data,
-            siteName
         }),
     }).then((r) => r.json());
 }
@@ -127,6 +134,7 @@ module.exports = {
     updateItem,
     deleteItem,
 
-    getSiteBySiteName,
-    upsertSite
+    getSiteBuilds,
+    createSiteBuilds,
+    updateSiteBuilds
 };

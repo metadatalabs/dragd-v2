@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import requireAuth from './_require-auth'
  
 const { File, getFilesFromPath, Web3Storage } = require('web3.storage');
-const { getItem, updateItem } = require('./_db.js');
+const { getItem, updateItem, createSiteBuilds, updateSiteBuilds, getSiteBuilds } = require('./_db.js');
 
 
 // Construct with token and endpoint
@@ -24,33 +24,38 @@ const handler = requireAuth(async (req, res) => {
       if (fetchedItem.length == 0) {
           return res.send({
               status: 'error',
-              message: 'Item does not exist',
+              message: 'Site does not exist',
           });
       }
   
-      // Make sure authenticated user is the item owner
-      if (fetchedItem[0].creatorId !== req.session.siwe?.address) {
+      const siteToBuild = fetchedItem[0].siteName;
+      const builds = await getSiteBuilds(siteToBuild);
+      if(builds.length > 0 )
+      {
+        if(builds[0].status == 'pending')
+        {
           return res.send({
-              status: 'error',
-              message: "Cannot update an item that you don't own",
+            status: 'error',
+            message: 'Site build already in progress',
           });
+        }
       }
-  
-      const files = await getFilesFromPath('./out');
 
-      const client = new Web3Storage({ token: apiToken });
-      const rootCid = await client.put(files, {
-          name: fetchedItem[0].siteName,
-          maxRetries: 3,
-          wrapWithDirectory: false,
+      const siteBuildJob = {
+        siteName: siteToBuild,
+        status: 'pending',
+        startTime: new Date(),
+        buildCIDs: (builds[0]?.buildCIDs) || [],
+      }
 
-        });
-  
-      await updateItem(fetchedItem[0]._id, {cid: rootCid});
-  
+      if(builds[0])
+        await updateSiteBuilds(builds[0]._id, siteBuildJob)
+      else
+        await createSiteBuilds(siteBuildJob)
+
       res.send({
           status: 'success',
-          data: rootCid,
+          message: 'Site build job added to queue',
       });
       break;
     default:

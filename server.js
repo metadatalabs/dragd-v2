@@ -40,48 +40,42 @@ const readEnvFile =(file) => {
 
 // Entrypoint that allows you to build a site and generate static html/css/js artifacts
 app.post('/buildSiteToIpfs', async(req, res) => {
-    if(!req.body.siteName) {
+    if (!req.body.siteName) {
         return res.status(400).send("No Site Name Provided");
-        
-    }
+      }
+    
+    const { siteName } = req.body;
 
-    const sites = await getItemByName(req.body.siteName + "/index");
-    if(sites.length == 0) {
+    const sites = await getItemByName(siteName + "/index");
+    if (sites.length == 0) {
         return res.status(400).send("Site Does Not Exist");
     }
 
-    res.setHeader('Content-Type', 'text/html');
-    res.write('<h1>Building Site</h1>');
-
-    const env =  {
+    const env = {
         ...process.env,
         ...readEnvFile('.env.local'),
-        "BASE_SITE": req.body.siteName.toString(),
-    }
+        "BASE_SITE": siteName.toString(),
+    };
 
-    console.log("USING ENV=", env);
+    // Run the build commands
     runOne('npm run build-static', env);
     runOne('npm run export', env);
-
-    res.write('<h1>Uploading To IPFS</h1>');
 
     const files = await getFilesFromPath('./out');
 
     const client = new Web3Storage({ token: env.WEB3_STORAGE_KEY });
     const rootCid = await client.put(files, {
-        name: req.body.siteName,
+        name: siteName,
         maxRetries: 3,
         wrapWithDirectory: false,
         onRootCidReady: (cid) => {
-            console.log('[Deployed CID to IPFS]: ', req.body.siteName, cid);
+        console.log('[Deployed CID to IPFS]: ', siteName, cid);
         }
-      });
+    });
 
-    res.write(`<h1>Uploaded to IPFS, CID: </h1>${rootCid}`);
+    await upsertSite(siteName, { cid: rootCid });
 
-    await upsertSite(req.body.siteName, {cid: rootCid});
-
-    res.end();
+    res.status(200).send(`Job added to queue with id ${job.id}`);
 });
 
 app.listen(port, () => {
