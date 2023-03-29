@@ -190,3 +190,9 @@
         special_time: reboot
         job: "/root/.nvm/versions/node/v16.19.1/bin/moser -p 3001 --mongo \"$(grep MONGO_CONNECTION_STRING /root/.env | cut -d '=' -f2)\""
         user: root
+
+    - name: Echo the /etc/traefik/traefik.yaml configuration file
+      become: no
+      ansible.builtin.shell: cat /etc/traefik/traefik.yaml
+      args:
+        executable: /bin/bash
