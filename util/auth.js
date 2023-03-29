@@ -23,7 +23,7 @@ let provider = new ethers.providers.JsonRpcProvider(url);
 
 const whitelistedAccountDomains = {
   "prnth.eth": ["index"],
-  "0xlok.eth": ["index"]
+  "0xlok.eth": ["index", "l.eth"]
 }
 export const getBlockchainNames = async (address) => {
   // const res = await fetch(`https://api.opensea.io/api/v1/assets?owner=${address}&order_direction=desc&offset=0&limit=20`);

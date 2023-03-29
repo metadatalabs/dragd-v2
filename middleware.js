@@ -20,7 +20,7 @@ export function middleware(req) {
   const web2DomainMapping = {
     'prnth.com': 'prnth.eth',
     'xyz.com': 'anydragdpage',
-    'nuttertools.com': '0xE5E98Df807c3C4F8e57eeeED0968895b2EA5FEfb'
+    'nutter.tools': '0xE5E98Df807c3C4F8e57eeeED0968895b2EA5FEfb'
   }
 
   if (hostname && !whitelistDomain.includes(hostname)) {
