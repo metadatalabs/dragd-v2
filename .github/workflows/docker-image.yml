@@ -30,3 +30,15 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           source: "./dragd.tar"
           target: "/root"
+      - name: Deploy Dragd v2
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{secrets.SSH_HOST_2}}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            docker load < dragd.tar
+            docker stop dragd
+            docker rm dragd
+            docker run --net="host" -d --name="dragd" dragd
+            docker system prune -f
