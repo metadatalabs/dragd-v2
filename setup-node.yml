@@ -91,6 +91,12 @@
               address: ":80"
             https:
               address: ":443"
+            traefik:
+              address: ":8080"
+
+          api:
+            dashboard: true
+            insecure: true
 
           providers:
             file:
