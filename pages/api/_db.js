@@ -95,6 +95,24 @@ function deleteItem(id) {
     });
 }
 
+// Fetch all items by site name
+function getSiteBySiteName(siteName) {
+    return fetch(
+        `${JSON_SERVER}/sites?siteName=${siteName}`,
+    ).then((r) => r.json());
+}
+
+function upsertSite(siteName, data) {
+    return fetch(`${JSON_SERVER}/sites/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            ...data,
+            siteName
+        }),
+    }).then((r) => r.json());
+}
+
 module.exports = {
     getUser,
     getUserByWalletId,
@@ -108,4 +126,7 @@ module.exports = {
     createItem,
     updateItem,
     deleteItem,
+
+    getSiteBySiteName,
+    upsertSite
 };

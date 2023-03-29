@@ -11,7 +11,8 @@
     "moser": "moser -p 3001 --mongo `(grep MONGO_ .env.local | cut -d '=' -f2)`",
     "moser-build": "moser -p 3001 --mongo ",
     "build-static": "APP_MODE=static next build",
-    "export": "APP_MODE=static concurrently \"sleep 4 && next export\" \"npm run moser\""
+    "export": "APP_MODE=static concurrently \"npm run moser\" \"next export\"",
+    "builder": "concurrently \"npm run moser\" \"node server.js\""
   },
   "dependencies": {
     "@giphy/js-fetch-api": "^4.7.1",

@@ -1,18 +1,18 @@
-// Ultron, a lite version of Edith's dragd-to-ipfs build script
-
-require('dotenv').config();
 const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const { execSync, spawn } = require('child_process');
+const { upsertSite, getItemByName } = require('./pages/api/_db');
+const { File, getFilesFromPath, Web3Storage } = require('web3.storage');
 
 const app = express();
-const port = 8889;
+const port = 3002;
 app.use(cors());
 app.use(express.json());
 
-const runOne = (line) => {
-    execSync(line, { stdio: 'inherit' });
+const runOne = (line, env) => {
+    execSync(line, { stdio: 'inherit', env });
 };
 
 const changeDirectory = (dirLoc) => {
@@ -21,101 +21,72 @@ const changeDirectory = (dirLoc) => {
     console.log('Changed directory', process.cwd());
 };
 
-const runPinataCommand = (args, callback) => {
-    console.log('🦄 🦄 🦄 [Pinata CLI] 🦄 🦄 🦄');
 
-    const line = args.join(' ');
-
-    const child = spawn('sh', ['-c', `pinata-cli ${line}`]);
-
-    let scriptOutput = '';
-
-    child.stdout.setEncoding('utf8');
-    child.stdout.on('data', function (data) {
-        // console.log('stdout: ' + data);
-
-        data = data.toString();
-        scriptOutput += data;
+const readEnvFile =(file) => {
+    const filePath = path.resolve(__dirname, file);
+    const envObject = {};
+    const fileContents = fs.readFileSync(filePath, { encoding: 'utf8' });
+    const envLines = fileContents.split('\n');
+  
+    envLines.forEach(line => {
+      if (line) {
+        const [key, value] = line.split('=');
+        envObject[key] = value;
+      }
     });
-
-    child.stderr.setEncoding('utf8');
-    child.stderr.on('data', function (data) {
-        // console.log('stderr: ' + data);
-
-        data = data.toString();
-        scriptOutput += data;
-    });
-
-    child.on('close', function (code) {
-        callback(scriptOutput, code);
-    });
-};
-
-const gPattern = /\ \ IpfsHash:\ \'(.*?)\',/g;
-
-const regexExtractor = (ipfsHash) => {
-    var arr = gPattern.exec(ipfsHash);
-    // console.log(arr);
-    return arr[1];
-};
-
-const runDragdToIpfsBuild = (siteName, elemData, callback) => {
-    console.log('Logging into Pinata...');
-    changeDirectory('../../scratch/dragd-lite');
-    console.log('Change siteName in buildData.json, programatically...');
-    const buildData = JSON.parse(
-        fs.readFileSync('./buildData.json', {
-            encoding: 'utf8',
-            flag: 'r',
-        }),
-    );
-    console.log('Hunk swap...');
-    buildData['siteName'] = siteName;
-    buildData['elemData'] = elemData;
-    fs.writeFileSync('./buildData.json', JSON.stringify(buildData, null, 4));
-    console.log('Purging old build...');
-    runOne('rm -rf out');
-    console.log('Triggering build...', buildData['siteName']);
-    runOne('npm run export');
-    runPinataCommand(['-u', 'out'], function (output, exitCode) {
-        // console.log(output, exitCode);
-        const regex = regexExtractor(output);
-        console.log(regex);
-        callback(regex);
-    });
-    changeDirectory('../../dragd-lite/utility');
-};
+  
+    return envObject;
+}
 
 // Entrypoint that allows you to build a site and generate static html/css/js artifacts
+app.post('/buildSiteToIpfs', async(req, res) => {
+    if(!req.body.siteName) {
+        return res.status(400).send("No Site Name Provided");
+        
+    }
 
-app.post('/runDragdLiteBuild', (req, res) => {
-    // res.send('Ack!');
-    // brobotPost(req.body['message']);
-    runDragdToIpfsBuild(
-        req.body.siteName,
-        req.body.elemData,
-        function (incomingRegex) {
-            // Once we get the ipfs hash, we can send it back to the client
-            // For downstream frontend .sol domain linking
-            // https://www.npmjs.com/package/@bonfida/sns-deploy
-            res.status(200).json({
-                siteName: req.body.siteName,
-                elemData: req.body.elemData,
-                ipfsHash: incomingRegex,
-            });
-        },
-    );
+    const sites = await getItemByName(req.body.siteName + "/index");
+    if(sites.length == 0) {
+        return res.status(400).send("Site Does Not Exist");
+    }
+
+    res.setHeader('Content-Type', 'text/html');
+    res.write('<h1>Building Site</h1>');
+
+    const env =  {
+        ...process.env,
+        ...readEnvFile('.env.local'),
+        "BASE_SITE": req.body.siteName.toString(),
+    }
+
+    console.log("USING ENV=", env);
+    runOne('npm run build-static', env);
+    runOne('npm run export', env);
+
+    res.write('<h1>Uploading To IPFS</h1>');
+
+    const files = await getFilesFromPath('./out');
+
+    const client = new Web3Storage({ token: env.WEB3_STORAGE_KEY });
+    const rootCid = await client.put(files, {
+        name: req.body.siteName,
+        maxRetries: 3,
+        wrapWithDirectory: false,
+        onRootCidReady: (cid) => {
+            console.log('[Deployed CID to IPFS]: ', req.body.siteName, cid);
+        }
+      });
+
+    res.write(`<h1>Uploaded to IPFS, CID: </h1>${rootCid}`);
+
+    await upsertSite(req.body.siteName, {cid: rootCid});
+
+    res.end();
 });
 
 app.listen(port, () => {
     console.log(`Ultron listening at http://0.0.0.0:${port}`);
-    // Async authentication with Pinata as soon as the server starts
     (async () => {
-        runPinataCommand(
-            ['-a', `${process.env.PINATA_TOKEN}`],
-            function (output, exitCode) {
-                console.log(output, exitCode);
-            },
-        );
+        // something that would happen once on startup
     })();
 });
