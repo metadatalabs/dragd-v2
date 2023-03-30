@@ -6,7 +6,7 @@ import requireAuth from './_require-auth'
 const { File, getFilesFromPath, Web3Storage } = require('web3.storage');
 const { getItem, updateItem, createSiteBuilds, updateSiteBuilds, getSiteBuilds } = require('./_db.js');
 
-const buildServer = process.env.NODE_ENV == 'production' ? "http://167.71.214.59:3002" : "http://localhost:3002";
+const buildServer = process.env.NODE_ENV == 'production' ? "http://167.71.214.59:3002" : "http://167.71.214.59:3002"; // "http://localhost:3002";
 const handler = requireAuth(async (req, res) => {
   const { method } = req
   switch (method) {
