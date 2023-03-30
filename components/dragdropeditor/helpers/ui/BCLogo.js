@@ -38,7 +38,7 @@ export default function DragdLogo({ pending }) {
           {
             <div
               className={`flex flex-row items-center text-black h-12 -mb-12 transition-all
-              ${hover ? "visible" : "invisible"} 
+              ${hover ? "opacity-100" : "opacity-0"} 
               ${hover ? "translate-x-16" : ""} text-sm font-bold`}
             >
               made with dragd

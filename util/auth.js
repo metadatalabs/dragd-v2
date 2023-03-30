@@ -22,16 +22,16 @@ let url = "https://rpc.flashbots.net";
 let provider = new ethers.providers.JsonRpcProvider(url);
 
 const whitelistedAccountDomains = {
-  "prnth.eth": ["index"],
-  "0xlok.eth": ["index", "l.eth"]
-}
+  "prnth.eth": ["index", "docs.eth", "loveposters.eth"],
+  "0xlok.eth": ["index", "l.eth", "loveposters.eth"],
+};
 export const getBlockchainNames = async (address) => {
   // const res = await fetch(`https://api.opensea.io/api/v1/assets?owner=${address}&order_direction=desc&offset=0&limit=20`);
   // const json = await res.json();
   // return json.assets.map(asset => asset.name);
   var addresses = [address];
   let ensName;
-  
+
   if (address && ethers.utils.isAddress(address)) {
     try {
       ensName = await provider.lookupAddress(address);
@@ -41,13 +41,13 @@ export const getBlockchainNames = async (address) => {
       console.log(e);
     }
   }
-  
-  if(ensName) addresses.push(ensName);
 
-  if(ensName && Object.keys(whitelistedAccountDomains).includes(ensName)) {
+  if (ensName) addresses.push(ensName);
+
+  if (ensName && Object.keys(whitelistedAccountDomains).includes(ensName)) {
     addresses = [...addresses, ...whitelistedAccountDomains[ensName]];
   }
-  
+
   console.log("addresses: ", addresses);
   return addresses;
-}
+};
