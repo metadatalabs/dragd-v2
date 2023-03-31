@@ -28,12 +28,12 @@ export default function Omnibar(props) {
   if (!isReady) return null;
   return (
     <>
-      <div className="navbar h-16 -mb-16 z-50">
+      <div className="navbar h-16 -mb-16 z-50 pointer-events-none">
         <div className="flex-1">
           {/* <a className="btn btn-ghost normal-case text-xl">dragd</a> */}
         </div>
 
-        <div className="flex-none rounded-xl gap-2 bg-base-100 ">
+        <div className="flex-none rounded-xl gap-2 bg-base-100 pointer-events-auto">
           {/* <div className="form-control">
             <input type="text" placeholder="Search" className="input input-bordered" />
         </div> */}

@@ -1,24 +1,24 @@
-import React from 'react';
-import dynamic from 'next/dynamic';
+import React from "react";
+import dynamic from "next/dynamic";
 
-// I really tried to get rid of this list, but Nextjs 
+// I really tried to get rid of this list, but Nextjs
 // doesn't allow dynamic imports inside components due to limitations
 // with Nextjs' server-side rendering.  So, we have to do this. For static builds.
 
-const EditItem = dynamic(() => import('./DDEditor/EditItem'));
-const DraggableText = dynamic(() => import('./DraggableText'));
-const DraggableButton = dynamic(() => import('./DraggableButton'));
-const DraggableImage = dynamic(() => import('./DraggableImage'));
-const DraggableDiffusion = dynamic(() => import('./DraggableDiffusion'));
-const DraggableGiphy = dynamic(() => import('./DraggableGiphy'));
-const DraggableVideo = dynamic(() => import('./DraggableVideo'));
-const DraggableAudio = dynamic(() => import('./DraggableAudio'));
-const DraggableEth = dynamic(() => import('./DraggableEth'));
-const DraggableDiv = dynamic(() => import('./DraggableDiv'));
-const DraggableHtml = dynamic(() => import('./DraggableHtml'));
-const DraggableForm = dynamic(() => import('./DraggableForm'));
-const NextHead = dynamic(() => import('./NextHead.js'));
-const DraggableTemplate = dynamic(() => import('./DraggableTemplate'));
+const EditItem = dynamic(() => import("./DDEditor/EditItem"));
+const DraggableText = dynamic(() => import("./DraggableText"));
+const DraggableButton = dynamic(() => import("./DraggableButton"));
+const DraggableImage = dynamic(() => import("./DraggableImage"));
+const DraggableDiffusion = dynamic(() => import("./DraggableDiffusion"));
+const DraggableGiphy = dynamic(() => import("./DraggableGiphy"));
+const DraggableVideo = dynamic(() => import("./DraggableVideo"));
+const DraggableAudio = dynamic(() => import("./DraggableAudio"));
+const DraggableEth = dynamic(() => import("./DraggableEth"));
+const DraggableDiv = dynamic(() => import("./DraggableDiv"));
+const DraggableHtml = dynamic(() => import("./DraggableHtml"));
+const DraggableForm = dynamic(() => import("./DraggableForm"));
+const PageStyle = dynamic(() => import("./PageStyle.js"));
+const DraggableTemplate = dynamic(() => import("./DraggableTemplate"));
 
 const componentMap = {
   test: EditItem,
@@ -34,7 +34,7 @@ const componentMap = {
   markdown: DraggableHtml,
   code: DraggableHtml,
   form: DraggableForm,
-  head: NextHead,
+  head: PageStyle,
   template: DraggableTemplate,
 };
 

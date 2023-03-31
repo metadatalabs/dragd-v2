@@ -148,7 +148,7 @@ function BCDragDrop({
       >
         {Object.keys(items).map((key) => {
           var elem = items[key];
-          if (elem.pos.y + elem.size?.height / 2 > pageHeight) {
+          if (elem.pos?.y + elem.size?.height / 2 > pageHeight) {
             setPageHeight(elem.pos.y + elem.size?.height / 2);
           }
           return (

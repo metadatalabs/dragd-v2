@@ -24,7 +24,6 @@
   border-radius: 5px;
   background-color: black;
   padding: 2px;
-  z-index: 9999999;
 }
 .styledButtonInner {
   display: flex;
@@ -65,7 +64,7 @@
   padding: 3px;
   cursor: nesw-resize;
 
-  z-index: 9999999;
+  z-index: 99999997;
 }
 
 @media only screen and (max-width: 768px) {
@@ -80,7 +79,7 @@
   border: 1px solid black;
   background-color: white;
   padding: 3px;
-  z-index: 9999999;
+  z-index: 99999997;
   cursor: sw-resize;
 }
 
@@ -133,7 +132,7 @@
   transform: translateX(50vw);
   touch-action: none;
   pointer-events: none;
-  z-index: 99999999;
+  z-index: 99999997;
 }
 
 .page-align-guide:not(.active) {
@@ -145,7 +144,7 @@
   position: fixed;
   width: 1px;
   border-right: 1px solid red;
-  z-index: 99999999;
+  z-index: 99999997;
   top: 0;
   touch-action: none;
   pointer-events: none;
@@ -159,7 +158,7 @@
 
 .mobile-align-bg {
   background-color: rgba(0, 0, 0, 0.1);
-  z-index: 99999999;
+  z-index: 99999997;
   touch-action: none;
   pointer-events: none;
 }
@@ -173,7 +172,7 @@
   height: 1rem;
   background: lightblue;
   position: absolute;
-  z-index: 9999999;
+  z-index: 99999997;
 
   touch-action: none;
   pointer-events: none;
@@ -188,7 +187,7 @@
   transform: translate(-50%, -50%);
 
   display: block;
-  z-index: 999999999;
+  z-index: 99999997;
 
   touch-action: none;
   pointer-events: none;
@@ -203,7 +202,7 @@
 
   background: rgba(var(--selection-color), 0.2);
   border: var(--line-width) solid var(--selection-color);
-  z-index: 999999999;
+  z-index: 99999997;
 
   box-sizing: border-box;
 }

@@ -10,7 +10,7 @@ import {
 import defaultButtons from "./defaultButtons";
 import { v4 as uuidv4 } from "uuid";
 import { GiphySelector } from "../DraggableGiphy/GiphySelector";
-import { HeadConfigurator } from "../NextHead";
+import { HeadConfigurator } from "../PageStyle";
 import SiteContext from "../../siteContext";
 import { ButtonSelector } from "../DraggableButton/ButtonSelector";
 import { TemplateSelector } from "../DraggableTemplate";
@@ -195,8 +195,7 @@ function NestedMenu({
 
       {selector && (
         <Column
-          style={{ width: "100%", alignItems: "center" }}
-          className={"cpanel-col"}
+          className={"w-max items-center cpanel-col h-[90%] overflow-y-auto"}
         >
           {selector}
         </Column>

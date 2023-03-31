@@ -27,7 +27,7 @@ export default function DragdLogo({ pending }) {
           bottom: "10px",
           left: "10px",
           padding: "10px",
-          zIndex: 999999,
+          zIndex: 99999998,
           //   opacity: pending || hover ? 1 : undefined,
         }}
         className={"brocorpSaveSpinner"}

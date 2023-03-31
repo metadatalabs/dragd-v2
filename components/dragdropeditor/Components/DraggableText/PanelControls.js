@@ -36,7 +36,7 @@ export default function PanelControls({ id }) {
 
             <table style={{ margin: 2 }}>
               <tr>
-                <td className={"w-2/6"}>Font</td>
+                <td className={"w-2/6 text-sm"}>Font</td>
                 <td>
                   <GenericDropdown
                     border={true}
@@ -100,7 +100,7 @@ export default function PanelControls({ id }) {
               </tr>
 
               <tr>
-                <td>Color</td>
+                <td className={"w-2/6 text-sm"}>Color</td>
                 <td>
                   <ColorPicker
                     color={elemData.style?.color || "black"}
@@ -119,12 +119,25 @@ export default function PanelControls({ id }) {
               </tr>
 
               <tr>
-                <td>Size</td>
+                <td className={"w-2/6 text-sm"}>Size</td>
                 <td>
                   <SliderWithInput
                     value={elemData.style?.fontSize}
                     onChange={(value) => {
                       onLocalUpdate({ style: { fontSize: value + "px" } });
+                    }}
+                    symbol="px"
+                  />
+                </td>
+              </tr>
+
+              <tr>
+                <td className={"w-2/6 text-sm"}>Line Height</td>
+                <td>
+                  <SliderWithInput
+                    value={elemData.style?.lineHeight}
+                    onChange={(value) => {
+                      onLocalUpdate({ style: { lineHeight: value + "px" } });
                     }}
                     symbol="px"
                   />
