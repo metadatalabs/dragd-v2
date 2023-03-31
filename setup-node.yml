@@ -59,115 +59,47 @@
         executable: /bin/bash
       become: no
 
-    - name: Install Traefik
-      get_url:
-        url: https://github.com/traefik/traefik/releases/download/v2.9.9/traefik_v2.9.9_linux_amd64.tar.gz
-        dest: /tmp/traefik.tar.gz
-      register: traefik_tar
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
 
-    - name: Extract Traefik
-      unarchive:
-        src: "{{ traefik_tar.dest }}"
-        dest: /usr/local/bin
-        remote_src: yes
-        owner: root
-        group: root
-        mode: "0755"
-      when: traefik_tar.changed
-
-    - name: Create Traefik configuration directory
-      ansible.builtin.file:
-        path: /etc/traefik
-        state: directory
-        owner: root
-        group: root
-        mode: "0755"
-
-    - name: Add Traefik configuration
-      ansible.builtin.copy:
+    - name: Ensure Nginx is running and enabled on boot
+      systemd:
+        name: nginx
+        state: started
+        enabled: yes
+    
+    - name: Create a default Nginx server configuration
+      copy:
         content: |
-          entryPoints:
-            http:
-              address: ":80"
-            https:
-              address: ":443"
-            traefik:
-              address: ":8080"
+          server {
+              listen 80 default_server;
+              listen [::]:80 default_server;
 
-          api:
-            dashboard: true
-            insecure: true
+              root /var/www/html;
+              index index.html;
 
-          providers:
-            file:
-              filename: "/etc/traefik/dynamic.yaml"
-              watch: true
+              server_name _;
 
-          certificatesResolvers:
-            letsencrypt:
-              acme:
-                email: "{{ traefik_email }}"
-                storage: "/etc/traefik/acme.json"
-                httpChallenge:
-                  entryPoint: "http"
-        dest: /etc/traefik/traefik.yaml
+              location / {
+                  try_files $uri $uri/ =404;
+              }
+          }
+        dest: /etc/nginx/sites-available/default
         owner: root
         group: root
-        mode: "0644"
-
-    - name: Add Traefik systemd service configuration
-      ansible.builtin.copy:
-        content: |
-          [Unit]
-          Description=Traefik
-          Documentation=https://docs.traefik.io
-          After=network.target
-          Wants=network.target
-
-          [Service]
-          ExecStart=/usr/local/bin/traefik --configFile=/etc/traefik/traefik.yaml
-          Restart=on-failure
-          User=root
-          Group=root
-
-          [Install]
-          WantedBy=multi-user.target
-        dest: /etc/systemd/system/traefik.service
-        owner: root
-        group: root
-        mode: "0644"
+        mode: 0644
 
     - name: Reload systemd daemon
       ansible.builtin.systemd:
         daemon_reload: yes
 
-    - name: Ensure Traefik service is enabled and started
-      systemd:
-        name: traefik
-        state: started
-        enabled: yes
-        daemon_reload: yes
-    
-    - name: Create crontab entry to run traefik.js on boot using Node v16
-      become: no
-      ansible.builtin.cron:
-        name: "Run traefik.js on boot"
-        special_time: reboot
-        job: "/root/.nvm/versions/node/v16.19.1/bin/node /root/util/traefik.js"
-        user: root
-
-    - name: Start traefik.js instance in the background using Node v16
-      become: no
-      shell: |
-        nohup /root/.nvm/versions/node/v16.19.1/bin/node /root/util/traefik.js >/dev/null 2>&1 &
-      args:
-        executable: /bin/bash
-
-    - name: Restart Traefik daemon
-      become: yes
+    - name: Reload Nginx
       ansible.builtin.systemd:
-        name: traefik
-        state: restarted
+        name: nginx
+        state: reloaded
+      become: true
 
     - name: Create .env file with MONGO_CONNECTION_STRING
       become: no
@@ -197,8 +129,4 @@
         job: "/root/.nvm/versions/node/v16.19.1/bin/moser -p 3001 --mongo \"$(grep MONGO_CONNECTION_STRING /root/.env | cut -d '=' -f2)\""
         user: root
 
-    - name: Echo the /etc/traefik/traefik.yaml configuration file
-      become: no
-      ansible.builtin.shell: cat /etc/traefik/traefik.yaml
-      args:
-        executable: /bin/bash
+    
