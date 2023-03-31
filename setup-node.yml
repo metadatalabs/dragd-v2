@@ -79,7 +79,7 @@
               listen 80;
               listen [::]:80;
 
-              server_name {{ dragd_host_domain_name }} *.{{ dragd_host_domain_name }};
+              server_name {{ dragd_host_domain_name }};
               location / {
                   proxy_set_header X-Real-IP $remote_addr;
                   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -135,23 +135,5 @@
 
     - name: Obtain certificate using Certbot with Nginx plugin
       ansible.builtin.command: certbot --nginx -d {{ dragd_host_domain_name }} --email {{ letsencrypt_email }} --agree-tos --non-interactive
-
-    - name: Create temporary manual hook script
-      ansible.builtin.copy:
-        content: |
-          #!/bin/bash
-          echo "Please add the following DNS TXT record:"
-          echo "_acme-challenge.{{ dragd_host_domain_name }} IN TXT \"\$CERTBOT_VALIDATION\""
-          echo "Waiting for 5 minutes before verification..."
-          sleep 300
-        dest: /tmp/manual-auth-hook.sh
-        mode: 0755
-
-    - name: Obtain wildcard certificate using manual hook script
-      ansible.builtin.command:
-        cmd: certbot --server https://acme-v02.api.letsencrypt.org/directory -d '*.{{ dragd_host_domain_name }}' --email {{ letsencrypt_email }} --agree-tos --manual --preferred-challenges dns-01 certonly --manual-auth-hook /tmp/manual-auth-hook.sh
-
-
-
 
     
