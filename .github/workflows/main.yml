@@ -40,9 +40,9 @@ jobs:
             docker load < dragd.tar
             docker stop dragd
             docker rm dragd
+            docker rmi dragd
             docker run --net="host" -d --name="dragd" dragd
-            docker system prune -f
-            
+
   selfhost:
     runs-on: ubuntu-latest
     steps:
