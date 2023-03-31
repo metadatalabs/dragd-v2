@@ -137,7 +137,7 @@
       ansible.builtin.command: certbot --nginx -d {{ dragd_host_domain_name }} --email {{ letsencrypt_email }} --agree-tos --non-interactive
 
     - name: Obtain wildcard certificate using Certbot with DNS challenge
-      ansible.builtin.command: certbot --server https://acme-v02.api.letsencrypt.org/directory -d '*.dra.gd' --email {{ email }} --agree-tos --manual --preferred-challenges dns-01 certonly --non-interactive
+      ansible.builtin.command: certbot --server https://acme-v02.api.letsencrypt.org/directory -d '*.{{ dragd_host_domain_name }}' --email {{ email }} --agree-tos --manual --preferred-challenges dns-01 certonly --non-interactive
       register: wildcard_cert_output
 
     - name: Display the DNS TXT record for the wildcard certificate
