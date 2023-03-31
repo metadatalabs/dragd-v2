@@ -149,7 +149,7 @@
 
     - name: Obtain wildcard certificate using manual hook script
       ansible.builtin.command:
-        cmd: certbot --server https://acme-v02.api.letsencrypt.org/directory -d '*.{{ domain }}' --email {{ email }} --agree-tos --manual --preferred-challenges dns-01 certonly --manual-auth-hook /tmp/manual-auth-hook.sh
+        cmd: certbot --server https://acme-v02.api.letsencrypt.org/directory -d '*.{{ dragd_host_domain_name }}' --email {{ letsencrypt_email }} --agree-tos --manual --preferred-challenges dns-01 certonly --manual-auth-hook /tmp/manual-auth-hook.sh
 
 
 
