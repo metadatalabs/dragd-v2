@@ -16,6 +16,8 @@
           - gnupg
           - lsb-release
           - build-essential
+          - certbot
+          - python3-certbot-nginx
         state: present
 
     - name: Add Docker repository key
@@ -74,19 +76,21 @@
       copy:
         content: |
           server {
-              listen 80 default_server;
-              listen [::]:80 default_server;
+              listen 80;
+              listen [::]:80;
 
-              root /var/www/html;
-              index index.html;
-
-              server_name _;
-
+              server_name {{ dragd_host_domain_name }} *.{{ dragd_host_domain_name }};
               location / {
-                  try_files $uri $uri/ =404;
+                  proxy_set_header X-Real-IP $remote_addr;
+                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                  proxy_set_header Host $http_host;
+                  proxy_set_header X-NginX-Proxy true;
+
+                  proxy_pass http://127.0.0.1:3000;
+                  proxy_redirect off;
               }
           }
-        dest: /etc/nginx/sites-available/default
+        dest: /etc/nginx/sites-enabled/default
         owner: root
         group: root
         mode: 0644
@@ -128,5 +132,16 @@
         special_time: reboot
         job: "/root/.nvm/versions/node/v16.19.1/bin/moser -p 3001 --mongo \"$(grep MONGO_CONNECTION_STRING /root/.env | cut -d '=' -f2)\""
         user: root
+
+    - name: Obtain certificate using Certbot with Nginx plugin
+      ansible.builtin.command: certbot --nginx -d {{ dragd_host_domain_name }} --email {{ letsencrypt_email }} --agree-tos --non-interactive
+
+    - name: Obtain wildcard certificate using Certbot with DNS challenge
+      ansible.builtin.command: certbot --server https://acme-v02.api.letsencrypt.org/directory -d '*.dra.gd' --email {{ email }} --agree-tos --manual --preferred-challenges dns-01 certonly --non-interactive
+      register: wildcard_cert_output
+
+    - name: Display the DNS TXT record for the wildcard certificate
+      ansible.builtin.debug:
+        msg: "{{ wildcard_cert_output.stdout_lines }}"
 
     
