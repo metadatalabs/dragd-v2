@@ -88,20 +88,4 @@
         - { name: "job1", config: "/path/to/job1/config.xml" }
         - { name: "job2", config: "/path/to/job2/config.xml" }
 
-    - name: Update packages
-      apt:
-        update_cache: yes
-        cache_valid_time: 3600
-
-    - name: Install required packages
-      apt:
-        name:
-          - apt-transport-https
-          - ca-certificates
-          - curl
-          - gnupg
-          - lsb-release
-          - build-essential
-          - certbot
-          - python3-certbot-nginx
-        state: present
+    
