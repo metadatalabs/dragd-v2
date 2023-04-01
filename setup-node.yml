@@ -79,16 +79,20 @@
         owner: root
         group: root
         mode: "0600"
+
+    - name: Define list of domains
+      set_fact:
+        domain_list:
+          - domain: 'nutter.tools'
     
-    - name: Create a default Nginx server configuration for multiple domains
+    - name: Create Nginx server configuration for each domain
       copy:
         content: |
-          {% for domain in dragd_host_domain_list %}
           server {
               listen 80;
               listen [::]:80;
 
-              server_name {{ domain }};
+              server_name {{ item.domain }};
               location / {
                   proxy_set_header X-Real-IP $remote_addr;
                   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -99,11 +103,11 @@
                   proxy_redirect off;
               }
           }
-          {% endfor %}
-        dest: /etc/nginx/sites-enabled/default
+        dest: /etc/nginx/sites-enabled/{{ item.domain }}
         owner: root
         group: root
         mode: 0644
+      with_items: "{{ domain_list }}"
 
     - name: Reload systemd daemon
       ansible.builtin.systemd:
@@ -116,5 +120,5 @@
       become: true
 
     - name: Obtain certificates using Certbot with Nginx plugin for multiple domains
-      ansible.builtin.command: certbot --nginx {% for domain in dragd_host_domain_list %} -d {{ domain }} {% endfor %} --email {{ letsencrypt_email }} --agree-tos --non-interactive
-    
+      ansible.builtin.command: certbot --nginx -d {{ item.domain }} --email {{ letsencrypt_email }} --agree-tos --non-interactive
+      with_items: "{{ domain_list }}"

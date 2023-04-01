@@ -42,7 +42,37 @@ jobs:
             docker rm dragd
             docker run --net="host" -d --name="dragd" dragd
             docker system prune -f
-            
+
+  buidl00r:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Upload setup-build.yml
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.BUILDER_SSH_HOST }}
+          username: ${{ secrets.BUILDER_SSH_USERNAME }}
+          password: ${{ secrets.BUILDER_SSH_PASSWORD }}
+          source: "setup-build.yml"
+          target: "/root"
+
+      - name: Run Ansible playbook
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.BUILDER_SSH_HOST }}
+          username: ${{ secrets.BUILDER_SSH_USERNAME }}
+          password: ${{ secrets.BUILDER_SSH_PASSWORD }}
+          script: |
+            mkdir -p setup-build
+            mv /root/setup-build.yml setup-build/
+            cd setup-build
+            sudo apt-get update
+            sudo apt-get install -y python3 python3-pip
+            sudo pip3 install ansible
+            ansible-playbook setup-build.yml -i "localhost," --extra-vars "ansible_user=${{ secrets.SSH_USERNAME }} letsencrypt_email=${{ secrets.DRAGD_NODE_ADMIN_EMAIL }} mongo_connection_string=${{ secrets.MONGO_CONNECTION_STRING }} dragd_host_domain_list=${{ secrets.DRAGD_HOST_DOMAIN_LIST }}" --connection=local
+
   selfhost:
     runs-on: ubuntu-latest
     steps:
