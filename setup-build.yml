@@ -39,3 +39,69 @@
       with_items:
         - git
         - maven
+
+    - name: Add Jenkins repository key
+      apt_key:
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+        state: present
+
+    - name: Add Jenkins repository to apt sources
+      apt_repository:
+        repo: deb [signed-by=/usr/share/keyrings/jenkins.gpg] https://pkg.jenkins.io/debian-stable binary/
+        state: present
+        filename: jenkins
+
+    - name: Install Jenkins
+      apt:
+        name: jenkins
+        state: present
+
+    - name: Start Jenkins service
+      systemd:
+        name: jenkins
+        state: started
+        enabled: yes
+
+    - name: Wait for Jenkins service to start
+      uri:
+        url: "http://localhost:{{ jenkins_port }}"
+        status_code: 200
+        timeout: 30
+      register: jenkins_up
+      retries: 10
+      delay: 10
+      until: jenkins_up is succeeded
+
+    - name: Install Jenkins plugins
+      command: "{{ jenkins_home }}/jenkins-cli.jar -s http://localhost:{{ jenkins_port }}/ install-plugin {{ item }}"
+      with_items: "{{ jenkins_plugins }}"
+
+    - name: Create Jenkins users
+      command: "{{ jenkins_home }}/jenkins-cli.jar -s http://localhost:{{ jenkins_port }}/ create-user {{ item.name }} {{ item.password }}"
+      with_items:
+        - { name: "user1", password: "password1" }
+        - { name: "user2", password: "password2" }
+
+    - name: Create Jenkins job
+      command: "{{ jenkins_home }}/jenkins-cli.jar -s http://localhost:{{ jenkins_port }}/ create-job {{ item.name }} < {{ item.config }}"
+      with_items:
+        - { name: "job1", config: "/path/to/job1/config.xml" }
+        - { name: "job2", config: "/path/to/job2/config.xml" }
+
+    - name: Update packages
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install required packages
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+          - build-essential
+          - certbot
+          - python3-certbot-nginx
+        state: present
