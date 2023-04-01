@@ -70,15 +70,25 @@
         name: nginx
         state: started
         enabled: yes
+
+    - name: Create .env file with MONGO_CONNECTION_STRING
+      become: no
+      ansible.builtin.copy:
+        content: "MONGO_CONNECTION_STRING={{ mongo_connection_string }}"
+        dest: /root/.env
+        owner: root
+        group: root
+        mode: "0600"
     
-    - name: Create a default Nginx server configuration
+    - name: Create a default Nginx server configuration for multiple domains
       copy:
         content: |
+          {% for domain in dragd_host_domain_list %}
           server {
               listen 80;
               listen [::]:80;
 
-              server_name {{ dragd_host_domain_name }};
+              server_name {{ domain }};
               location / {
                   proxy_set_header X-Real-IP $remote_addr;
                   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -89,6 +99,7 @@
                   proxy_redirect off;
               }
           }
+          {% endfor %}
         dest: /etc/nginx/sites-enabled/default
         owner: root
         group: root
@@ -104,16 +115,6 @@
         state: reloaded
       become: true
 
-    - name: Create .env file with MONGO_CONNECTION_STRING
-      become: no
-      ansible.builtin.copy:
-        content: "MONGO_CONNECTION_STRING={{ mongo_connection_string }}"
-        dest: /root/.env
-        owner: root
-        group: root
-        mode: "0600"
-
-    - name: Obtain certificate using Certbot with Nginx plugin
-      ansible.builtin.command: certbot --nginx -d {{ dragd_host_domain_name }} --email {{ letsencrypt_email }} --agree-tos --non-interactive
-
+    - name: Obtain certificates using Certbot with Nginx plugin for multiple domains
+      ansible.builtin.command: certbot --nginx {% for domain in dragd_host_domain_list %} -d {{ domain }} {% endfor %} --email {{ letsencrypt_email }} --agree-tos --non-interactive
     
