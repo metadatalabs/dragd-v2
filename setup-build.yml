@@ -1,13 +1,20 @@
 - name: Setup Build
   hosts: all
   become: yes
+  vars:
+    jenkins_home: /var/lib/jenkins
+    jenkins_port: 8080
+    jenkins_plugins:
+      - git
+      - maven
+
   tasks:
     - name: Update packages
       apt:
         update_cache: yes
         cache_valid_time: 3600
 
-    - name: Install required packages
+    - name: Install required packages for build environment
       apt:
         name:
           - apt-transport-https
@@ -19,3 +26,16 @@
           - certbot
           - python3-certbot-nginx
         state: present
+
+    - name: Install OpenJDK 11
+      apt:
+        name: openjdk-11-jdk
+        state: present
+
+    - name: Install Jenkins dependencies
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - git
+        - maven
