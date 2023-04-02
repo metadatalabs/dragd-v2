@@ -22,8 +22,9 @@ let url = "https://rpc.flashbots.net";
 let provider = new ethers.providers.JsonRpcProvider(url);
 
 const whitelistedAccountDomains = {
-  "prnth.eth": ["index", "docs.eth", "loveposters.eth"],
+  "prnth.eth": ["index", "docs.eth", "loveposters.eth", "nounshack.eth"],
   "0xlok.eth": ["index", "l.eth", "loveposters.eth"],
+  "salmanneedsajob.eth": ["nounshack.eth"],
 };
 export const getBlockchainNames = async (address) => {
   // const res = await fetch(`https://api.opensea.io/api/v1/assets?owner=${address}&order_direction=desc&offset=0&limit=20`);
