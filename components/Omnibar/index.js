@@ -19,6 +19,7 @@ export default function Omnibar(props) {
   const { disconnect } = useDisconnect();
   const { data: ensName } = useEnsName({ address: session?.address });
   const [isReady, setIsReady] = React.useState(false);
+  const [modal, setModal] = React.useState(null);
   const router = useRouter();
 
   // const isMyPage =
@@ -40,13 +41,14 @@ export default function Omnibar(props) {
 
           {session?.address && currentPath && (
             <>
-              <SiteList currentPath={currentPath} />
+              <SiteList currentPath={currentPath} setModal={setModal} />
               {siteData?._id && <PageSettings siteData={siteData} />}
             </>
           )}
           <LoginButton />
         </div>
       </div>
+      {modal}
     </>
   );
 }

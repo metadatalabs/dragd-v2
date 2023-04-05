@@ -17,7 +17,7 @@ export default function GenericModal(props) {
         role="dialog"
         aria-modal="true"
       >
-        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+        <div class="fixed inset-0 bg-black bg-opacity-75 transition-opacity"></div>
 
         <div
           class="fixed inset-0 overflow-y-auto"
@@ -45,7 +45,7 @@ export default function GenericModal(props) {
                       {heading}
                     </h3>
                     <div class="mt-2">
-                      <div class="text-sm text-gray-500">{children}</div>
+                      <div class="text-sm">{children}</div>
                     </div>
                   </div>
                 </div>

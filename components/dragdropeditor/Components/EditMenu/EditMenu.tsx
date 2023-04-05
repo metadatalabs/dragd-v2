@@ -49,7 +49,7 @@ export function AddButton({ item, showMenu, setSelector }) {
   return (
     <li className="tooltip tooltip-left w-12" data-tip={item[1].label}>
       <a
-        className="flex items-center justify-center "
+        className="flex items-center justify-center px-0"
         onClick={(e) => {
           switch (item[1].action) {
             case "add":

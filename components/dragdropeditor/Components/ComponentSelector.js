@@ -14,7 +14,6 @@ const DraggableGiphy = dynamic(() => import("./DraggableGiphy"));
 const DraggableVideo = dynamic(() => import("./DraggableVideo"));
 const DraggableAudio = dynamic(() => import("./DraggableAudio"));
 const DraggableEth = dynamic(() => import("./DraggableEth"));
-const DraggableDiv = dynamic(() => import("./DraggableDiv"));
 const DraggableHtml = dynamic(() => import("./DraggableHtml"));
 const DraggableForm = dynamic(() => import("./DraggableForm"));
 const PageStyle = dynamic(() => import("./PageStyle.js"));
@@ -30,7 +29,6 @@ const componentMap = {
   video: DraggableVideo,
   audio: DraggableAudio,
   smartcontract: DraggableEth,
-  color: DraggableDiv,
   markdown: DraggableHtml,
   code: DraggableHtml,
   form: DraggableForm,

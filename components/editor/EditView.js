@@ -37,6 +37,7 @@ export default function EditView(props) {
   return (
     <div>
       <Dragdrop
+        key={currentPath}
         initialState={props.siteData.page || {}}
         onChangedCallback={(data) => {
           setSiteData({
