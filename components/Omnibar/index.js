@@ -34,7 +34,7 @@ export default function Omnibar(props) {
           {/* <a className="btn btn-ghost normal-case text-xl">dragd</a> */}
         </div>
 
-        <div className="flex-none rounded-xl gap-2 bg-base-100 pointer-events-auto">
+        <div className="flex-none rounded-xl gap-2 bg-base-300 pointer-events-auto">
           {/* <div className="form-control">
             <input type="text" placeholder="Search" className="input input-bordered" />
         </div> */}

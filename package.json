@@ -15,7 +15,6 @@
     "builder": "concurrently \"npm run moser\" \"node server.js\""
   },
   "dependencies": {
-    "@floating-ui/react": "^0.22.3",
     "@giphy/js-fetch-api": "^4.7.1",
     "@monaco-editor/react": "^4.4.6",
     "@next/font": "13.2.4",

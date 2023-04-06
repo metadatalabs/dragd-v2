@@ -111,8 +111,12 @@ function EditableDiv(props) {
 
   const onMouseDown = (e) => {
     if (selected) {
-      var xPos = e.pageX ? e.pageX : e?.changedTouches[0]?.pageX;
-      var yPos = e.pageY ? e.pageY : e?.changedTouches[0]?.pageY;
+      var xPos = e.pageX
+        ? e?.changedTouches && e.pageX
+        : e?.changedTouches[0]?.pageX;
+      var yPos = e.pageY
+        ? e?.changedTouches && e.pageY
+        : e?.changedTouches[0]?.pageY;
       setStartPos({ x: xPos, y: yPos });
     }
   };

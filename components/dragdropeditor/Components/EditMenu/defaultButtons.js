@@ -1,5 +1,8 @@
 import {
+  ButtonIcon,
   CodeIcon,
+  ImageIcon,
+  LabsIcon,
   LinkIcon,
   PuzzleIcon,
   SmartContractIcon,
@@ -26,58 +29,40 @@ const defaultButtons = {
       },
     },
   },
+  image: {
+    icon: <ImageIcon />,
+    label: "Image",
+    action: "add",
+    object: {
+      type: "image",
+      size: {
+        width: 100,
+        height: 100,
+      },
+      imageUri:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K",
+    },
+  },
   button: {
-    icon: <LinkIcon />,
+    icon: <ButtonIcon />,
     action: "modal",
     selector: "button",
     label: "Button",
   },
-  ethereum: {
-    icon: <SmartContractIcon />,
-    label: "Contract",
-    action: "modal",
-    selector: "eth",
-  },
+
   media: {
     icon: "fas fa-photo-video",
     label: "Media",
     action: "menu",
     icon: <PuzzleIcon />,
     objects: {
-      image: {
-        icon: "fas fa-image",
-        label: "Image",
-        action: "add",
-        object: {
-          type: "image",
-          size: {
-            width: 100,
-            height: 100,
-          },
-          imageUri:
-            "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K",
-        },
-      },
       giphy: {
         icon: "far fa-laugh-beam",
         action: "selector",
         selector: "giphy",
         label: "Sticker",
       },
-      diffusion: {
-        icon: "fas fa-project-diagram",
-        label: "Stable Diffusion Image",
-        action: "add",
-        object: {
-          type: "diffusion",
-          size: {
-            width: 512,
-            height: 512,
-          },
-          imageUri:
-            "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K",
-        },
-      },
+
       video: {
         icon: "fas fa-film",
         label: "Video",
@@ -155,12 +140,41 @@ const defaultButtons = {
       text: "your code here!",
     },
   },
-  template: {
-    icon: <WindowIcon />,
-    action: "modal",
-    selector: "template",
-    label: "Template",
+  experimental: {
+    icon: "fas fa-photo-video",
+    label: "Experimental",
+    action: "menu",
+    icon: <LabsIcon />,
+    objects: {
+      ethereum: {
+        icon: <SmartContractIcon />,
+        label: "Contract",
+        action: "modal",
+        selector: "eth",
+      },
+      template: {
+        icon: <WindowIcon />,
+        action: "modal",
+        selector: "template",
+        label: "Template",
+      },
+      diffusion: {
+        icon: "fas fa-project-diagram",
+        label: "Stable Diffusion Image",
+        action: "add",
+        object: {
+          type: "diffusion",
+          size: {
+            width: 512,
+            height: 512,
+          },
+          imageUri:
+            "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K",
+        },
+      },
+    },
   },
+
   head: {
     icon: <StylesIcon />,
     label: "Page Styles",

@@ -15,7 +15,6 @@ export default function DrawCoincides({ elemData, coincides, dragging }) {
           style={{
             left: elemData.pos.x,
             top: elemData.pos.y,
-            transform: "translateX(calc(50vw - 50%))",
           }}
         />
       )}
@@ -49,7 +48,7 @@ export default function DrawCoincides({ elemData, coincides, dragging }) {
                     height: 1,
                     zIndex: 99999998,
                     transform: "translateY(calc(-0.5px))",
-                    borderTop: "1px solid red",
+                    borderTop: "1px dashed red",
                   }}
                 />
               )}
@@ -63,7 +62,7 @@ export default function DrawCoincides({ elemData, coincides, dragging }) {
                     width: 1,
                     zIndex: 99999998,
                     transform: "translateX(calc(-0.5px))",
-                    borderRight: "1px solid red",
+                    borderRight: "1px dashed red",
                   }}
                 />
               )}

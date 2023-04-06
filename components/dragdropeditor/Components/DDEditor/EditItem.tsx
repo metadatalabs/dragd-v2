@@ -14,6 +14,7 @@ import {
   isMobileViewport,
 } from "../../helpers/helper";
 import SiteContext from "../../siteContext";
+
 const ControlPanel = dynamic(() => import("../EditMenu/ControlPanel"));
 const DragCoincideLines = dynamic(() => import("./dragCoincideLines.js"));
 
@@ -96,8 +97,12 @@ function EditItem(props) {
     if (mode != "edit") return;
     var pos = getElementOffset(divRef.current);
 
-    var startX = e.pageX ? e.pageX : e?.changedTouches[0]?.pageX;
-    var startY = e.pageY ? e.pageY : e?.changedTouches[0]?.pageY;
+    var startX = e.pageX
+      ? e.pageX
+      : e?.changedTouches && e?.changedTouches[0]?.pageX;
+    var startY = e.pageY
+      ? e.pageY
+      : e?.changedTouches && e?.changedTouches[0]?.pageY;
 
     var newState = {
       rel: {
@@ -124,8 +129,12 @@ function EditItem(props) {
     var pos = getElementOffset(divRef.current);
     const rect = getElementOffset(divRef.current);
 
-    var startX = e.pageX ? e.pageX : e?.changedTouches[0]?.pageX;
-    var startY = e.pageY ? e.pageY : e?.changedTouches[0]?.pageY;
+    var startX = e.pageX
+      ? e.pageX
+      : e?.changedTouches && e?.changedTouches[0]?.pageX;
+    var startY = e.pageY
+      ? e.pageY
+      : e?.changedTouches && e?.changedTouches[0]?.pageY;
 
     const startVector = {
       x: startX - pos.left - pos.width / 2,
@@ -141,8 +150,12 @@ function EditItem(props) {
   function onMouseDownRes(e) {
     const rect = getElementOffset(divRef.current);
 
-    var startX = e.pageX ? e.pageX : e?.changedTouches[0]?.pageX;
-    var startY = e.pageY ? e.pageY : e?.changedTouches[0]?.pageY;
+    var startX = e.pageX
+      ? e.pageX
+      : e?.changedTouches && e?.changedTouches[0]?.pageX;
+    var startY = e.pageY
+      ? e.pageY
+      : e?.changedTouches && e?.changedTouches[0]?.pageY;
     setState({ ...state, res: { startX, startY, rect } });
     setMovementType(movementTypes.RESIZING);
     e.stopPropagation();
@@ -186,8 +199,12 @@ function EditItem(props) {
   }
 
   function onMouseMove(e) {
-    var clientX = e.pageX ? e.pageX : e?.changedTouches[0]?.pageX;
-    var clientY = e.pageY ? e.pageY : e?.changedTouches[0]?.pageY;
+    var clientX = e.pageX
+      ? e.pageX
+      : e?.changedTouches && e?.changedTouches[0]?.pageX;
+    var clientY = e.pageY
+      ? e.pageY
+      : e?.changedTouches && e?.changedTouches[0]?.pageY;
 
     if (selectedItems.length > 1) {
       var newPos = {

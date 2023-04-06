@@ -153,7 +153,9 @@ export default function PanelControls({ id }) {
             >
               <StyleToggleButton
                 className={`font-bold ${
-                  elemData.style?.fontWeight === "bold" ? "btn-active" : ""
+                  elemData.style?.fontWeight === "bold"
+                    ? "btn-active outline"
+                    : ""
                 }`}
                 onClick={() => {
                   elemData.style.fontWeight === "bold"
@@ -166,7 +168,9 @@ export default function PanelControls({ id }) {
 
               <StyleToggleButton
                 className={`italic ${
-                  elemData.style?.fontStyle === "italic" ? "btn-active" : ""
+                  elemData.style?.fontStyle === "italic"
+                    ? "btn-active outline"
+                    : ""
                 }`}
                 onClick={() => {
                   elemData.style.fontStyle === "italic"
@@ -180,7 +184,7 @@ export default function PanelControls({ id }) {
               <StyleToggleButton
                 className={`underline ${
                   elemData.style?.textDecoration === "underline"
-                    ? "btn-active"
+                    ? "btn-active outline"
                     : ""
                 }`}
                 onClick={() => {

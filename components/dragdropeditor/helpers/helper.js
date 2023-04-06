@@ -187,13 +187,28 @@ export const LinkIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-6 h-6"
+      className="w-5 h-5"
     >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
         d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
       />
+    </svg>
+  );
+};
+
+export const ButtonIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="currentColor"
+      class="bi bi-collection-fill"
+      viewBox="0 0 16 16"
+    >
+      <path d="M0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6v7zM2 3a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 0-1h-11A.5.5 0 0 0 2 3zm2-2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7A.5.5 0 0 0 4 1z"></path>
     </svg>
   );
 };
@@ -213,6 +228,38 @@ export const LayerIcon = () => {
         strokeLinejoin="round"
         d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"
       />
+    </svg>
+  );
+};
+
+export const LayerUpIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="16"
+      fill="currentColor"
+      class="bi bi-layer-forward"
+      viewBox="0 0 16 16"
+    >
+      <path d="M8.354.146a.5.5 0 0 0-.708 0l-3 3a.5.5 0 0 0 0 .708l1 1a.5.5 0 0 0 .708 0L7 4.207V12H1a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H9V4.207l.646.647a.5.5 0 0 0 .708 0l1-1a.5.5 0 0 0 0-.708l-3-3z"></path>
+      <path d="M1 7a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h4.5a.5.5 0 0 0 0-1H1V8h4.5a.5.5 0 0 0 0-1H1zm9.5 0a.5.5 0 0 0 0 1H15v2h-4.5a.5.5 0 0 0 0 1H15a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1h-4.5z"></path>
+    </svg>
+  );
+};
+
+export const LayerDownIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="16"
+      fill="currentColor"
+      class="bi bi-layer-backward"
+      viewBox="0 0 16 16"
+    >
+      <path d="M8.354 15.854a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708l1-1a.5.5 0 0 1 .708 0l.646.647V4H1a1 1 0 0 1-1-1V1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9v7.793l.646-.647a.5.5 0 0 1 .708 0l1 1a.5.5 0 0 1 0 .708l-3 3z"></path>
+      <path d="M1 9a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h4.5a.5.5 0 0 1 0 1H1v2h4.5a.5.5 0 0 1 0 1H1zm9.5 0a.5.5 0 0 1 0-1H15V6h-4.5a.5.5 0 0 1 0-1H15a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-4.5z"></path>
     </svg>
   );
 };
@@ -306,6 +353,44 @@ export const PuzzleIcon = () => {
   );
 };
 
+export const LabsIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="w-6 h-6"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"
+      />
+    </svg>
+  );
+};
+
+export const ImageIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="w-6 h-6"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+      />
+    </svg>
+  );
+};
+
 export const WindowIcon = () => {
   return (
     <svg
@@ -384,8 +469,8 @@ export const StyleToggleButton = (props) => {
   return (
     <div
       {...props}
-      className={`btn mx-2 ${props.className}`}
-      style={{ width: 20, height: 20, ...props.style }}
+      className={`btn p-0 min-h-8 min-w-8 w-8 h-8 mx-2 ${props.className}`}
+      style={{ ...props.style }}
     >
       {props.children}
     </div>
@@ -402,35 +487,39 @@ export const SliderWithInput = ({
   defaultValue = 0,
 }) => {
   return (
-    <div className={"flex flex-row items-center p-1"}>
-      <div
-        className={"flex flex-row items-baseline p-1 bg-gray-300 rounded-sm"}
-      >
+    <>
+      <div className={"flex flex-row items-center p-1"}>
+        <div className="form-control text-xs">
+          <label className="input-group">
+            <input
+              type="text"
+              // placeholder="0.01"
+              className="input input-bordered w-8 h-6 p-1"
+              value={
+                (value?.replace && value.replace(/[^0-9]/g, "")) || defaultValue
+              }
+              onChange={(e) => {
+                onChange(e.target.value);
+              }}
+            />
+            <span className="w-4 p-0">{symbol}</span>
+          </label>
+        </div>
         <input
-          className="group w-8 bg-transparent text-center"
+          id="steps-range"
+          type="range"
+          min={min}
+          max={max}
+          step={step}
           value={
-            (value?.replace && value.replace(/[^0-9]/g, "")) || defaultValue
+            (value?.replace && value.replace(/[^0-9.]/g, "")) || defaultValue
           }
           onChange={(e) => {
             onChange(e.target.value);
           }}
-        ></input>
-        {symbol}
+          class="h-2 w-full bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 mx-1"
+        />
       </div>
-      <input
-        id="steps-range"
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={
-          (value?.replace && value.replace(/[^0-9.]/g, "")) || defaultValue
-        }
-        onChange={(e) => {
-          onChange(e.target.value);
-        }}
-        class="h-2 w-full bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-      />
-    </div>
+    </>
   );
 };

@@ -1,28 +1,52 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { RgbaStringColorPicker } from "react-colorful";
 
-export default function ColorPicker ({color, onChange, onClose}) {
-    const [selected, setSelected] = useState(false);
+export default function ColorPicker({ color, onChange, onClose }) {
+  const [selected, setSelected] = useState(false);
+  const [pos, setPos] = useState();
 
-    return <div className="dropdown is-active" onMouseLeave={()=>{setSelected(false)}}>
-    <div className={"dropdown-trigger"} 
-        onClick={()=>{setSelected(!selected)}} 
+  return (
+    <div className="dropdown is-active">
+      <div
+        className={"dropdown-trigger outline my-2"}
+        onClick={() => {
+          setSelected(!selected);
+        }}
         style={{
-        borderRadius: 100,
-        width: 25,
-        height: 25,
-        backgroundColor: color,
-        border: '2px solid black',
-        cursor: 'pointer',
-    }} />
-    {selected && <div class="dropdown-menu" id="dropdown-menu" role="menu" 
-        style={{background: 'white', padding: 10, borderRadius: 10, border: '2px solid lightgrey'}}
+          borderRadius: 100,
+          width: 25,
+          height: 25,
+          backgroundColor: color,
+          cursor: "pointer",
+        }}
+      />
+      {selected && (
+        <div
+          class="dropdown-menu flex flex-col items-center"
+          id="dropdown-menu"
+          role="menu"
+          style={{
+            position: "absolute",
+            zIndex: 99999999,
+            right: 0,
+            background: "white",
+            padding: 10,
+            borderRadius: 10,
+            border: "2px solid lightgrey",
+          }}
+          onMouseLeave={() => {
+            setSelected(false);
+          }}
         >
-        <RgbaStringColorPicker
-            color={color || 'black'}
-            onChange={onChange}
-        />
-        <input style={{marginTop: 5}} className="input" value={color} onChange={(e)=>onChange(e.target.value)}></input>
-    </div>}
+          <RgbaStringColorPicker color={color || "black"} onChange={onChange} />
+          <input
+            style={{ marginTop: 5 }}
+            className="input"
+            value={color}
+            onChange={(e) => onChange(e.target.value)}
+          ></input>
+        </div>
+      )}
     </div>
+  );
 }
