@@ -1,19 +1,26 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This repo contains the code for [dra.gd](https://dra.gd/), a decentralised website builder.
+
+[`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
 
-First, run the development server:
+First, run the server:
 
 ```bash
+# dev mode
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+# live mode:
+npm run build && npm run start
+# static export mode
+npm run build-static && npm run export
+# static builder API mode
+npm run builder
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+Create a file called `.env.local` that contains the following env variables:
+```MONGO_STRING=
+WEB3_STORAGE_KEY=
+BASE_SITE=index
+```
