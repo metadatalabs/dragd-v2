@@ -20,7 +20,8 @@ npm run builder
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 Create a file called `.env.local` that contains the following env variables:
-```MONGO_STRING=
+```
+MONGO_STRING=
 WEB3_STORAGE_KEY=
 BASE_SITE=index
 ```
