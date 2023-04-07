@@ -19,29 +19,38 @@ const DraggableForm = dynamic(() => import("./DraggableForm"));
 const PageStyle = dynamic(() => import("./PageStyle.js"));
 const DraggableTemplate = dynamic(() => import("./DraggableTemplate"));
 
-const componentMap = {
-  test: EditItem,
-  text: DraggableText,
-  button: DraggableButton,
-  image: DraggableImage,
-  diffusion: DraggableDiffusion,
-  giphy: DraggableGiphy,
-  video: DraggableVideo,
-  audio: DraggableAudio,
-  smartcontract: DraggableEth,
-  markdown: DraggableHtml,
-  code: DraggableHtml,
-  form: DraggableForm,
-  head: PageStyle,
-  template: DraggableTemplate,
-};
-
 function ComponentSelector({ elem, selected }) {
   const isSelected = selected && selected.includes(elem.id);
-  const Component = componentMap[elem.type];
 
-  if (Component) {
-    return <Component elemData={elem} selected={isSelected} />;
+  switch (elem.type) {
+    case "test":
+      return <EditItem elemData={elem} selected={isSelected} />;
+    case "text":
+      return <DraggableText elemData={elem} selected={isSelected} />;
+    case "button":
+      return <DraggableButton elemData={elem} selected={isSelected} />;
+    case "image":
+      return <DraggableImage elemData={elem} selected={isSelected} />;
+    case "diffusion":
+      return <DraggableDiffusion elemData={elem} selected={isSelected} />;
+    case "giphy":
+      return <DraggableGiphy elemData={elem} selected={isSelected} />;
+    case "video":
+      return <DraggableVideo elemData={elem} selected={isSelected} />;
+    case "audio":
+      return <DraggableAudio elemData={elem} selected={isSelected} />;
+    case "smartcontract":
+      return <DraggableEth elemData={elem} selected={isSelected} />;
+    case "markdown":
+      return <DraggableHtml elemData={elem} selected={isSelected} />;
+    case "code":
+      return <DraggableHtml elemData={elem} selected={isSelected} />;
+    case "form":
+      return <DraggableForm elemData={elem} selected={isSelected} />;
+    case "head":
+      return <PageStyle elemData={elem} selected={isSelected} />;
+    case "template":
+      return <DraggableTemplate elemData={elem} selected={isSelected} />;
   }
 
   return <></>;
