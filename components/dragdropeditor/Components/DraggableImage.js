@@ -3,6 +3,7 @@ import { Input } from "../helpers/helper";
 import SiteContext from "../siteContext";
 import EditItem from "./DDEditor/EditItem";
 import StylePanelControls, { TabSwitcher } from "./EditMenu/StyleControlPanel";
+import Image from "next/image";
 
 function PanelControls({ id }) {
   const { items, onUpdateDiv } = useContext(SiteContext);
@@ -53,7 +54,9 @@ function DraggableImage(props) {
         {!elemData.imageUri ? (
           <center>Set an image URL</center>
         ) : (
-          <img
+          <Image
+            width={elemData.size.width}
+            height={elemData.size.height}
             style={{ width: "100%", height: "100%" }}
             src={elemData.imageUri}
           />

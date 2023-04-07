@@ -4,7 +4,7 @@ import {
   invalidateSiteBuildCache,
   useSiteBuildByName,
 } from "../../DataProvider";
-import { LinkIcon } from "../../ui-helpers";
+import { ErrorText, LinkIcon } from "../../ui-helpers";
 export const DeployToIpfs = ({ siteData }) => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
