@@ -60,14 +60,30 @@ export default function SiteList({ siteData, currentPath, setModal }) {
 const SiteCard = ({ index, item, setShowModal }) => {
   return (
     <div
-      className={`flex flex-col w-full p-0 ${
-        index == 0 ? "pt-0" : "pt-4"
-      } gap-y-0 items-start`}
+      className={`flex flex-col w-full p-0 gap-y-0 items-start border-t-2 border p-1 -my-1 bg-base-100 border-base-300`}
     >
-      <div className={"text-sm font-bold pl-2"}>
-        dra.gd/{GetShortenedString(item[0].siteName)}
+      <div className="flex flex-row items-center justify-between w-full">
+        <div className={"text-sm font-bold pl-2"}>
+          dra.gd/{GetShortenedString(item[0].siteName)}
+        </div>
+        <button
+          className={"btn btn-xs btn-primary min-h-6 h-2 p-1 ml-2"}
+          onClick={(e) => {
+            setShowModal(
+              <NewSiteModal
+                site={item[0].siteName}
+                onComplete={() => {
+                  setShowModal(false);
+                }}
+              />
+            );
+          }}
+        >
+          NEW
+        </button>
       </div>
-      <div className={"flex flex-col w-full"}>
+
+      <div className={"flex flex-col w-full pb-2"}>
         {item.map((pageItem, index) => {
           return (
             <li key={index}>
@@ -87,22 +103,6 @@ const SiteCard = ({ index, item, setShowModal }) => {
             </li>
           );
         })}
-
-        <button
-          className={"btn btn-sm btn-primary w-auto"}
-          onClick={(e) => {
-            setShowModal(
-              <NewSiteModal
-                site={item[0].siteName}
-                onComplete={() => {
-                  setShowModal(false);
-                }}
-              />
-            );
-          }}
-        >
-          NEW PAGE
-        </button>
       </div>
     </div>
   );

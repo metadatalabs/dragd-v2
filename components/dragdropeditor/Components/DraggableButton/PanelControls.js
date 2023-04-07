@@ -33,18 +33,18 @@ export default function PanelControls({ id, setPanelControls = () => {} }) {
                 <input
                   type="checkbox"
                   className="toggle"
-                  checked={elemData.type == "function"}
+                  checked={elemData.variant == "function"}
                   onClick={() => {
-                    if (elemData.type == "function")
-                      onLocalUpdate({ type: "link" });
-                    else onLocalUpdate({ type: "function" });
+                    if (elemData.variant == "function")
+                      onLocalUpdate({ variant: "link" });
+                    else onLocalUpdate({ variant: "function" });
                   }}
                 />
                 <span className="label-text p-2">Function</span>
               </label>
             </div>
 
-            {elemData.type == "function" ? (
+            {elemData.variant == "function" ? (
               <>
                 <label className="label">
                   <span className="label-text">Function to call</span>
@@ -67,6 +67,7 @@ export default function PanelControls({ id, setPanelControls = () => {} }) {
                   type="text"
                   className="input input-bordered"
                   value={elemData.href}
+                  placeholder="https://dra.gd"
                   onChange={(e) => {
                     onLocalUpdate({ href: e.target.value });
                   }}

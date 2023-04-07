@@ -517,7 +517,7 @@ export const SliderWithInput = ({
           onChange={(e) => {
             onChange(e.target.value);
           }}
-          class="h-2 w-full bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 mx-1"
+          class="range mx-2"
         />
       </div>
     </>

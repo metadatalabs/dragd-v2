@@ -22,7 +22,7 @@ export default function ColorPicker({ color, onChange, onClose }) {
       />
       {selected && (
         <div
-          class="dropdown-menu flex flex-col items-center"
+          class="card flex flex-col items-center outline"
           id="dropdown-menu"
           role="menu"
           style={{
@@ -31,8 +31,6 @@ export default function ColorPicker({ color, onChange, onClose }) {
             right: 0,
             background: "white",
             padding: 10,
-            borderRadius: 10,
-            border: "2px solid lightgrey",
           }}
           onMouseLeave={() => {
             setSelected(false);

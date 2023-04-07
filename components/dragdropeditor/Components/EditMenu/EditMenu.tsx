@@ -83,6 +83,7 @@ function Menu({ addItemToList, selected }) {
 
   return (
     <div
+      className="pointer-events-auto"
       onClick={(e) => {
         e.stopPropagation();
       }}

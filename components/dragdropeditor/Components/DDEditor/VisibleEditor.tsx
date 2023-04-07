@@ -103,7 +103,7 @@ export default function VisibleEditor(props) {
             bottom: "10px",
             left: "10px",
             padding: "10px",
-            zIndex: 99999999,
+            zIndex: 99999998,
             display: "flex",
             flexDirection: "row",
           }}
@@ -131,10 +131,13 @@ export default function VisibleEditor(props) {
             bottom: "10px",
             right: "10px",
             padding: "10px",
-            zIndex: 99999999,
+            zIndex: 99999998,
           }}
         >
-          <Column style={{ alignItems: "flex-end" }}>
+          <div
+            className="flex flex-col pointer-events-none"
+            style={{ alignItems: "flex-end" }}
+          >
             {mode == EditorModes.EDIT && (
               <Menu selected={selected} addItemToList={undefined} />
             )}
@@ -156,7 +159,7 @@ export default function VisibleEditor(props) {
                 </PanelButton>
               </div>
             )}
-          </Column>
+          </div>
         </div>
       }
     </div>
@@ -164,7 +167,7 @@ export default function VisibleEditor(props) {
 }
 
 const PanelButton = (props) => (
-  <button className="btn tooltip" {...props}>
+  <button className="btn tooltip pointer-events-auto" {...props}>
     {props.children}
   </button>
 );

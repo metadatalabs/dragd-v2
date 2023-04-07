@@ -17,9 +17,6 @@ export default function GenericDropdown({ children, border, ...props }) {
         className={`flex mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-300 rounded-box min-w-full max-h-96 flex-nowrap overflow-y-scroll ${
           border && "outline"
         }`}
-        style={{
-          boxShadow: `inset 0 -12px 4px -4px white`,
-        }}
       >
         {/* <li>
             <a className="justify-between">

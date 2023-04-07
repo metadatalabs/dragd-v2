@@ -29,7 +29,10 @@ export default function Omnibar(props) {
   if (!isReady) return null;
   return (
     <>
-      <div className="navbar h-16 -mb-16 z-50 pointer-events-none">
+      <div
+        className="navbar h-16 -mb-16 pointer-events-none"
+        style={{ zIndex: 99999999 }}
+      >
         <div className="flex-1">
           {/* <a className="btn btn-ghost normal-case text-xl">dragd</a> */}
         </div>
