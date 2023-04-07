@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export default function GenericModal({ style, ...props }) {
+export default function GenericModal(props) {
   const { heading, children, onDone, onCTAClick } = props;
 
   const [isShowing, setIsShowing] = useState(false);
