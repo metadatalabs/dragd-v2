@@ -173,7 +173,9 @@ function NestedMenu({
       )}
 
       {Array.isArray(parentSelected) ? (
-        <div className="flex flex-grow px-3 text-left">{controlPanel}</div>
+        <div className="flex flex-grow px-3 text-left max-h-full">
+          {controlPanel}
+        </div>
       ) : (
         !selected &&
         !selector && (

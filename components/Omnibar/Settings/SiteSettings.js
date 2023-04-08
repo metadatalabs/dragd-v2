@@ -37,7 +37,7 @@ export const DeployToIpfs = ({ siteData }) => {
             <div className="p-4">
               {siteBuildData.status == "deployed" ? (
                 <a
-                  href={`https://${siteBuildData.cid}.ipfs.w3s.link`}
+                  href={`https://ipfs.io/ipfs/${siteBuildData.cid}`}
                   target="_blank"
                 >
                   <div className={`badge badge-success h-auto`}>
@@ -77,28 +77,47 @@ export const DeployToIpfs = ({ siteData }) => {
 
       {siteBuildData && (
         <>
-          <div
-            tabIndex={0}
-            className="collapse collapse-plus border border-base-300 bg-base-100 rounded-box"
-          >
-            <div className="collapse-title text-xl font-medium">
-              Publish History
-            </div>
-            <div className="collapse-content">
-              {siteBuildData.buildCIDs.map((cid, index) => (
-                <p
-                  className={`text-left p-1 ${
-                    index % 2 == 0 ? "bg-base-100" : "bg-base-200"
-                  }`}
-                  key={index}
-                >
-                  {cid}
-                </p>
-              ))}
-            </div>
-          </div>
+          <CIDViewer siteBuildData={siteBuildData} />
         </>
       )}
     </>
+  );
+};
+
+const CIDViewer = ({ siteBuildData }) => {
+  const [collapsed, setCollapsed] = useState(false);
+  return (
+    <div
+      tabIndex={0}
+      className={`collapse ${
+        collapsed ? "collapse-open" : "collapse-close"
+      } collapse-plus border border-base-300 bg-base-100 rounded-box`}
+    >
+      <div
+        onClick={() => setCollapsed(!collapsed)}
+        className="collapse-title text-xl font-medium cursor-pointer"
+      >
+        Publish History
+      </div>
+      <div className="collapse-content">
+        {siteBuildData.buildCIDs.map((cid, index) => (
+          <div
+            className={`flex flex-row justify-between p-1 ${
+              index % 2 == 0 ? "bg-base-100" : "bg-base-200"
+            }`}
+            key={index}
+          >
+            <p>{cid}</p>
+            <a
+              className="p-1"
+              href={`https://ipfs.io/ipfs/${cid}`}
+              target="_blank"
+            >
+              <LinkIcon />
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };

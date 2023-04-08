@@ -3,7 +3,7 @@ import { Input } from "../helpers/helper";
 import SiteContext from "../siteContext";
 import EditItem from "./DDEditor/EditItem";
 import StylePanelControls, { TabSwitcher } from "./EditMenu/StyleControlPanel";
-import Image from "next/image";
+import NextImage from "next/image";
 
 function PanelControls({ id }) {
   const { items, onUpdateDiv } = useContext(SiteContext);
@@ -18,16 +18,6 @@ function PanelControls({ id }) {
       tabs={[
         <>
           <Prompter setImageUri={setImageUri} imageUri={elemData.imageUri} />
-
-          <div
-            className={"btn"}
-            style={{ marginLeft: "8px" }}
-            onClick={() => {
-              onLocalUpdate({ maxWidth: !elemData.maxWidth });
-            }}
-          >
-            Max Width
-          </div>
         </>,
         <StylePanelControls id={id} />,
       ]}
@@ -54,7 +44,7 @@ function DraggableImage(props) {
         {!elemData.imageUri ? (
           <center>Set an image URL</center>
         ) : (
-          <Image
+          <NextImage
             width={elemData.size.width}
             height={elemData.size.height}
             style={{ width: "100%", height: "100%" }}
@@ -66,8 +56,8 @@ function DraggableImage(props) {
   );
 }
 
-const Prompter = (props) => {
-  const [imageUri, setImageUri] = useState(props.imageUri);
+const Prompter = ({ imageUri, setImageUri }) => {
+  // const [imageUri, setImageUri] = useState(props.imageUri);
 
   function toDataURL(src, callback, outputFormat) {
     var img = new Image();
@@ -106,11 +96,10 @@ const Prompter = (props) => {
       var blob = new Blob([stream], { type: locFile.type });
       var urlCreator = window.URL || window.webkitURL;
       var imageUrl = urlCreator.createObjectURL(blob);
-
       toDataURL(
         imageUrl,
         (dataUrl) => {
-          console.log(dataUrl);
+          console.log("converted to ", dataUrl);
           setImageUri(dataUrl);
         },
         locFile.type
@@ -131,11 +120,12 @@ const Prompter = (props) => {
           flexDirection: "row",
         }}
       >
-        <Input
+        <input
+          className="input input-bordered"
           placeholder={"Image URL"}
           value={imageUri}
-          onChange={(value) => {
-            setImageUri(value);
+          onChange={(e) => {
+            setImageUri(e.target.value);
           }}
           style={{ overflow: "hidden" }}
         />
@@ -170,16 +160,6 @@ const Prompter = (props) => {
         ) : (
           <center>No image selected</center>
         )}
-      </div>
-      <div style={{ float: "right", marginBottom: 20 }}>
-        <button
-          className={"button"}
-          onClick={() => {
-            props.setImageUri(imageUri);
-          }}
-        >
-          Save
-        </button>
       </div>
     </>
   );
