@@ -56,6 +56,13 @@ export async function getStaticProps({ params, preview, previewData }) {
   try {
     const fetchRes = await getItemByName(`${siteName}`);
     data = fetchRes[0];
+
+    // if the page is not found, we show a generic page
+    if (!data) {
+      const fetchRes = await getItemByName(`docs.eth/profile`);
+      data = fetchRes[0];
+    }
+
     data && (data.preload = true); // set this flag so we know the data is preloaded
   } catch (error) {}
 
@@ -64,7 +71,7 @@ export async function getStaticProps({ params, preview, previewData }) {
       sitePath: siteName,
       data: data ? data : {},
     },
-    revalidate: 10,
+    revalidate: 2,
   };
 }
 

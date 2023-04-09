@@ -88,7 +88,7 @@ export default function PageSettingsModal({ siteData, onComplete }) {
       {page == pages[2] && (
         <>
           <div className={"flex flex-col items-center space-y-2"}>
-            <DeletePage siteData={siteData} />
+            <DeletePage siteData={siteData} onComplete={onComplete} />
           </div>
         </>
       )}
@@ -183,17 +183,18 @@ const DevTools = ({ siteData }) => {
   );
 };
 
-const DeletePage = ({ siteData }) => {
+const DeletePage = ({ siteData, onComplete }) => {
+  const [error, setError] = React.useState(null);
+  const router = useRouter();
   const deleteSiteSubmit = async (id) => {
     var query = deleteSite({ id });
     query
       .then((result) => {
-        // console.log(result);
-
-        router.push("/" + session.address);
+        router.push("/" + siteData.siteName);
+        onComplete();
       })
       .catch((error) => {
-        // setError(error.message);
+        setError(error.message);
       });
   };
 
@@ -214,6 +215,7 @@ const DeletePage = ({ siteData }) => {
       >
         Delete Page
       </button>
+      {error}
     </div>
   );
 };
