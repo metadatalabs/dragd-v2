@@ -77,7 +77,7 @@ function ConnectWalletPage(props) {
 }
 
 function SignLoginPage(props) {
-  const { session, setSession, setShowAuthModal } =
+  const { session, setSession, saveSession, setShowAuthModal } =
     React.useContext(CryptoAuthContext);
   const router = useRouter();
 
@@ -90,12 +90,10 @@ function SignLoginPage(props) {
           onSuccess={({ address }) => {
             console.log("setting session ", address);
             setSession((x) => ({ ...x, address, error: undefined }));
+            saveSession();
             setShowAuthModal(false);
-            // setTimeout(() => {
-            // }, 1000);
-            router.push("/" + address);
-
             // redirect to dashboard
+            router.push("/" + address);
           }}
           onError={({ error }) => setSession((x) => ({ ...x, error }))}
         />

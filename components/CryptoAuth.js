@@ -1,13 +1,5 @@
-import React, { use, useEffect } from "react";
-import {
-  WagmiConfig,
-  createClient,
-  configureChains,
-  defaultChains,
-  useAccount,
-  useConnect,
-  useEnsName,
-} from "wagmi";
+import { createContext, useEffect, useState } from "react";
+import { WagmiConfig, createClient, configureChains } from "wagmi";
 
 import { mainnet, goerli, polygon, polygonMumbai } from "wagmi/chains";
 
@@ -16,25 +8,23 @@ import { WalletConnectLegacyConnector } from "wagmi/connectors/walletConnectLega
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
-
-import { getAccount, fetchSigner } from "@wagmi/core";
 import { publicProvider } from "wagmi/providers/public";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
 import WalletModal from "./WalletModal";
 
-export const CryptoAuthContext = React.createContext(null);
+export const CryptoAuthContext = createContext(null);
 
 const session_persist_key = "CRYPTO_SESSION";
 
 export function CryptoAuthProvider(props) {
-  const [session, setSession] = React.useState(null);
-  const [showAuthModal, setShowAuthModal] = React.useState(false);
+  const [session, setSession] = useState(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   useEffect(() => {
     if (session == null) return;
     console.log("persisting session ", session);
-    window.localStorage.setItem(session_persist_key, JSON.stringify(session));
+    saveSession();
   }, [session]);
 
   useEffect(() => {
@@ -69,6 +59,10 @@ export function CryptoAuthProvider(props) {
 
   globalThis.showAuthModal = () => {
     setShowAuthModal(true);
+  };
+
+  const saveSession = () => {
+    window.localStorage.setItem(session_persist_key, JSON.stringify(session));
   };
 
   const { chains, provider, webSocketProvider } = configureChains(
@@ -124,6 +118,7 @@ export function CryptoAuthProvider(props) {
   const providerValues = {
     session,
     setSession,
+    saveSession,
     showAuthModal,
     setShowAuthModal,
   };
