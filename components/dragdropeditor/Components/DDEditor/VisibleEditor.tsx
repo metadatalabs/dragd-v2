@@ -145,13 +145,20 @@ export default function VisibleEditor(props) {
             <div style={{ padding: 5 }}></div>
 
             {mode == EditorModes.VIEW ? (
-              <PanelButton onClick={props.onEditClicked}>
+              <PanelButton onClick={props.onEditClicked} data-tip="Edit Page">
                 <EditIcon />
               </PanelButton>
             ) : (
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <PanelButton onClick={showHelp} data-tip="Help Center">
                   <HelpIcon />
+                </PanelButton>
+                <div style={{ padding: 5 }}></div>
+                <PanelButton
+                  onClick={props.onDiscardClicked}
+                  data-tip="Discard changes"
+                >
+                  X
                 </PanelButton>
                 <div style={{ padding: 5 }}></div>
                 <PanelButton onClick={props.onSaveClicked} data-tip="Save">

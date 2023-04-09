@@ -145,7 +145,7 @@ const Prompter = ({ imageUri, setImageUri }) => {
           />
         </div>
       </div>
-      <div style={{ maxWidth: "100%", padding: 10 }}>
+      <div className="flex flex-col items-center pt-4">
         <p
           class="subtitle is-7 text-subtitle"
           style={{ color: "#949494", marginBottom: 10 }}
@@ -153,10 +153,7 @@ const Prompter = ({ imageUri, setImageUri }) => {
           Preview:
         </p>
         {imageUri ? (
-          <img
-            style={{ maxWidth: "350px", width: "100%", maxHeight: "100%" }}
-            src={imageUri}
-          />
+          <img className="max-h-48 h-full" src={imageUri} />
         ) : (
           <center>No image selected</center>
         )}

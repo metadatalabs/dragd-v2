@@ -118,6 +118,12 @@ function BCDragDrop({
     }
   }
 
+  function onDiscardClicked() {
+    setItems(initialState);
+    setMode(EditorModes.VIEW);
+    // analytics.track('editor_discard');
+  }
+
   function onEditClicked() {
     setMode(EditorModes.EDIT);
     // analytics.track('editor_edit');
@@ -166,6 +172,7 @@ function BCDragDrop({
         initialState={initialState}
         onEditClicked={onEditClicked}
         onSaveClicked={onSaveClicked}
+        onDiscardClicked={onDiscardClicked}
         setItems={setItems}
         undoCount={undoCount}
         setUndoCount={setUndoCount}

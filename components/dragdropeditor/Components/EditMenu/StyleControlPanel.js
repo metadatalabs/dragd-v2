@@ -87,8 +87,8 @@ export default function StylePanelControls({ id }) {
 export const TabSwitcher = ({ tabs, tabicons, color = "green" }) => {
   const [activeTab, setActiveTab] = useState(0);
   return (
-    <div className="flex flex-col justify-between w-64 mb-3 max-h-full">
-      <div className="flex flex-col overflow-y-scroll">{tabs[activeTab]}</div>
+    <div className="flex flex-col justify-between w-64 mb-3">
+      <div className="flex flex-col max-h-full">{tabs[activeTab]}</div>
       <div className={`tabs tabs-boxed justify-around`}>
         {tabs.map((tab, index) => {
           return (
