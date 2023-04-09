@@ -46,9 +46,7 @@ function ConnectWalletPage(props) {
           {connectors.map((connector) => (
             <>
               <button
-                className={
-                  "button bg-gray-100/10 transition duration-150 hover:ring-2 hover:ring-dragd/50 hover:bg-gray-200/20 px-2 py-1 my-1 rounded-sm"
-                }
+                className={"btn px-2 py-1 my-1 -sm w-full text-left"}
                 style={{ justifyContent: "flex-start" }}
                 disabled={!connector.ready}
                 key={connector.id}
@@ -68,7 +66,12 @@ function ConnectWalletPage(props) {
           ))}
         </div>
       </div>
-      {error && <div>{error.message}</div>}
+      {error && (
+        <div className="alert alert-error shadow-lg p-2 pr-4">
+          <ErrorIcon />
+          {error.message}
+        </div>
+      )}
     </div>
   );
 }
@@ -88,14 +91,20 @@ function SignLoginPage(props) {
             console.log("setting session ", address);
             setSession((x) => ({ ...x, address, error: undefined }));
             setShowAuthModal(false);
-            setTimeout(() => {
-              router.push("/" + address);
-            }, 1000);
+            // setTimeout(() => {
+            // }, 1000);
+            router.push("/" + address);
+
             // redirect to dashboard
           }}
           onError={({ error }) => setSession((x) => ({ ...x, error }))}
         />
-        {session?.error && <div>{session.error.message}</div>}
+        {session?.error && (
+          <div className="alert alert-error shadow-lg">
+            <ErrorIcon />
+            {session.error.message}
+          </div>
+        )}
       </center>
     </>
   );
@@ -172,3 +181,21 @@ function SignInButton({ onSuccess, onError }) {
 }
 
 export default WalletModal;
+
+const ErrorIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="stroke-current flex-shrink-0 h-6 w-6"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
+    </svg>
+  );
+};
