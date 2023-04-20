@@ -30,6 +30,7 @@ export default function Omnibar(props) {
   return (
     <>
       <div
+        key={"omnibar-" + currentPath}
         className="navbar h-16 -mb-16 pointer-events-none"
         style={{ zIndex: 99999999 }}
       >

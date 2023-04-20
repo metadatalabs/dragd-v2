@@ -23,7 +23,7 @@ let provider = new ethers.providers.JsonRpcProvider(url);
 
 const whitelistedAccountDomains = {
   "prnth.eth": ["index", "docs.eth", "loveposters.eth", "nounshack.eth"],
-  "0xlok.eth": ["index", "l.eth", "loveposters.eth"],
+  "0xlok.eth": ["l.eth", "loveposters.eth"],
   "salmanneedsajob.eth": ["nounshack.eth"],
 };
 export const getBlockchainNames = async (address) => {

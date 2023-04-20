@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   useConnect,
   useDisconnect,
@@ -12,25 +12,62 @@ import { CryptoAuthContext } from "./CryptoAuth";
 import GenericModal from "./UI/GenericModal";
 import { ModalHeading, ShinyButton } from "./ui-helpers";
 import { useRouter } from "next/router";
-
+import NFTImage from "./UI/NFTImage";
 function WalletModal(props) {
   const { setShowAuthModal } = React.useContext(CryptoAuthContext);
-  const { isConnected } = useAccount();
-
+  const { isConnected, address } = useAccount();
+  const [isShowing, setIsShowing] = useState(false);
+  useEffect(() => {
+    setIsShowing(true);
+  }, []);
   return (
-    <GenericModal onDone={() => setShowAuthModal(false)}>
-      <div className="card lg:card-side">
-        <figure>
-          <div className={"flex flex-grow items-center justify-center"}>
-            <span className={"text-7xl animate-bounce"}>🛸</span>
+    <div
+      class="relative"
+      style={{ zIndex: 99999999 }}
+      aria-labelledby="modal-title"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div class="fixed inset-0 bg-black bg-opacity-75 transition-opacity"></div>
+
+      <div
+        class="fixed inset-0 overflow-y-auto"
+        style={{ zIndex: 99999999 }}
+        onClick={() => {
+          setShowAuthModal && setShowAuthModal(false);
+        }}
+      >
+        <div class="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
+          <div
+            class={`relative transform transition-all ${
+              isShowing ? "" : "translate-y-96"
+            } sm:my-8 w-min-sm w-max-full `}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <NFTImage
+              borderText={
+                isConnected ? address : "Connect your wallet to get started."
+              }
+            >
+              {!isConnected && <ConnectWalletPage />}
+              {isConnected && <SignLoginPage />}
+              <ul className="steps lg:steps-horizontal mt-4">
+                <li
+                  className={`step text-xs ${
+                    isConnected ? "step-primary" : ""
+                  }`}
+                >
+                  Connect
+                </li>
+                <li className={`step text-xs`}>Sign</li>
+              </ul>
+            </NFTImage>
           </div>
-        </figure>
-        <div className="card-body">
-          {!isConnected && <ConnectWalletPage />}
-          {isConnected && <SignLoginPage />}
         </div>
       </div>
-    </GenericModal>
+    </div>
   );
 }
 
@@ -42,17 +79,16 @@ function ConnectWalletPage(props) {
     <div>
       <ModalHeading>Connect your Wallet</ModalHeading>
       <div className={"flex flex-col"}>
-        <div className={"text-left"}>
+        <div className={"text-center"}>
           {connectors.map((connector) => (
             <>
               <button
-                className={"btn px-2 py-1 my-1 -sm w-full text-left"}
-                style={{ justifyContent: "flex-start" }}
+                className={"btn px-2 py-1 my-1 -sm text-center"}
                 disabled={!connector.ready}
                 key={connector.id}
                 onClick={() => connect({ connector })}
               >
-                {connector.name}
+                {connector.name.replace(/(legacy)/gi, "")}
                 {!connector.ready && " (unsupported)"}
                 {isLoading && connector.id === pendingConnector?.id && (
                   <div
@@ -83,7 +119,10 @@ function SignLoginPage(props) {
 
   return (
     <>
-      <ModalHeading>Sign in with your Wallet</ModalHeading>
+      <ModalHeading>
+        Sign in with <br />
+        your wallet
+      </ModalHeading>
 
       <center>
         <SignInButton
@@ -173,7 +212,7 @@ function SignInButton({ onSuccess, onError }) {
 
   return (
     <ShinyButton disabled={!state.nonce || state.loading} onClick={signIn}>
-      Sign-In with Ethereum
+      Sign Message
     </ShinyButton>
   );
 }

@@ -51,7 +51,7 @@ export default function PageSettingsModal({ siteData, onComplete }) {
         <>
           <div className={"flex flex-col items-center space-y-2"}>
             <NameUpdater siteData={siteData} />
-
+            <HeadUpdater siteData={siteData} />
             <DevTools siteData={siteData} />
           </div>
         </>
@@ -148,6 +148,111 @@ const NameUpdater = ({ siteData }) => {
             <button className="btn">Edit</button>
           )}
         </label>
+      </div>
+
+      {error && <ErrorText>{error}</ErrorText>}
+    </>
+  );
+};
+
+const HeadUpdater = ({ siteData }) => {
+  const [head, setHead] = React.useState(
+    siteData.head || {
+      title: "My Dragd Page",
+      description: "",
+      keywords: "",
+      image: "",
+    }
+  );
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
+  const updateSiteSubmit = async () => {
+    setLoading(true);
+    const updatedSite = {
+      ...siteData,
+      head,
+    };
+
+    var query = updateSite(siteData._id, updatedSite);
+
+    query.then((result) => {
+      setError(null);
+      setLoading(false);
+    });
+  };
+  return (
+    <>
+      <div className="form-control">
+        <label className="label">
+          <span className="label-text">Headers</span>
+        </label>
+        <>
+          {head &&
+            Object.keys(head).map((item, index) => {
+              return (
+                <div className="form-control" key={item}>
+                  <label className="input-group">
+                    <input
+                      type="text"
+                      className="input input-bordered"
+                      placeholder="key"
+                      value={item}
+                      // onChange={(e) => {
+                      //   var newHead = { ...head };
+                      //   newHead[e.target.value] = head[item];
+                      //   delete newHead[item];
+                      //   setHead(newHead);
+                      // }}
+                    />
+                    <input
+                      type="text"
+                      className="input input-bordered"
+                      placeholder="value"
+                      value={head[item]}
+                      onChange={(e) => {
+                        var newHead = { ...head };
+                        newHead[item] = e.target.value;
+                        console.log("setting head to ", newHead, "");
+                        setHead(newHead);
+                      }}
+                    />
+                  </label>
+                </div>
+              );
+            })}
+
+          <div className="form-control">
+            <label className="input-group">
+              <input
+                type="text"
+                className="input input-bordered"
+                placeholder="key"
+                value={""}
+                // onChange={(e) => {
+                //   var newHead = { ...head };
+                //   newHead[e.target.value] = head[item];
+                //   delete newHead[item];
+                //   setHead(newHead);
+                // }}
+              />
+              <button
+                onClick={() => {
+                  // setHead({ ...head, [Object.keys(head).length]: "" });
+                }}
+                className={`btn ${loading ? "loading" : ""}`}
+              >
+                Add Field
+              </button>
+            </label>
+          </div>
+
+          <button
+            onClick={async () => updateSiteSubmit()}
+            className={`btn ${loading ? "loading" : ""}`}
+          >
+            Save
+          </button>
+        </>
       </div>
 
       {error && <ErrorText>{error}</ErrorText>}

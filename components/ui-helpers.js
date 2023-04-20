@@ -1,7 +1,5 @@
 export const ModalHeading = ({ children }) => (
-  <h2 className="text-lg leading-6 font-medium w-full text-center mb-4">
-    {children}
-  </h2>
+  <h2 className="text-sm opacity-50 w-full text-center mb-4">{children}</h2>
 );
 
 export const ShinyButton = (props) => (
