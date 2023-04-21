@@ -133,6 +133,7 @@ function SignLoginPage(props) {
             setShowAuthModal(false);
             // redirect to dashboard
             router.push("/" + address);
+            window.location.reload();
           }}
           onError={({ error }) => setSession((x) => ({ ...x, error }))}
         />
