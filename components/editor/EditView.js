@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { CryptoAuthContext } from "../CryptoAuth";
-import { createSite, updateSite, useSitesByOwner } from "../DataProvider";
-import Omnibar from "../Omnibar";
+import { createSite, updateSite } from "../DataProvider";
 import Dragdrop from "../dragdropeditor/index.tsx";
 export default function EditView(props) {
   const { currentPath, immutable, demo } = props;

@@ -1,16 +1,15 @@
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+
 import GenericDropdown from "/components/UI/GenericDropdown";
-import { AddressBadge, ShinyButton } from "/components/ui-helpers";
 import * as React from "react";
 import { useDisconnect, useEnsName } from "wagmi";
 import { CryptoAuthContext } from "../CryptoAuth";
 
-import WalletModal from "../WalletModal";
-import { useRouter } from "next/router";
-import LoginButton from "./LoginButton";
-import SiteList from "./SiteList";
-import { ThreeDots } from "../ui-helpers";
-import PageSettings from "./Settings/PageSettings";
-import { useSitesByOwner } from "../DataProvider";
+const WalletModal = dynamic(() => import("../WalletModal"));
+const LoginButton = dynamic(() => import("./LoginButton"));
+const SiteList = dynamic(() => import("./SiteList"));
+const PageSettings = dynamic(() => import("./Settings/PageSettings"));
 
 export default function Omnibar(props) {
   const { session, setSession, showAuthModal, setShowAuthModal } =

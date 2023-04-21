@@ -47,6 +47,7 @@ function WalletModal(props) {
             }}
           >
             <NFTImage
+              isConnected={isConnected}
               borderText={
                 isConnected ? address : "Connect your wallet to get started."
               }
@@ -77,7 +78,6 @@ function ConnectWalletPage(props) {
 
   return (
     <div>
-      <ModalHeading>Connect your Wallet</ModalHeading>
       <div className={"flex flex-col"}>
         <div className={"text-center"}>
           {connectors.map((connector) => (

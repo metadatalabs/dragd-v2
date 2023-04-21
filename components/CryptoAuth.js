@@ -10,8 +10,9 @@ import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { publicProvider } from "wagmi/providers/public";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
+import dynamic from "next/dynamic";
 
-import WalletModal from "./WalletModal";
+const WalletModal = dynamic(() => import("./WalletModal"));
 
 export const CryptoAuthContext = createContext(null);
 

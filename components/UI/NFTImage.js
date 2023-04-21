@@ -1,13 +1,19 @@
 import { useState } from "react";
+import AnimatedGrid from "./AnimatedGrid";
 
-export default function NFTImage({ borderText, children, ...props }) {
+export default function NFTImage({
+  isConnected,
+  borderText,
+  children,
+  ...props
+}) {
   const [isActive, setIsActive] = useState(false);
 
   const frameText = borderText || `0x6982508145454ce325ddbe47a25d4ec3d2311933`;
 
   return (
     <div
-      className={`border border-white p-1 rounded-[36px] bg-slate-700 text-white`}
+      className={`border border-black p-1 rounded-[36px] bg-white text-white`}
     >
       <svg
         class="svgwave"
@@ -29,7 +35,7 @@ export default function NFTImage({ borderText, children, ...props }) {
           "
         ></path>
 
-        <text text-anchor="middle" font-size="10px" fill="white">
+        <text text-anchor="middle" font-size="10px" fill="black">
           <textPath class="my-text" href="#wavepath" startOffset="50%">
             <animate
               attributeName="startOffset"
@@ -57,8 +63,22 @@ export default function NFTImage({ borderText, children, ...props }) {
       </svg>
       <div style={{ marginTop: "-448px", height: 448, padding: 11 }}>
         <div
-          className={`border border-white/25 rounded-[22px] h-full flex flex-col items-center justify-center`}
+          className={`border border-black/25 rounded-[22px] h-full flex flex-col items-center justify-between py-4`}
+          style={{ color: "black" }}
         >
+          <AnimatedGrid
+            animateGrid={isConnected}
+            intro={false}
+            COORDS={[
+              [50, 10],
+              [90, 10],
+              [50, 30],
+              [60, 40],
+              [70, 40],
+              [80, 40],
+              [90, 30],
+            ]}
+          />
           {children}
         </div>
       </div>

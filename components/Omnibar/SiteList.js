@@ -1,9 +1,10 @@
 import React from "react";
 import { CryptoAuthContext } from "../CryptoAuth";
-import { createSite, useSitesByOwner, deleteSite } from "../DataProvider";
-import { Chevron, DownChevron, ThreeDots, ViewCount } from "../ui-helpers";
+import { useSitesByOwner } from "../DataProvider";
+import { DownChevron } from "../ui-helpers";
 import GenericDropdown from "../UI/GenericDropdown";
-import NewSiteModal from "./NewSiteModal";
+import dynamic from "next/dynamic";
+const NewSiteModal = dynamic(() => import("./NewSiteModal"));
 
 export default function SiteList({ siteData, currentPath, setModal }) {
   const { session } = React.useContext(CryptoAuthContext);
