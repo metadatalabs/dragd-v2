@@ -58,9 +58,11 @@ export async function getStaticProps({ params, preview, previewData }) {
     data = fetchRes[0];
 
     // if the page is not found, we show a generic page
-    if (!data) {
+    if (!data || !data.page) {
       const fetchRes = await getItemByName(`docs.eth/profile`);
       data = fetchRes[0];
+      data.siteName = siteName.split("/")[0];
+      data.pageName = siteName.split("/")[1];
     }
 
     data && (data.preload = true); // set this flag so we know the data is preloaded
