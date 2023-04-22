@@ -68,6 +68,7 @@ export async function getStaticProps({ params, preview, previewData }) {
     data && (data.preload = true); // set this flag so we know the data is preloaded
   } catch (error) {}
 
+  console.log("rendering site: ", siteName);
   return {
     props: {
       sitePath: siteName,
