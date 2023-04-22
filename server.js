@@ -52,8 +52,8 @@ const buildAndDeployToIPFS = async (siteBuildJob) => {
 
   if (!ipns) {
     // name doesn't exist, create name
-    console.log("[IPNS] Created name: ", name.toString());
     name = await Name.create();
+    console.log("[IPNS] Created name: ", name.toString());
     await fs.promises.writeFile("keys/" + name.toString(), bytes);
     await updateSiteBuilds(_id, {
       ipns: name.toString(),
