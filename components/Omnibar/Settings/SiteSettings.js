@@ -44,66 +44,70 @@ export const DeployToIpfs = ({ siteData }) => {
         <table className="table w-full">
           <tbody>
             {/* row 1 */}
-            <tr>
-              <td>
-                <div className="flex items-center space-x-3">
-                  <div>
-                    <div className="font-bold">IPFS</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                {GetShortenedString(siteBuildData.cid, 10)}
-                <br />
-              </td>
-              <th>
-                {siteBuildData.status == "deployed" ? (
-                  <a
-                    href={`https://ipfs.io/ipfs/${siteBuildData.cid}`}
-                    target="_blank"
-                  >
-                    <div className={`badge badge-success h-auto`}>
-                      Deployed to IPFS <LinkIcon />
+            {siteBuildData?.cid && (
+              <tr>
+                <td>
+                  <div className="flex items-center space-x-3">
+                    <div>
+                      <div className="font-bold">IPFS</div>
                     </div>
-                  </a>
-                ) : (
-                  <div className="badge badge-warning">
-                    In Progress
-                    <button
-                      onClick={() => {
-                        invalidateSiteBuildCache(siteData.siteName);
-                      }}
-                    >
-                      🔄
-                    </button>
                   </div>
-                )}
-              </th>
-            </tr>
+                </td>
+                <td>
+                  {GetShortenedString(siteBuildData.cid, 10)}
+                  <br />
+                </td>
+                <th>
+                  {siteBuildData.status == "deployed" ? (
+                    <a
+                      href={`https://ipfs.io/ipfs/${siteBuildData.cid}`}
+                      target="_blank"
+                    >
+                      <div className={`badge badge-success h-auto`}>
+                        Deployed to IPFS <LinkIcon />
+                      </div>
+                    </a>
+                  ) : (
+                    <div className="badge badge-warning">
+                      In Progress
+                      <button
+                        onClick={() => {
+                          invalidateSiteBuildCache(siteData.siteName);
+                        }}
+                      >
+                        🔄
+                      </button>
+                    </div>
+                  )}
+                </th>
+              </tr>
+            )}
 
             {/* row 1 */}
-            <tr>
-              <td>
-                <div className="flex items-center space-x-3">
-                  <div>
-                    <div className="font-bold">IPNS</div>
-                  </div>
-                </div>
-              </td>
-              <td>{GetShortenedString(siteBuildData.ipns)}</td>
-              <th>
-                {siteBuildData.ipns && (
-                  <a
-                    href={`https://ipfs.io/ipns/${siteBuildData.ipns}`}
-                    target="_blank"
-                  >
-                    <div className={`badge badge-success h-auto`}>
-                      Deployed to IPNS <LinkIcon />
+            {siteBuildData?.ipns && (
+              <tr>
+                <td>
+                  <div className="flex items-center space-x-3">
+                    <div>
+                      <div className="font-bold">IPNS</div>
                     </div>
-                  </a>
-                )}
-              </th>
-            </tr>
+                  </div>
+                </td>
+                <td>{GetShortenedString(siteBuildData.ipns)}</td>
+                <th>
+                  {siteBuildData.ipns && (
+                    <a
+                      href={`https://ipfs.io/ipns/${siteBuildData.ipns}`}
+                      target="_blank"
+                    >
+                      <div className={`badge badge-success h-auto`}>
+                        Deployed to IPNS <LinkIcon />
+                      </div>
+                    </a>
+                  )}
+                </th>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
