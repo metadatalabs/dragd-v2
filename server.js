@@ -45,23 +45,24 @@ const readEnvFile = (file) => {
 var is_currently_building = false;
 
 const buildAndDeployToIPFS = async (siteBuildJob) => {
-  const { _id, siteName, ipns, ipnsKey } = siteBuildJob;
+  const { _id, siteName, ipns } = siteBuildJob;
 
   // we check for / create an IPNS name first, so the linking flow can continue on the client
   var name;
 
-  if (!ipnsKey) {
+  if (!ipns) {
     // name doesn't exist, create name
+    console.log("[IPNS] Created name: ", name.toString());
     name = await Name.create();
-    console.log("[IPNS] Created name: ", name.key.bytes);
+    await fs.promises.writeFile("keys/" + name.toString(), bytes);
     await updateSiteBuilds(_id, {
       ipns: name.toString(),
-      ipnsKey: name.key.bytes,
     });
   } else {
-    console.log("[IPNS] reading ", ipnsKey);
-    name = await Name.from(ipnsKey);
-    console.log("[IPNS] Read name from db: ", name.toString());
+    console.log("[IPNS] Reading name: ", ipns);
+    const bytes = await fs.promises.readFile("keys/" + ipns);
+    name = await Name.from(bytes);
+    console.log("[IPNS] Read name from file: ", name.toString());
   }
 
   const env = {
