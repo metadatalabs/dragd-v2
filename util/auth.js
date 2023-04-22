@@ -35,9 +35,7 @@ export const getBlockchainNames = async (address) => {
 
   if (address && ethers.utils.isAddress(address)) {
     try {
-      ensName = await provider.lookupAddress(address);
-      const resolver = ensName ? await provider.getResolver(ensName) : null;
-      let avatar = resolver ? await resolver.getAvatar() : null;
+      ensName = await getData(address);
     } catch (e) {
       console.log(e);
     }
@@ -49,6 +47,45 @@ export const getBlockchainNames = async (address) => {
     addresses = [...addresses, ...whitelistedAccountDomains[ensName]];
   }
 
-  console.log("addresses: ", addresses);
   return addresses;
 };
+
+const cache = {};
+const cacheLimit = 20;
+const cacheTime = 10 * 60 * 1000; // 10 minutes in milliseconds
+
+function getCachedData(key) {
+  const cached = cache[key];
+  if (cached && Date.now() - cached.timestamp < cacheTime) {
+    return cached.data;
+  }
+  delete cache[key];
+}
+
+function setCachedData(key, data) {
+  if (Object.keys(cache).length >= cacheLimit) {
+    const oldestKey = Object.keys(cache).reduce((a, b) =>
+      cache[a].timestamp < cache[b].timestamp ? a : b
+    );
+    delete cache[oldestKey];
+  }
+  cache[key] = {
+    data,
+    timestamp: Date.now(),
+  };
+}
+
+async function getDataFromApi(address) {
+  // implement the code to get data from the API
+  return await provider.lookupAddress(address);
+}
+
+async function getData(key) {
+  const cachedData = getCachedData(key);
+  if (cachedData) {
+    return Promise.resolve(cachedData);
+  }
+  const apiData = await getDataFromApi(key);
+  setCachedData(key, apiData);
+  return apiData;
+}
