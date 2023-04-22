@@ -6,13 +6,12 @@ import { useContext } from "react";
 import { CryptoAuthContext } from "../components/CryptoAuth";
 import { getItemByName, getItemsBySiteName } from "./api/_db";
 
-function GenericPage(props) {
+function GenericPage({ data, sitePath, key, ...props }) {
   const router = useRouter();
-  const { session, setSession, showAuthModal, setShowAuthModal } =
-    useContext(CryptoAuthContext);
+  const { session } = useContext(CryptoAuthContext);
 
-  const siteDataJson = props.data || {};
-  const currentPath = props.sitePath;
+  const siteDataJson = data || {};
+  const currentPath = sitePath;
 
   const isPageOwner = session?.address && true;
   const isDemoPage = currentPath == "index/index";
