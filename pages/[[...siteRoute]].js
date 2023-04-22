@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { CryptoAuthContext } from "../components/CryptoAuth";
 import { getItemByName, getItemsBySiteName } from "./api/_db";
 
-function GenericPage({ data, sitePath, key, ...props }) {
+function GenericPage({ data, sitePath, ...props }) {
   const router = useRouter();
   const { session } = useContext(CryptoAuthContext);
 
@@ -60,6 +60,8 @@ export async function getStaticProps({ params, preview, previewData }) {
     if (!data || !data.page) {
       const fetchRes = await getItemByName(`docs.eth/profile`);
       data = fetchRes[0];
+      delete data._id;
+      // data._id = null;
       data.siteName = siteName.split("/")[0];
       data.pageName = siteName.split("/")[1];
     }

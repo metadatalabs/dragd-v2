@@ -105,7 +105,10 @@ const buildAndDeployToIPFS = async (siteBuildJob) => {
   await updateSiteBuilds(_id, {
     cid: rootCid,
     status: "deployed",
-    buildCIDs: [...siteBuildJob.buildCIDs, rootCid],
+    buildCIDs: [
+      ...siteBuildJob.buildCIDs,
+      { cid: rootCid, timestamp: new Date(), revision },
+    ],
   });
 };
 

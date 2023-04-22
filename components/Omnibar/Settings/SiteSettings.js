@@ -5,6 +5,7 @@ import {
   useSiteBuildByName,
 } from "../../DataProvider";
 import { ErrorText, GetShortenedString, LinkIcon } from "../../ui-helpers";
+import { CopyIcon } from "../../dragdropeditor/helpers/helper";
 export const DeployToIpfs = ({ siteData }) => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
@@ -33,7 +34,12 @@ export const DeployToIpfs = ({ siteData }) => {
     <>
       <div className="overflow-x-auto w-full">
         <div className="flex flex-row justify-between items-center py-4 border-b">
-          <div className="text-xl font-bold">Permaweb</div>
+          <div className="text-xl font-bold text-left">
+            Permaweb <br />
+            <span className="text-sm opacity-50">
+              Manage your ENS and IPFS Settings
+            </span>
+          </div>
           <button
             onClick={async () => deployIpfs()}
             className={`btn sm:btn-sm md:btn-md ${loading ? "loading" : ""}`}
@@ -44,7 +50,7 @@ export const DeployToIpfs = ({ siteData }) => {
         <table className="table w-full">
           <tbody>
             {/* row 1 */}
-            {siteBuildData?.cid && (
+            {siteBuildData && (
               <tr>
                 <td>
                   <div className="flex items-center space-x-3">
@@ -54,19 +60,30 @@ export const DeployToIpfs = ({ siteData }) => {
                   </div>
                 </td>
                 <td>
-                  {GetShortenedString(siteBuildData.cid, 10)}
+                  {siteBuildData.cid &&
+                    GetShortenedString(siteBuildData.cid, 10)}
                   <br />
                 </td>
                 <th>
                   {siteBuildData.status == "deployed" ? (
-                    <a
-                      href={`https://ipfs.io/ipfs/${siteBuildData.cid}`}
-                      target="_blank"
-                    >
+                    <div className={`flex flex-row items-center`}>
                       <div className={`badge badge-success h-auto`}>
-                        Deployed to IPFS <LinkIcon />
+                        Deployed
                       </div>
-                    </a>
+                      <a
+                        className="p-1"
+                        href={`https://ipfs.io/ipfs/${siteBuildData?.cid}`}
+                        target="_blank"
+                      >
+                        <CopyIcon className={"h-4"} />
+                      </a>
+                      <a
+                        href={`https://ipfs.io/ipfs/${siteBuildData.cid}`}
+                        target="_blank"
+                      >
+                        <LinkIcon />
+                      </a>
+                    </div>
                   ) : (
                     <div className="badge badge-warning">
                       In Progress
@@ -97,7 +114,7 @@ export const DeployToIpfs = ({ siteData }) => {
                 <th>
                   {siteBuildData.ipns && (
                     <a
-                      href={`https://ipfs.io/ipns/${siteBuildData.ipns}`}
+                      href={`https://name.web3.storage/name/${siteBuildData.ipns}`}
                       target="_blank"
                     >
                       <div className={`badge badge-success h-auto`}>
@@ -165,7 +182,7 @@ const CIDViewer = ({ siteBuildData }) => {
                     </div> */}
                       <div>
                         <div className="font-bold">
-                          {GetShortenedString(cid)}
+                          {GetShortenedString(cid.cid)}
                         </div>
                       </div>
                     </div>
@@ -173,22 +190,22 @@ const CIDViewer = ({ siteBuildData }) => {
                   <td>
                     {" "}
                     <span className="badge badge-ghost badge-sm">
-                      Desktop Support Technician
+                      {cid?.timestamp}
                     </span>{" "}
                   </td>
                   <th>
                     <a
                       className="p-1"
-                      href={`https://ipfs.io/ipfs/${cid}`}
+                      href={`https://ipfs.io/ipfs/${cid?.cid}`}
                       target="_blank"
                     >
-                      <LinkIcon />
+                      <CopyIcon className={"h-4"} />
                     </a>
                   </th>{" "}
                   <th>
                     <a
                       className="p-1"
-                      href={`https://ipfs.io/ipfs/${cid}`}
+                      href={`https://ipfs.io/ipfs/${cid?.cid}`}
                       target="_blank"
                     >
                       <LinkIcon />
