@@ -88,7 +88,7 @@ const buildAndDeployToIPFS = async (siteBuildJob) => {
   });
 
   var revision;
-  if (!ipnsKey) {
+  if (!ipns) {
     const value = "/ipfs/" + rootCid;
     console.log("[IPNS] creating revision: ", value, name);
     revision = await Name.v0(name, value);
