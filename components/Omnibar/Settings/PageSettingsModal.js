@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import GenericModal from "../../UI/GenericModal";
 import { ErrorText } from "../../ui-helpers";
 import { deleteSite, updateSite } from "../../DataProvider";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { DeployToIpfs } from "./SiteSettings";
 
 const pages = ["Page Settings", "Site Settings", "Delete"];
@@ -194,7 +194,7 @@ const HeadUpdater = ({ siteData }) => {
                   <label className="input-group">
                     <input
                       type="text"
-                      className="input input-bordered"
+                      className="input input-xs input-bordered"
                       placeholder="key"
                       value={item}
                       // onChange={(e) => {
@@ -206,7 +206,7 @@ const HeadUpdater = ({ siteData }) => {
                     />
                     <input
                       type="text"
-                      className="input input-bordered"
+                      className="input input-xs input-bordered"
                       placeholder="value"
                       value={head[item]}
                       onChange={(e) => {
@@ -221,11 +221,11 @@ const HeadUpdater = ({ siteData }) => {
               );
             })}
 
-          <div className="form-control">
+          <div className="form-control w-full ">
             <label className="input-group">
               <input
                 type="text"
-                className="input input-bordered"
+                className="input input-xs input-bordered"
                 placeholder="key"
                 value={""}
                 // onChange={(e) => {
@@ -239,7 +239,7 @@ const HeadUpdater = ({ siteData }) => {
                 onClick={() => {
                   // setHead({ ...head, [Object.keys(head).length]: "" });
                 }}
-                className={`btn ${loading ? "loading" : ""}`}
+                className={`btn btn-xs ${loading ? "loading" : ""}`}
               >
                 Add Field
               </button>

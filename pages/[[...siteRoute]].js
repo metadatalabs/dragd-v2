@@ -1,5 +1,5 @@
 import { updateSite } from "/components/DataProvider";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import EditView from "../components/editor/EditView";
 import Omnibar from "../components/Omnibar";
 import { useContext } from "react";

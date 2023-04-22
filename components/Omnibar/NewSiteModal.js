@@ -2,7 +2,7 @@ import React from "react";
 import { createSite, getSites } from "/components/DataProvider";
 import GenericModal from "../UI/GenericModal";
 import { ErrorText } from "../ui-helpers";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function NewSiteModal({ site, onComplete }) {
   const router = useRouter();

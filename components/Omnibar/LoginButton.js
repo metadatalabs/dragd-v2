@@ -3,7 +3,7 @@ import { AddressBadge, ShinyButton } from "/components/ui-helpers";
 import * as React from "react";
 import { useDisconnect, useEnsName, useEnsAvatar } from "wagmi";
 import { CryptoAuthContext } from "../CryptoAuth";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function LoginButton(props) {
   const { session, setSession, showAuthModal, setShowAuthModal } =

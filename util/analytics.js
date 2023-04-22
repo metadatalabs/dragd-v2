@@ -1,6 +1,6 @@
 // import Analytics from 'analytics';
 // import googleAnalyticsPlugin from '@analytics/google-analytics';
-import Router from 'next/router';
+import Router from "next/navigation";
 
 // Initialize analytics and plugins
 // Documentation: https://getanalytics.io
@@ -14,28 +14,26 @@ import Router from 'next/router';
 // });
 
 export default class analytics {
-    constructor()
-    {
-        this.track();
-    }
-    page = (x) => {
-        console.log('page');
-    }
+  constructor() {
+    this.track();
+  }
+  page = (x) => {
+    console.log("page");
+  };
 
-    track(x){
-        console.log('track', x);
-    }
-    
+  track(x) {
+    console.log("track", x);
+  }
 }
 
 // Track initial pageview
-if (typeof window !== 'undefined') {
-    // analytics.page();
+if (typeof window !== "undefined") {
+  // analytics.page();
 }
 
 // Track pageview on route change
-Router.events.on('routeChangeComplete', (url) => {
-    // analytics.page();
-});
+// Router.events.on("routeChangeComplete", (url) => {
+//   // analytics.page();
+// });
 
-// export default analytics; 
+// export default analytics;

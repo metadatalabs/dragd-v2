@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { CryptoAuthContext } from "../../CryptoAuth";
 import { deleteSite } from "../../DataProvider";
@@ -9,7 +8,6 @@ import PageSettingsModal from "./PageSettingsModal";
 export default function PageSettings({ siteData }) {
   const { session } = useContext(CryptoAuthContext);
   const [modal, setModal] = useState(null);
-  const router = useRouter();
 
   return (
     <>

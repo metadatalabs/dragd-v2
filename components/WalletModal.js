@@ -11,7 +11,7 @@ import { CryptoAuthContext } from "./CryptoAuth";
 
 import GenericModal from "./UI/GenericModal";
 import { ModalHeading, ShinyButton } from "./ui-helpers";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import NFTImage from "./UI/NFTImage";
 function WalletModal(props) {
   const { setShowAuthModal } = React.useContext(CryptoAuthContext);
