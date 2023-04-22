@@ -9,6 +9,11 @@ export const ShinyButton = (props) => (
   />
 );
 
+export const GetShortenedString = (word) => {
+  if (word?.length > 10) return word.slice(0, 6) + "..." + word.slice(-4);
+  else return word;
+};
+
 // badge that shows truncated wallet address
 export const AddressBadge = ({ address, truncate = 4 }) => (
   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800">

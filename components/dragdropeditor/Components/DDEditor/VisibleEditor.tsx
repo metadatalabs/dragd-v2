@@ -145,8 +145,8 @@ export default function VisibleEditor(props) {
             <div style={{ padding: 5 }}></div>
 
             {mode == EditorModes.VIEW ? (
-              <PanelButton onClick={props.onEditClicked} data-tip="Edit Page">
-                <EditIcon />
+              <PanelButton onClick={props.onEditClicked}>
+                EDIT <EditIcon />
               </PanelButton>
             ) : (
               <div style={{ display: "flex", flexDirection: "row" }}>
@@ -161,8 +161,8 @@ export default function VisibleEditor(props) {
                   X
                 </PanelButton>
                 <div style={{ padding: 5 }}></div>
-                <PanelButton onClick={props.onSaveClicked} data-tip="Save">
-                  <SaveIcon />
+                <PanelButton onClick={props.onSaveClicked}>
+                  SAVE <SaveIcon />
                 </PanelButton>
               </div>
             )}
@@ -174,7 +174,7 @@ export default function VisibleEditor(props) {
 }
 
 const PanelButton = (props) => (
-  <button className="btn tooltip pointer-events-auto" {...props}>
+  <button className="btn tooltip flex flex-row pointer-events-auto" {...props}>
     {props.children}
   </button>
 );
@@ -187,7 +187,7 @@ const EditIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-6 h-6"
+      className="w-6 h-6 ml-1 -mr-1"
     >
       <path
         strokeLinecap="round"
@@ -206,7 +206,7 @@ const SaveIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-6 h-6"
+      className="w-6 h-6 ml-2 -mr-1"
     >
       <path
         strokeLinecap="round"
