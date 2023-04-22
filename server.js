@@ -54,13 +54,13 @@ const buildAndDeployToIPFS = async (siteBuildJob) => {
     // name doesn't exist, create name
     name = await Name.create();
     console.log("[IPNS] Created name: ", name.toString());
-    await fs.promises.writeFile("keys/" + name.toString(), name.key.bytes);
+    await fs.promises.writeFile(name.toString(), name.key.bytes);
     await updateSiteBuilds(_id, {
       ipns: name.toString(),
     });
   } else {
     console.log("[IPNS] Reading name: ", ipns);
-    const bytes = await fs.promises.readFile("keys/" + ipns);
+    const bytes = await fs.promises.readFile(ipns);
     name = await Name.from(bytes);
     console.log("[IPNS] Read name from file: ", name.toString());
   }
