@@ -130,19 +130,15 @@ const Prompter = ({ imageUri, setImageUri }) => {
           style={{ overflow: "hidden" }}
         />
         <div style={{ width: 18 }} />
-        <div
-          className={"btn"}
-          onClick={() => {
-            loadImageToUri();
-          }}
-        >
-          <img
-            style={{
-              width: "18px",
-              height: "18px",
+        <div className="tooltip" data-tip="Upload image">
+          <button
+            className={"btn btn-ghost btn-outline"}
+            onClick={() => {
+              loadImageToUri();
             }}
-            src="https://i.imgur.com/rFn3Kjx.png"
-          />
+          >
+            <img className="h-6 w-11" src="https://i.imgur.com/rFn3Kjx.png" />
+          </button>
         </div>
       </div>
       <div className="flex flex-col items-center pt-4">

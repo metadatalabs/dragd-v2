@@ -10,14 +10,16 @@ export default function StylePanelControls({ id }) {
 
   const ControlList = {
     Background: (
-      <ColorPicker
-        color={elemData.style?.backgroundColor || "transparent"}
-        onChange={(color) => {
-          onLocalUpdate({
-            style: { ...elemData.style, backgroundColor: color },
-          });
-        }}
-      />
+      <div className={"pl-8"}>
+        <ColorPicker
+          color={elemData.style?.backgroundColor || "transparent"}
+          onChange={(color) => {
+            onLocalUpdate({
+              style: { ...elemData.style, backgroundColor: color },
+            });
+          }}
+        />
+      </div>
     ),
     Opacity: (
       <SliderWithInput
@@ -72,7 +74,10 @@ export default function StylePanelControls({ id }) {
       <div>
         {Object.keys(ControlList).map((eachChild) => {
           return (
-            <div key={id + "-" + eachChild} className="flex flex-row py-1">
+            <div
+              key={id + "-" + eachChild}
+              className="flex flex-row py-1 items-center"
+            >
               <div className="w-2/6">{eachChild}</div>
               <div className="w-4/6">{ControlList[eachChild]}</div>
             </div>

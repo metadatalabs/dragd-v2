@@ -8,7 +8,7 @@ export default function ColorPicker({ color, onChange, onClose }) {
   return (
     <div className="dropdown is-active">
       <div
-        className={"dropdown-trigger outline my-2"}
+        className={"dropdown-trigger outline my-1"}
         onClick={() => {
           setSelected(!selected);
         }}

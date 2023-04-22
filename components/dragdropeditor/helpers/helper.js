@@ -517,7 +517,7 @@ export const SliderWithInput = ({
           onChange={(e) => {
             onChange(e.target.value);
           }}
-          class="range mx-2"
+          class="range range-xs mx-2"
         />
       </div>
     </>

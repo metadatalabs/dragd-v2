@@ -6,7 +6,10 @@ export default function GenericDropdown({ children, border, ...props }) {
 
   return (
     <div className={`dropdown dropdown-end ${border && "outline rounded"}`}>
-      <label tabIndex={0} className={`btn btn-ghost no-animation avatar`}>
+      <label
+        tabIndex={0}
+        className={`btn btn-sm btn-ghost no-animation avatar`}
+      >
         {props.label}
         {/* <div className="w-10 rounded-full">
             <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />

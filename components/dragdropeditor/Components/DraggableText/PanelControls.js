@@ -5,7 +5,7 @@ import analytics from "../../../../util/analytics";
 import { useContext, useEffect, useState } from "react";
 import SiteContext from "../../siteContext";
 import { Row, SliderWithInput, StyleToggleButton } from "../../helpers/helper";
-import GenericDropdown from "/components/UI/GenericDropdown";
+import GenericDropdown from "../../../UI/GenericDropdown";
 import StylePanelControls, { TabSwitcher } from "../EditMenu/StyleControlPanel";
 
 const googleFonts = fonts["googleFonts"];
@@ -36,7 +36,7 @@ export default function PanelControls({ id }) {
 
             <table style={{ margin: 2 }}>
               <tr>
-                <td className={"w-2/6 text-sm"}>Font</td>
+                <td className={"w-2/6 text-sm py-3"}>Font</td>
                 <td>
                   <GenericDropdown
                     border={true}

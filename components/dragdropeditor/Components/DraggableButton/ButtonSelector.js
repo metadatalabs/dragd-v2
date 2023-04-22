@@ -15,9 +15,9 @@ export function ButtonSelector(props) {
   return (
     <>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div className="form-control w-full -mt-4">
+        <div className="form-control w-full -mt-4 mb-2">
           <label className="label">
-            <span className="label-text">Add Button</span>
+            <span className="label-text">Open a Link</span>
           </label>
           <label className="input-group w-full">
             <input
@@ -44,7 +44,7 @@ export function ButtonSelector(props) {
                     width: 200,
                     height: 50,
                   },
-                  href: value,
+                  url: value,
                 });
                 props.close();
               }}
@@ -53,18 +53,8 @@ export function ButtonSelector(props) {
             </button>
           </label>
         </div>
-
-        <div class="is-divider" data-content="OR"></div>
       </div>
-      <div
-        style={{
-          width: "100%",
-          height: 1,
-          backgroundColor: `rgba(0,0,0,0.3)`,
-          margin: "15px 0px 15px",
-        }}
-      />
-      <div className="flex flex-row overflow-y-none gap-x-2 sm:w-screen md:w-96">
+      <div className="flex flex-row overflow-y-none justify-center gap-x-2 sm:w-screen md:w-96">
         {[
           ["https://", "#", "Any Link"],
           ["https://opensea.com/", "OS", "Opensea"],
@@ -91,6 +81,25 @@ export function ButtonSelector(props) {
           );
         })}
       </div>
+      <div className="divider">OR</div>
+      <button
+        className={"btn"}
+        onClick={() => {
+          props.addItemToList({
+            type: "button",
+            size: {
+              width: 200,
+              height: 50,
+            },
+            label: "Connect Wallet",
+            variant: "function",
+            function: "showAuthModal()",
+          });
+          props.close();
+        }}
+      >
+        Call a Function
+      </button>
     </>
   );
 }

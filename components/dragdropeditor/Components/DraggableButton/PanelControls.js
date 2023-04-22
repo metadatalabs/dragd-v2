@@ -55,6 +55,9 @@ export default function PanelControls({ id, setPanelControls = () => {} }) {
                   className="input input-bordered"
                   placeholder="functionName()"
                   value={elemData.function}
+                  onChange={(e) => {
+                    onLocalUpdate({ function: e.target.value });
+                  }}
                 ></input>
               </>
             ) : (
@@ -66,10 +69,10 @@ export default function PanelControls({ id, setPanelControls = () => {} }) {
                   key={"link"}
                   type="text"
                   className="input input-bordered"
-                  value={elemData.href}
+                  value={elemData.url}
                   placeholder="https://dra.gd"
                   onChange={(e) => {
-                    onLocalUpdate({ href: e.target.value });
+                    onLocalUpdate({ url: e.target.value });
                   }}
                 ></input>
                 <label className="label cursor-pointer">
