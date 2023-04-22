@@ -129,11 +129,9 @@ function SignLoginPage(props) {
           onSuccess={({ address }) => {
             console.log("setting session ", address);
             setSession((x) => ({ ...x, address, error: undefined }));
-            saveSession();
             setShowAuthModal(false);
             // redirect to dashboard
             router.push("/" + address);
-            // window.location.reload();
           }}
           onError={({ error }) => setSession((x) => ({ ...x, error }))}
         />
