@@ -7,27 +7,25 @@ import PageSettingsModal from "./PageSettingsModal";
 
 export default function PageSettings({ siteData }) {
   const { session } = useContext(CryptoAuthContext);
-  const [modal, setModal] = useState(null);
+  const [modal, setModal] = useState(false);
 
   return (
     <>
       {" "}
       <button
         className="btn btn-sm btn-ghost px-2 -mx-2"
-        onClick={() =>
-          setModal(
-            <PageSettingsModal
-              siteData={siteData}
-              onComplete={() => {
-                setModal(null);
-              }}
-            />
-          )
-        }
+        onClick={() => setModal(true)}
       >
         <UserIcon />
-      </button>
-      {modal}
+      </button>{" "}
+      {modal && (
+        <PageSettingsModal
+          siteData={siteData}
+          onComplete={() => {
+            setModal(false);
+          }}
+        />
+      )}
     </>
   );
 }

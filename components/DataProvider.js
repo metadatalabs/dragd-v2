@@ -29,7 +29,7 @@ export function useSite(id) {
 export function useSiteByName(id) {
   const cacheKey = ["item", { id }];
   const query = () => apiRequest(`item?id=${id}`);
-  return useQuery(cacheKey, query, { enabled: !!id });
+  return useQuery(cacheKey, query);
 }
 
 // Fetch all items by owner (hook)
@@ -51,7 +51,7 @@ export async function createSite(data) {
 export async function updateSite(id, data) {
   const response = await apiRequest(`item?id=${id}`, "PATCH", data);
   await Promise.all([
-    queryClient.invalidateQueries(["item", { id }]),
+    queryClient.invalidateQueries(["item"]),
     queryClient.invalidateQueries(["ownedItems"]),
   ]);
   return response;

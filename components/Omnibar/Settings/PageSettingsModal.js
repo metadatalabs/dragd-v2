@@ -4,6 +4,7 @@ import { ErrorText } from "../../ui-helpers";
 import { deleteSite, updateSite } from "../../DataProvider";
 import { useRouter } from "next/navigation";
 import { DeployToIpfs } from "./SiteSettings";
+import KVPEditor from "./KVPEditor";
 
 const pages = ["Page Settings", "Site Settings", "Delete"];
 export default function PageSettingsModal({ siteData, onComplete }) {
@@ -124,15 +125,17 @@ const NameUpdater = ({ siteData }) => {
   };
   return (
     <>
-      <div className="form-control">
-        <label className="label">
-          <span className="label-text">Page Name</span>
+      <div className="w-full">
+        <label className="label w-full">
+          <span className="label-text text-lg">Page Name</span>
         </label>
-        <label className="input-group">
-          <span>{trimIfLongerThan(siteData.siteName, 10)}/</span>
+        <label className="input-group input-group-sm flex flex-row justify-center">
+          <span className="input input-bordered input-sm">
+            {trimIfLongerThan(siteData.siteName, 10)}/
+          </span>
           <input
             type="text"
-            className="input input-bordered"
+            className="input input-bordered input-sm"
             placeholder="your page name"
             value={pageName}
             onChange={(e) => setPageName(e.target.value)}
@@ -140,13 +143,11 @@ const NameUpdater = ({ siteData }) => {
           {pageName != siteData.pageName ? (
             <button
               onClick={async () => updateSiteSubmit()}
-              className={`btn ${loading ? "loading" : ""}`}
+              className={`btn btn-sm ${loading ? "loading" : ""}`}
             >
               Save
             </button>
-          ) : (
-            <button className="btn">Edit</button>
-          )}
+          ) : null}
         </label>
       </div>
 
@@ -166,11 +167,11 @@ const HeadUpdater = ({ siteData }) => {
   );
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
-  const updateSiteSubmit = async () => {
+  const updateSiteSubmit = async (newHead) => {
     setLoading(true);
     const updatedSite = {
       ...siteData,
-      head,
+      head: newHead,
     };
 
     var query = updateSite(siteData._id, updatedSite);
@@ -182,79 +183,16 @@ const HeadUpdater = ({ siteData }) => {
   };
   return (
     <>
-      <div className="form-control">
-        <label className="label">
-          <span className="label-text">Headers</span>
-        </label>
-        <>
-          {head &&
-            Object.keys(head).map((item, index) => {
-              return (
-                <div className="form-control" key={item}>
-                  <label className="input-group">
-                    <input
-                      type="text"
-                      className="input input-xs input-bordered"
-                      placeholder="key"
-                      value={item}
-                      // onChange={(e) => {
-                      //   var newHead = { ...head };
-                      //   newHead[e.target.value] = head[item];
-                      //   delete newHead[item];
-                      //   setHead(newHead);
-                      // }}
-                    />
-                    <input
-                      type="text"
-                      className="input input-xs input-bordered"
-                      placeholder="value"
-                      value={head[item]}
-                      onChange={(e) => {
-                        var newHead = { ...head };
-                        newHead[item] = e.target.value;
-                        console.log("setting head to ", newHead, "");
-                        setHead(newHead);
-                      }}
-                    />
-                  </label>
-                </div>
-              );
-            })}
-
-          <div className="form-control w-full ">
-            <label className="input-group">
-              <input
-                type="text"
-                className="input input-xs input-bordered"
-                placeholder="key"
-                value={""}
-                // onChange={(e) => {
-                //   var newHead = { ...head };
-                //   newHead[e.target.value] = head[item];
-                //   delete newHead[item];
-                //   setHead(newHead);
-                // }}
-              />
-              <button
-                onClick={() => {
-                  // setHead({ ...head, [Object.keys(head).length]: "" });
-                }}
-                className={`btn btn-xs ${loading ? "loading" : ""}`}
-              >
-                Add Field
-              </button>
-            </label>
-          </div>
-
-          <button
-            onClick={async () => updateSiteSubmit()}
-            className={`btn ${loading ? "loading" : ""}`}
-          >
-            Save
-          </button>
-        </>
-      </div>
-
+      <label className="label w-full">
+        <span className="label-text text-lg">Headers</span>
+      </label>{" "}
+      <KVPEditor
+        initialObject={head}
+        loading={loading}
+        onSubmit={async (updatedObject) => {
+          await updateSiteSubmit(updatedObject);
+        }}
+      />
       {error && <ErrorText>{error}</ErrorText>}
     </>
   );
@@ -304,11 +242,11 @@ const DeletePage = ({ siteData, onComplete }) => {
   };
 
   return (
-    <div className={"flex flex-col items-center w-full"}>
+    <div className={"flex flex-col items-center w-full mt-6"}>
       <span className="text-lg">
         Are you sure you want to delete {siteData.pageName}?
       </span>
-      <span className="text-xs mb-4">
+      <span className="text-xs mb-6">
         It cannot be recovered in the editor.
       </span>
 

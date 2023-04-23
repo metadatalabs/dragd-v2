@@ -5,12 +5,14 @@ import Omnibar from "../components/Omnibar";
 import { useContext } from "react";
 import { CryptoAuthContext } from "../components/CryptoAuth";
 import { getItemByName, getItemsBySiteName } from "./api/_db";
+import { useSiteByName } from "../components/DataProvider";
 
 function GenericPage({ data, sitePath, ...props }) {
   const router = useRouter();
   const { session } = useContext(CryptoAuthContext);
 
-  const siteDataJson = data || {};
+  const { data: clientSideData, status, isFetching } = useSiteByName(sitePath);
+  const siteDataJson = clientSideData?.data[0] || data || {};
   const currentPath = sitePath;
 
   const isPageOwner = session?.address && true;
@@ -22,7 +24,6 @@ function GenericPage({ data, sitePath, ...props }) {
       {(isPageOwner || isDemoPage) && (
         <Omnibar siteData={siteDataJson} currentPath={currentPath} />
       )}
-
       <EditView
         demo={isDemoPage}
         immutable={!isPageOwner}
