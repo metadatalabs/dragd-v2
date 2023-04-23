@@ -28,7 +28,7 @@ export default function GenericModal(props) {
         >
           <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <div
-              class={`relative transform overflow-hidden card bg-base-100 shadow-xl transition-all ${
+              class={`relative transform card bg-base-100 shadow-xl transition-all ${
                 isShowing ? "" : "translate-y-96"
               } sm:my-8 w-min-sm w-max-full `}
               onClick={(e) => {

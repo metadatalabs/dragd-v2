@@ -13,7 +13,7 @@ export default function PageSettings({ siteData }) {
     <>
       {" "}
       <button
-        className="btn btn-ghost px-2 -mx-2"
+        className="btn btn-sm btn-ghost px-2 -mx-2"
         onClick={() =>
           setModal(
             <PageSettingsModal

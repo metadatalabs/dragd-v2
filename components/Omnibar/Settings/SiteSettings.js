@@ -6,6 +6,7 @@ import {
 } from "../../DataProvider";
 import { ErrorText, GetShortenedString, LinkIcon } from "../../ui-helpers";
 import { CopyIcon } from "../../dragdropeditor/helpers/helper";
+import CopyToClipboard from "../../UI/CopyToClipboard";
 export const DeployToIpfs = ({ siteData }) => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
@@ -32,7 +33,7 @@ export const DeployToIpfs = ({ siteData }) => {
   };
   return (
     <>
-      <div className="overflow-x-auto w-full">
+      <div className=" w-full">
         <div className="flex flex-row justify-between items-center py-4 border-b">
           <div className="text-xl font-bold text-left">
             Permaweb <br />
@@ -42,13 +43,52 @@ export const DeployToIpfs = ({ siteData }) => {
           </div>
           <button
             onClick={async () => deployIpfs()}
-            className={`btn sm:btn-sm md:btn-md ${loading ? "loading" : ""}`}
+            className={`btn sm:btn-sm md:btn-md ml-4 ${
+              loading ? "loading" : ""
+            }`}
           >
             Publish To IPFS
           </button>
         </div>
-        <table className="table w-full">
+        <table className="table table-compact w-full">
           <tbody>
+            {/* row 1 */}
+            {siteBuildData?.ipns && (
+              <tr>
+                <td>
+                  <div className="flex items-center space-x-3">
+                    <div>
+                      <div className="font-bold">IPNS</div>
+                    </div>
+                  </div>
+                </td>
+                <td>{GetShortenedString(siteBuildData.ipns)}</td>
+                <th>
+                  {siteBuildData.ipns && (
+                    <div className={`flex flex-row items-center space-x-2`}>
+                      <div className={`badge badge-success h-auto`}>
+                        Deployed
+                      </div>
+                      <div
+                        className="tooltip"
+                        data-tip="Copy Content Hash for ENS"
+                      >
+                        <CopyToClipboard
+                          textToCopy={"ipns://" + siteBuildData.ipns}
+                        />
+                      </div>
+                      <a
+                        href={`https://name.web3.storage/name/${siteBuildData.ipns}`}
+                        target="_blank"
+                      >
+                        <LinkIcon />
+                      </a>
+                    </div>
+                  )}
+                </th>
+              </tr>
+            )}
+
             {/* row 1 */}
             {siteBuildData && (
               <tr>
@@ -66,17 +106,15 @@ export const DeployToIpfs = ({ siteData }) => {
                 </td>
                 <th>
                   {siteBuildData.status == "deployed" ? (
-                    <div className={`flex flex-row items-center`}>
+                    <div className={`flex flex-row items-center space-x-2`}>
                       <div className={`badge badge-success h-auto`}>
                         Deployed
                       </div>
-                      <a
-                        className="p-1"
-                        href={`https://ipfs.io/ipfs/${siteBuildData?.cid}`}
-                        target="_blank"
-                      >
-                        <CopyIcon className={"h-4"} />
-                      </a>
+                      <div className="tooltip" data-tip="Copy IPFS">
+                        <CopyToClipboard
+                          textToCopy={"ipfs://" + siteBuildData.cid}
+                        />
+                      </div>
                       <a
                         href={`https://ipfs.io/ipfs/${siteBuildData.cid}`}
                         target="_blank"
@@ -95,32 +133,6 @@ export const DeployToIpfs = ({ siteData }) => {
                         🔄
                       </button>
                     </div>
-                  )}
-                </th>
-              </tr>
-            )}
-
-            {/* row 1 */}
-            {siteBuildData?.ipns && (
-              <tr>
-                <td>
-                  <div className="flex items-center space-x-3">
-                    <div>
-                      <div className="font-bold">IPNS</div>
-                    </div>
-                  </div>
-                </td>
-                <td>{GetShortenedString(siteBuildData.ipns)}</td>
-                <th>
-                  {siteBuildData.ipns && (
-                    <a
-                      href={`https://name.web3.storage/name/${siteBuildData.ipns}`}
-                      target="_blank"
-                    >
-                      <div className={`badge badge-success h-auto`}>
-                        Deployed to IPNS <LinkIcon />
-                      </div>
-                    </a>
                   )}
                 </th>
               </tr>
@@ -156,8 +168,8 @@ const CIDViewer = ({ siteBuildData }) => {
         Publish History
       </div>
       <div className="collapse-content">
-        <div className="overflow-x-auto w-full">
-          <table className="table w-full">
+        <div className="w-full">
+          <table className="table table-zebra table-compact w-full">
             {/* head */}
             <thead>
               <tr>
@@ -180,10 +192,8 @@ const CIDViewer = ({ siteBuildData }) => {
                         />
                       </div>
                     </div> */}
-                      <div>
-                        <div className="font-bold">
-                          {GetShortenedString(cid.cid)}
-                        </div>
+                      <div className="font-bold">
+                        {GetShortenedString(cid.cid)}
                       </div>
                     </div>
                   </td>
