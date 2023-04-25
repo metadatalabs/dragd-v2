@@ -9,7 +9,6 @@ import {
 } from "../../helpers/helper";
 import defaultButtons from "./defaultButtons";
 import { v4 as uuidv4 } from "uuid";
-import { GiphySelector } from "../DraggableGiphy/GiphySelector";
 import { HeadConfigurator } from "../PageStyle";
 import SiteContext from "../../siteContext";
 import { ButtonSelector } from "../DraggableButton/ButtonSelector";
@@ -21,7 +20,7 @@ export function AddButton({ item, showMenu, setSelector }) {
   const siteData = useContext(SiteContext);
 
   const SELECTORS: any = {
-    giphy: <GiphySelector addItemToList={siteData.addItemToList} />,
+    // giphy: <GiphySelector addItemToList={siteData.addItemToList} />,
     headconf: <HeadConfigurator addItemToList={siteData.addItemToList} />,
   };
 

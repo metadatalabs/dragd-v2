@@ -1,46 +1,46 @@
-import React, { useState } from 'react';
-import dynamic from 'next/dynamic';
-import EditItem from '../DDEditor/EditItem';
-import { GiphyFetch } from '@giphy/js-fetch-api';
-import { useAsyncFn } from 'react-use';
+import React, { useState } from "react";
+import dynamic from "next/dynamic";
+import EditItem from "../DDEditor/EditItem";
+import PanelControls from "./PanelControls";
+// const PanelControls = dynamic("./PanelControls");
+import { GiphyFetch } from "@giphy/js-fetch-api";
+import { Gif } from "@giphy/react-components";
+import { useAsync } from "react-async-hook";
 
-const giphyFetch = new GiphyFetch(
-    process.env.GIPHY_API_KEY
-        ? process.env.GIPHY_API_KEY
-        : '6s6dfi1SuYlcbne91afF4rsD1b2DFDfQ',
-);
-
-const mediaGiphyRegex = /media\d+.giphy.com/;
+const giphyFetch = new GiphyFetch("6s6dfi1SuYlcbne91afF4rsD1b2DFDfQ");
 
 function DraggableGiphy(props) {
-    const { elemData, onSelect, onUpdated, selected, mode } = props;
-
-    const [gif, setGif] = useState(null);
-    useAsyncFn(async () => {
-        const { data } = await giphyFetch.gif(elemData.giphyUri);
-        // console.log('gighylist', data);
-        const tempGif = data.images.original
-            ? data.images.original
-            : data.images.preview_gif;
-        const finalGif = { ...tempGif };
-        finalGif['url'] = tempGif.url.replace(mediaGiphyRegex, 'i.giphy.com');
-        console.log('giphyUri', finalGif);
-        setGif(finalGif);
-    }, []);
-    return (
-        <>
-            <EditItem
-                elemData={elemData}
-                selected={props.selected}
-            >
-                {gif && (
-                    <img
-                        style={{ width: '100%', height: '100%' }}
-                        src={gif.url}
-                    />
-                )}
-            </EditItem>
-        </>
-    );
+  const { elemData, onSelect, onUpdated, selected, mode } = props;
+  const [gif, setGif] = useState(null);
+  useAsync(async () => {
+    setGif(null);
+    const { data } = await giphyFetch.gif(elemData.giphyUri);
+    setGif(data);
+  }, [elemData.giphyUri]);
+  return (
+    <>
+      <EditItem
+        elemData={elemData}
+        selected={props.selected}
+        renderPanel={PanelControls}
+      >
+        <div
+          className="w-full h-full overflow-hidden"
+          style={{ ...elemData.style }}
+        >
+          {gif && (
+            <Gif
+              key={elemData.giphyUri}
+              gif={gif}
+              width={"100%"}
+              height={"100%"}
+              hideAttribution={true}
+              backgroundColor={"transparent"}
+            />
+          )}
+        </div>
+      </EditItem>
+    </>
+  );
 }
 export default DraggableGiphy;

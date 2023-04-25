@@ -56,10 +56,17 @@ const defaultButtons = {
     icon: <PuzzleIcon />,
     objects: {
       giphy: {
-        icon: "far fa-laugh-beam",
-        action: "selector",
-        selector: "giphy",
+        icon: "GIF",
+        action: "add",
         label: "Sticker",
+        object: {
+          type: "giphy",
+          size: {
+            width: 100,
+            height: 100,
+          },
+          giphyUri: "fpXxIjftmkk9y",
+        },
       },
 
       video: {
