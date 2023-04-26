@@ -5,13 +5,17 @@ import Omnibar from "../components/Omnibar";
 import { useContext } from "react";
 import { CryptoAuthContext } from "../components/CryptoAuth";
 import { getItemByName, getItemsBySiteName } from "./api/_db";
-import { useSiteByName } from "../components/DataProvider";
+import { useSiteByNamePublic } from "../components/DataProvider";
 
 function GenericPage({ data, sitePath, ...props }) {
   const router = useRouter();
   const { session } = useContext(CryptoAuthContext);
 
-  const { data: clientSideData, status, isFetching } = useSiteByName(sitePath);
+  const {
+    data: clientSideData,
+    status,
+    isFetching,
+  } = useSiteByNamePublic(sitePath);
   const siteDataJson = clientSideData?.data[0] || data || {};
   const currentPath = sitePath;
 

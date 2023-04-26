@@ -20,9 +20,9 @@ export function InvalidateQueryForId(id) {
   queryClient.invalidateQueries(["item", { id }]);
 }
 
-export function useSite(id) {
+export function useSiteByNamePublic(id) {
   const cacheKey = ["item", { id }];
-  const query = () => apiRequest(`item-get?id=${id}`);
+  const query = () => apiRequest(`item-public?id=${id}`);
   return useQuery(cacheKey, query, { enabled: !!id });
 }
 
