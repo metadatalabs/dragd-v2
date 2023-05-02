@@ -25,7 +25,7 @@ function DraggableGiphy(props) {
         renderPanel={PanelControls}
       >
         <div
-          className="w-full h-full overflow-hidden"
+          className="w-full h-full overflow-hidden pointer-events-none"
           style={{ ...elemData.style }}
         >
           {gif && (
