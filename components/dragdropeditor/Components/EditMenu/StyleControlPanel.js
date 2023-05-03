@@ -62,6 +62,66 @@ export default function StylePanelControls({ id }) {
         symbol={"px"}
       />
     ),
+    Border: (
+      <div className="dropdown dropdown-end">
+        <label tabIndex={0} className="btn btn-sm m-1">
+          Edit
+        </label>
+        <ul
+          tabIndex={0}
+          className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+        >
+          <ColorPicker
+            color={elemData.style?.backgroundColor || "transparent"}
+            onChange={(color) => {
+              onLocalUpdate({
+                style: { ...elemData.style, borderColor: `${color}` },
+              });
+            }}
+          />
+          <SliderWithInput
+            value={elemData.style?.borderWidth || 0}
+            onChange={(value) => {
+              onLocalUpdate({
+                style: { ...elemData.style, borderWidth: value + "px" },
+              });
+            }}
+            min={0}
+            max={32}
+            step={1}
+            symbol={"px"}
+          />
+          <ul>
+            {["solid", "dotted", "dashed"].map((item) => {
+              return (
+                <li>
+                  <a
+                    onClick={() => {
+                      onLocalUpdate({
+                        style: { ...elemData.style, borderStyle: item },
+                      });
+                    }}
+                  >
+                    <div
+                      className={"w-full"}
+                      style={{
+                        borderColor:
+                          elemData.style?.borderColor || "transparent",
+                        borderWidth: elemData.style?.borderWidth || 0,
+                        borderStyle: item,
+                        borderBottom: "none",
+                        borderLeft: "none",
+                        borderRight: "none",
+                      }}
+                    ></div>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </ul>
+      </div>
+    ),
   };
 
   return (

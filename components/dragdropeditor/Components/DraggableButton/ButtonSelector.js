@@ -98,7 +98,7 @@ export function ButtonSelector(props) {
           props.close();
         }}
       >
-        Call a Function
+        Javascript Function
       </button>
     </>
   );

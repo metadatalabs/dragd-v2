@@ -1,5 +1,5 @@
 import {
-  ButtonIcon,
+  IconLinkBoxOutline,
   CodeIcon,
   ImageIcon,
   LabsIcon,
@@ -8,6 +8,8 @@ import {
   SmartContractIcon,
   StylesIcon,
   WindowIcon,
+  IconStickerEmoji,
+  IconVideo,
 } from "../../helpers/helper";
 
 const defaultButtons = {
@@ -43,20 +45,19 @@ const defaultButtons = {
     },
   },
   button: {
-    icon: <ButtonIcon />,
+    icon: <IconLinkBoxOutline />,
     action: "modal",
     selector: "button",
     label: "Button",
   },
 
   media: {
-    icon: "fas fa-photo-video",
     label: "Media",
     action: "menu",
     icon: <PuzzleIcon />,
     objects: {
       giphy: {
-        icon: "GIF",
+        icon: <IconStickerEmoji />,
         action: "add",
         label: "Sticker",
         object: {
@@ -70,7 +71,7 @@ const defaultButtons = {
       },
 
       video: {
-        icon: "fas fa-film",
+        icon: <IconVideo />,
         label: "Video",
         action: "add",
         object: {

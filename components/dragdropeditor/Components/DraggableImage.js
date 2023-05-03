@@ -17,7 +17,7 @@ function PanelControls({ id }) {
     <TabSwitcher
       tabs={[
         <>
-          <Prompter setImageUri={setImageUri} imageUri={elemData.imageUri} />
+          <Prompter setImageUri={setImageUri} imageUri={elemData?.imageUri} />
         </>,
         <StylePanelControls id={id} />,
       ]}

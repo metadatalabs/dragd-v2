@@ -69,7 +69,6 @@ export async function getStaticProps({ params, preview, previewData }) {
 
       if (pageId) data._id = pageId;
       else delete data._id;
-      // data._id = null;
       data.siteName = siteName.split("/")[0];
       data.pageName = siteName.split("/")[1];
     }
