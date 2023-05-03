@@ -15,7 +15,8 @@ export default function NewSiteModal({ site, onComplete }) {
     query
       .then((result) => {
         const site = result.site;
-        router.push("/" + site.siteName + "/" + site.pageName);
+        // router.push("/" + site.siteName + "/" + site.pageName);
+        window.location = "/" + site.siteName + "/" + site.pageName;
         onComplete();
       })
       .catch((error) => {
