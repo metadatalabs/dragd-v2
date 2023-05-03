@@ -10,7 +10,7 @@ export default function EditView(props) {
   const saveSiteData = () => {
     var query;
     setPending(true);
-    if (props.siteData._id == undefined) {
+    if (siteData._id == undefined) {
       var siteName = currentPath.split("/")[0];
       var pageName = currentPath.split("/")[1];
       query = createSite({

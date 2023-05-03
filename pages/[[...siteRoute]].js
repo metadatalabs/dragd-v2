@@ -63,9 +63,12 @@ export async function getStaticProps({ params, preview, previewData }) {
 
     // if the page is not found, we show a generic page
     if (!data || !data.page) {
+      const pageId = data?._id;
       const fetchRes = await getItemByName(`docs.eth/profile`);
       data = fetchRes[0];
-      delete data._id;
+
+      if (pageId) data._id = pageId;
+      else delete data._id;
       // data._id = null;
       data.siteName = siteName.split("/")[0];
       data.pageName = siteName.split("/")[1];
