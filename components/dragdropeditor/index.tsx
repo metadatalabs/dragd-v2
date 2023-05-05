@@ -116,16 +116,24 @@ function BCDragDrop({
       saveCallback?.(items);
       // analytics.track('editor_save');
     }
+    // Remove navigation prompt
+    window.onbeforeunload = null;
   }
 
   function onDiscardClicked() {
     setItems(initialState);
     setMode(EditorModes.VIEW);
     // analytics.track('editor_discard');
+    // Remove navigation prompt
+    window.onbeforeunload = null;
   }
 
   function onEditClicked() {
     setMode(EditorModes.EDIT);
+    window.onbeforeunload = function () {
+      return true;
+    };
+
     // analytics.track('editor_edit');
   }
 
