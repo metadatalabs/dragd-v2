@@ -313,8 +313,7 @@ function EditItem(props) {
               width: "100%",
               height: "100%",
               cursor: mode == "edit" && !draggingDisabled ? "grab" : undefined,
-              pointerEvents:
-                selected && elemData.type != "text" ? "none" : undefined,
+              pointerEvents: elemData.type != "text" ? "none" : undefined,
               zIndex: elemData.zIndex,
             }}
           >
@@ -322,7 +321,7 @@ function EditItem(props) {
           </div>
         </Rect>
       ) : (
-        <LinkWrapper link={elemData.href}>
+        <LinkWrapper link={elemData.href} target={elemData.target}>
           <Rect elemData={elemData} mode={mode}>
             {props.children}
           </Rect>
@@ -408,8 +407,14 @@ const Rect = React.forwardRef(({ elemData, ...props }: any, ref) => {
   );
 });
 
-function LinkWrapper({ children, link }) {
-  return link ? <a href={link}>{children}</a> : <>{children}</>;
+function LinkWrapper({ children, link, target }) {
+  return link ? (
+    <a href={link} target={target}>
+      {children}
+    </a>
+  ) : (
+    <>{children}</>
+  );
 }
 
 export default EditItem;

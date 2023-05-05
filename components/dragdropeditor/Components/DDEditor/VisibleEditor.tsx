@@ -126,6 +126,7 @@ export default function VisibleEditor(props) {
 
       {
         <div
+          className={"pointer-events-none"}
           style={{
             position: "fixed",
             bottom: "10px",
@@ -134,10 +135,7 @@ export default function VisibleEditor(props) {
             zIndex: 99999998,
           }}
         >
-          <div
-            className="flex flex-col pointer-events-none"
-            style={{ alignItems: "flex-end" }}
-          >
+          <div className="flex flex-col" style={{ alignItems: "flex-end" }}>
             {mode == EditorModes.EDIT && (
               <Menu selected={selected} addItemToList={undefined} />
             )}

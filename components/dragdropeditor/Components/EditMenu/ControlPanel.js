@@ -59,9 +59,9 @@ function DefaultControlPanel({
               onClick: () => {
                 setModal(
                   <UriInputModal
-                    prefill={elemData.href}
+                    prefill={elemData}
                     onComplete={(data) => {
-                      saveElemJson({ href: data });
+                      saveElemJson({ ...data });
                       setModal(null);
                     }}
                   />
@@ -124,28 +124,51 @@ function DefaultControlPanel({
 
 function UriInputModal(props) {
   console.log(props);
-  const [value, setValue] = useState(props.prefill || "https://");
+  const [value, setValue] = useState(props.prefill.href || "https://");
+  const [target, setTarget] = useState(
+    props.prefill.target == "_blank" || false
+  );
   return (
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <input
-        className={"minimal-input"}
-        style={{ display: "flex", flexGrow: 1 }}
-        autoFocus={true}
-        defaultValue={value}
-        onChange={(e) => {
-          setValue(e.target.value);
-          // analytics.track('editor_update_link');
-        }}
-      ></input>
-      <button
-        className={"button"}
-        onClick={() => {
-          props.onComplete(value);
-        }}
-      >
-        Set
-      </button>
-      <div className="is-divider" data-content="OR"></div>
+    <div>
+      <div className="card-body p-0">
+        <input
+          className={"input input-bordered"}
+          style={{ display: "flex", flexGrow: 1 }}
+          autoFocus={true}
+          defaultValue={value}
+          onChange={(e) => {
+            setValue(e.target.value);
+            // analytics.track('editor_update_link');
+          }}
+        ></input>
+        <div
+          className="flex flex-row items-center gap-x-2 px-2 cursor-pointer"
+          onClick={(e) => {
+            setTarget(!target);
+          }}
+        >
+          <input type="checkbox" checked={target && true}></input>
+          Open in new tab
+        </div>
+        <div className="card-actions justify-between pt-4">
+          <button
+            className="btn btn-sm btn-outline btn-accent"
+            onClick={() => {
+              props.onComplete({ href: false, target: false });
+            }}
+          >
+            Remove Link
+          </button>
+          <button
+            className="btn btn-sm btn-primary"
+            onClick={() => {
+              props.onComplete({ href: value, target: target && "_blank" });
+            }}
+          >
+            Save
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
