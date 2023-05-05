@@ -2,7 +2,7 @@ import React, { useState, useRef, useContext, useEffect } from "react";
 import EditItem from "../DDEditor/EditItem";
 import SiteContext from "../../siteContext";
 import ComponentSelector from "../ComponentSelector";
-import { useSiteByName } from "../../../DataProvider";
+import { useSiteByNamePublic } from "../../../DataProvider";
 
 function DraggableTemplate(props) {
   const { elemData, selected } = props;
@@ -14,7 +14,7 @@ function DraggableTemplate(props) {
     mode,
     setModal,
   } = siteData;
-  const { data: itemData, status: itemStatus } = useSiteByName(
+  const { data: itemData, status: itemStatus } = useSiteByNamePublic(
     elemData.templateSiteId
   );
   const page = itemData?.data[0]?.page;
