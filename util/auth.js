@@ -81,11 +81,9 @@ function setCachedData(key, data) {
 }
 
 async function getDataFromApi(address) {
-  // implement the code to get data from the API
-
   // const defaultName = await provider.lookupAddress(address);
   const graphNames = await getNamesFromGraph(address);
-  return [graphNames];
+  return [...graphNames];
 }
 
 async function getNamesFromGraph(address) {
