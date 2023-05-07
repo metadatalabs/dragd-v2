@@ -145,6 +145,7 @@ const defaultButtons = {
         height: 100,
       },
       text: "your code here!",
+      subtype: "html",
     },
   },
   experimental: {
