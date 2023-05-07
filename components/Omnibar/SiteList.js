@@ -109,7 +109,12 @@ const SiteCard = ({ index, item, setShowModal }) => {
   );
 };
 
-function GetShortenedString(word) {
-  if (word?.length > 10) return word.slice(0, 6) + "..." + word.slice(-4);
+function GetShortenedString(word, max_length = 13, ending_length = 4) {
+  if (word?.length > max_length)
+    return (
+      word.slice(0, max_length - ending_length) +
+      "..." +
+      word.slice(-ending_length)
+    );
   else return word;
 }

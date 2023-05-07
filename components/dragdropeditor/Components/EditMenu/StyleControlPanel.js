@@ -154,18 +154,15 @@ export const TabSwitcher = ({ tabs, tabicons, color = "green" }) => {
   return (
     <div className="flex flex-col justify-between w-64 mb-3">
       <div className="flex flex-col max-h-full">{tabs[activeTab]}</div>
-      <div className={`tabs tabs-boxed justify-around`}>
+      <div className="tabs tabs-boxed justify-evenly">
         {tabs.map((tab, index) => {
           return (
-            <div
-              key={index}
-              className={`max-h-full overflow-y-scroll tab flex grow ${
-                activeTab === index ? "tab-active" : ""
-              }`}
+            <a
+              className={` tab  ${activeTab === index ? "tab-active" : ""}`}
               onClick={() => setActiveTab(index)}
             >
               {tabicons[index]}
-            </div>
+            </a>
           );
         })}
       </div>

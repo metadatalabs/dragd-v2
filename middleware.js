@@ -22,6 +22,7 @@ export function middleware(req) {
     "xyz.com": "anydragdpage",
     "nutter.tools": "0xE5E98Df807c3C4F8e57eeeED0968895b2EA5FEfb",
     "thebiggestlilmovie.wtf": "nounshack.eth",
+    "ideacoe.com": "ideacoe.eth",
   };
 
   if (hostname && !whitelistDomain.includes(hostname)) {
