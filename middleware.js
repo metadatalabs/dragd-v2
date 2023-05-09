@@ -17,14 +17,6 @@ export function middleware(req) {
   var hostname = req?.headers?.get("host");
   const whitelistDomain = [domain, `www.${domain}`, `localhost:3000`];
 
-  const web2DomainMapping = {
-    "prnth.com": "prnth.eth",
-    "xyz.com": "anydragdpage",
-    "nutter.tools": "0xE5E98Df807c3C4F8e57eeeED0968895b2EA5FEfb",
-    "thebiggestlilmovie.wtf": "nounshack.eth",
-    "ideacoe.com": "ideacoe.eth",
-  };
-
   if (hostname && !whitelistDomain.includes(hostname)) {
     var domainToPath;
 
@@ -47,3 +39,12 @@ export function middleware(req) {
 
   return NextResponse.next();
 }
+
+const web2DomainMapping = {
+  "prnth.com": "prnth.eth",
+  "xyz.com": "anydragdpage",
+  "nutter.tools": "0xE5E98Df807c3C4F8e57eeeED0968895b2EA5FEfb",
+  "thebiggestlilmovie.wtf": "nounshack.eth",
+  "ideacoe.com": "ideacoe.eth",
+  "willsolanamakeit.wtf": "willsolanamakeit",
+};
