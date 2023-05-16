@@ -158,7 +158,7 @@ const NameUpdater = ({ siteData }) => {
 
 const HeadUpdater = ({ siteData }) => {
   const [head, setHead] = React.useState(
-    siteData.head || {
+    siteData.page.head || {
       title: "My Dragd Page",
       description: "",
       keywords: "",
@@ -169,9 +169,13 @@ const HeadUpdater = ({ siteData }) => {
   const [error, setError] = React.useState(null);
   const updateSiteSubmit = async (newHead) => {
     setLoading(true);
+
     const updatedSite = {
       ...siteData,
-      head: newHead,
+      page: {
+        ...siteData.page,
+        head: { ...newHead, type: "head" },
+      },
     };
 
     var query = updateSite(siteData._id, updatedSite);

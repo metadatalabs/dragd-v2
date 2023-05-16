@@ -7,10 +7,14 @@ import ThemeSelector from "./EditMenu/ThemeSelector";
 function NextHead(props) {
   const { elemData, onSelect, onUpdated, selected, mode } = props;
 
+  if (!elemData) return <></>;
   return (
     <>
       <Head>
-        {elemData?.head.title && <title>{elemData.head.title}</title>}
+        {elemData.title && <title>{elemData.title}</title>}
+        {elemData.description && (
+          <meta name="description" content={elemData.description}></meta>
+        )}
       </Head>
     </>
   );
