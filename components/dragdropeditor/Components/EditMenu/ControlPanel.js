@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
-import analytics from "../../../../util/analytics";
 import {
   CopyIcon,
   guidGenerator,

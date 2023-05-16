@@ -3,7 +3,6 @@ import ComponentSelector from "./Components/ComponentSelector";
 import { mergeDeep, debounce, guidGenerator } from "./helpers/helper";
 import SiteContext from "./siteContext";
 import BCLogo from "./helpers/ui/BCLogo";
-import analytics from "../../util/analytics";
 import VisibleCanvas from "./Components/DDEditor/VisibleCanvas";
 import VisibleEditor from "./Components/DDEditor/VisibleEditor";
 import GenericModal from "../UI/GenericModal";

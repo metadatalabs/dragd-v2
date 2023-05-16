@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import analytics from "../../../../util/analytics";
 import logo from "../../../../public/dragd_logo.png";
 
 export default function DragdLogo({ pending }) {

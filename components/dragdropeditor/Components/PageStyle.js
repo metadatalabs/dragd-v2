@@ -15,6 +15,9 @@ function NextHead(props) {
         {elemData.description && (
           <meta name="description" content={elemData.description}></meta>
         )}
+        {elemData.favicon && (
+          <link rel="icon" type="image/x-icon" href={elemData.favicon}></link>
+        )}
       </Head>
     </>
   );

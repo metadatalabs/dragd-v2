@@ -1,7 +1,6 @@
 import dynamic from "next/dynamic";
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { EditorModes } from "../..";
-import analytics from "../../../../util/analytics";
 import {
   usePrevious,
   getElementOffset,

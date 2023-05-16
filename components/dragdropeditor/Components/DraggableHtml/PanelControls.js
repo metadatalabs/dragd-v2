@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import Editor from "@monaco-editor/react";
-import analytics from "../../../../util/analytics";
 import SiteContext from "../../siteContext";
 
 export default function PanelControls({ id }) {

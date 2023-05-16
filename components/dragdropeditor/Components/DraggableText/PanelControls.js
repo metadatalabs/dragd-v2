@@ -1,6 +1,5 @@
 import fonts from "../../helpers/ui/fonts.json";
 import ColorPicker from "../../helpers/ui/ColorPicker";
-import analytics from "../../../../util/analytics";
 import { useContext, useEffect, useState } from "react";
 import SiteContext from "../../siteContext";
 import { Row, SliderWithInput, StyleToggleButton } from "../../helpers/helper";

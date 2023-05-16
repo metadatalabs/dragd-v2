@@ -14,7 +14,6 @@ import SiteContext from "../../siteContext";
 import { ButtonSelector } from "../DraggableButton/ButtonSelector";
 import { TemplateSelector } from "../DraggableTemplate";
 import { EthContractSelector } from "../DraggableEth/EthContractSelector";
-import analytics from "../../../../util/analytics";
 
 export function AddButton({ item, showMenu, setSelector }) {
   const siteData = useContext(SiteContext);
