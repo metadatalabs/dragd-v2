@@ -47,4 +47,5 @@ const web2DomainMapping = {
   "thebiggestlilmovie.wtf": "nounshack.eth",
   "ideacoe.com": "ideacoe.eth",
   "willsolanamakeit.wtf": "willsolanamakeit",
+  "oldmanali.info": "oldmanali",
 };
