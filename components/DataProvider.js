@@ -1,4 +1,4 @@
-import { apiRequest } from "/util/network";
+import { apiRequest } from "../util/network";
 import {
   useQuery,
   QueryClient,

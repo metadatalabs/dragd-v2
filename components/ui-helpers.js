@@ -9,8 +9,8 @@ export const ShinyButton = (props) => (
   />
 );
 
-export const GetShortenedString = (word) => {
-  if (word?.length > 10) return word.slice(0, 6) + "..." + word.slice(-4);
+export const GetShortenedString = (word, length = 10) => {
+  if (word?.length > 10) return word.slice(0, 5) + "..." + word.slice(-5);
   else return word;
 };
 

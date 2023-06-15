@@ -4,6 +4,8 @@ import { useSitesByOwner } from "../DataProvider";
 import { DownChevron } from "../ui-helpers";
 import GenericDropdown from "../UI/GenericDropdown";
 import dynamic from "next/dynamic";
+import Link from "next/link";
+
 const NewSiteModal = dynamic(() => import("./NewSiteModal"));
 
 export default function SiteList({ siteData, currentPath, setModal }) {
@@ -87,8 +89,8 @@ const SiteCard = ({ index, item, setShowModal }) => {
       <div className={"flex flex-col w-full pb-2"}>
         {item.map((pageItem, index) => {
           return (
-            <li key={index}>
-              <a
+            <div key={index}>
+              <Link
                 onClick={(e) => {
                   e.stopPropagation();
                 }}
@@ -100,8 +102,8 @@ const SiteCard = ({ index, item, setShowModal }) => {
                 <div>
                   <p>/{pageItem.fake ? "index" : pageItem.pageName}</p>
                 </div>
-              </a>
-            </li>
+              </Link>
+            </div>
           );
         })}
       </div>

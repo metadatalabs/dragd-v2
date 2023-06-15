@@ -23,6 +23,7 @@ const handler = requireAuth(async (req, res) => {
           let hasIndex = false;
           for (const siteIndex in siteForName) {
             const site = siteForName[siteIndex];
+            delete site.page;
             sites = [...sites, site];
             if (site.pageName == "index") hasIndex = true;
           }
@@ -70,6 +71,10 @@ const handler = requireAuth(async (req, res) => {
         creatorId: req.session.siwe.address,
         createdAt: Math.floor(Date.now() / 1000),
       };
+
+      // get site template
+      var template = await getItemByName("template");
+
       var site = await createItem(siteData);
       console.log("created site: ", site.pageName, "/", site.siteName);
       res.send({ site: site });

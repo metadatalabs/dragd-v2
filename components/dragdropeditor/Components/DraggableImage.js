@@ -47,7 +47,7 @@ function DraggableImage(props) {
           <NextImage
             width={elemData.size.width}
             height={elemData.size.height}
-            style={{ width: "100%", height: "100%" }}
+            style={{ width: "100%", height: "100%", ...elemData.style }}
             src={elemData.imageUri}
           />
         )}

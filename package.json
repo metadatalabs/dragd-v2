@@ -15,7 +15,7 @@
     "builder": "concurrently \"npm run moser\" \"node server.js\""
   },
   "dependencies": {
-    "@ensdomains/ensjs": "^3.0.0-alpha.61",
+    "@ensdomains/ensjs": "^3.0.0-alpha.64",
     "@giphy/js-fetch-api": "^4.7.1",
     "@giphy/react-components": "^6.8.1",
     "@monaco-editor/react": "^4.4.6",

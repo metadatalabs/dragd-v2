@@ -74,8 +74,8 @@ export function CryptoAuthProvider(props) {
         rpc: (thisChain) => {
           if (thisChain.id == mainnet.id)
             return {
-              http: `https://rpc.flashbots.net/`,
-              ws: `wss://rpc.flashbots.net/ws`,
+              http: `https://ethereum.publicnode.com`,
+              // ws: `wss://rpc.flashbots.net/ws`,
             };
           else if (thisChain.id == polygonMumbai.id)
             return {

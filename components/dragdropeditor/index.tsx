@@ -167,7 +167,7 @@ function BCDragDrop({
           return (
             <ComponentSelector
               elem={elem}
-              key={elem.id + "_component"}
+              key={key + "_component"}
               selected={selected}
             />
           );

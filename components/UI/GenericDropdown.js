@@ -21,10 +21,7 @@ export default function GenericDropdown({ children, border, ...props }) {
           }`}
         >
           {children?.map((child, i) => (
-            <li key={i}>
-              {child}
-              {/* <a>{child}</a> */}
-            </li>
+            <li key={i}>{child}</li>
           ))}
         </ul>
       </div>
