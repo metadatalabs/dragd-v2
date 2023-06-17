@@ -7,7 +7,7 @@ import {
 import { ErrorText, GetShortenedString, LinkIcon } from "../../ui-helpers";
 import { CopyIcon } from "../../dragdropeditor/helpers/helper";
 import CopyToClipboard from "../../UI/CopyToClipboard";
-// import SetENSResolver from "./SetENSResolver";
+import SetENSResolver from "./SetENSResolver";
 export const DeployToIpfs = ({ siteData }) => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
@@ -42,15 +42,16 @@ export const DeployToIpfs = ({ siteData }) => {
               Manage your ENS and IPFS Settings
             </span>
           </div>
-        </div>
 
-        <button
-          onClick={async () => deployIpfs()}
-          className={`btn sm:btn-sm md:btn-md ml-4 ${loading ? "loading" : ""}`}
-        >
-          Publish To IPFS
-        </button>
-        {/* <SetENSResolver latestRecord={siteBuildData?.ipns} /> */}
+          <button
+            onClick={async () => deployIpfs()}
+            className={`btn sm:btn-sm md:btn-md ml-4 ${
+              loading ? "loading" : ""
+            }`}
+          >
+            Publish To IPFS
+          </button>
+        </div>
 
         <table className="table table-compact w-full">
           <tbody>
@@ -144,6 +145,9 @@ export const DeployToIpfs = ({ siteData }) => {
       </div>
 
       {error && <ErrorText>{error}</ErrorText>}
+      {siteBuildData?.ipns && (
+        <SetENSResolver latestRecord={siteBuildData?.ipns} />
+      )}
 
       {siteBuildData && (
         <>

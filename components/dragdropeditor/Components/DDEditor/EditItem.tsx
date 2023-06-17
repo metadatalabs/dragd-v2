@@ -227,6 +227,16 @@ function EditItem(props) {
           y: (clientY - state.rel.y) * (1 / getMobileScaleRatio()),
         },
       };
+
+      var windowHeight = window.innerHeight;
+      var scrollY = window.scrollY;
+
+      if (clientY - scrollY > windowHeight * 0.9) {
+        window.scrollBy(0, 10);
+      } else if (clientY - scrollY < windowHeight * 0.1) {
+        window.scrollBy(0, -10);
+      }
+
       saveElemJson(SnapToGrid(toPosition));
     } else if (movementType == movementTypes.ROTATING) {
       const rotateVector = {

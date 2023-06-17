@@ -1,20 +1,12 @@
 import { use, useContext, useEffect, useState } from "react";
-import { namehash } from "ethers/lib/utils";
 import { ENS } from "@ensdomains/ensjs";
-import { useProvider, useConnect, useAccount, useChainId } from "wagmi";
-import { getNetwork } from "wagmi";
+import { useProvider, useConnect, useAccount, useSigner } from "wagmi";
 import { useSitesByOwner } from "../../DataProvider";
-// import {
-//   encodeContenthash,
-//   decodeContenthash,
-// } from "@ensdomains/ensjs/utils/contentHash";
-import GenericDropdown from "../../UI/GenericDropdown";
 import { GetShortenedString } from "../../ui-helpers";
-import { getAccount } from "@wagmi/core";
 
 export default function SetENSResolver({ latestRecord }) {
   const provider = useProvider();
-  const chain = useChainId({ chainId: 1 });
+  const { data: signer, isError, isLoading } = useSigner();
   const {
     data: siteList,
     status: itemsStatus,
@@ -26,9 +18,16 @@ export default function SetENSResolver({ latestRecord }) {
   const { address } = useAccount();
 
   const getMatchingENSName = () => {
-    const matchingName = ensNameList.find(
-      (item) => item.records?.contentHash?.decoded === latestRecord
-    );
+    let matchingName = "";
+    try {
+      matchingName = ensNameList?.find(
+        (item) => item.records?.contentHash?.decoded === latestRecord
+      );
+    } catch (e) {
+      console.log("error is", e);
+    }
+
+    console.log("matching name is", matchingName);
     return matchingName;
   };
   async function getName() {
@@ -59,13 +58,22 @@ export default function SetENSResolver({ latestRecord }) {
 
   async function registerContentHashToName(name, contentHash) {
     const ENSInstance = new ENS();
-    await ENSInstance.setProvider(provider);
+    await ENSInstance.setProvider(signer.provider);
     // const ensnamehash = namehash(name);
-    // const encodedContentHash = encodeContenthash(contentHash);
-    const tx = await ENSInstance.setRecords(name, {
-      records: { contentHash: contentHash },
-    });
-    console.log("tx is", tx);
+    // const encodedContentHash = encodeContenthash("ipns://" + contentHash);
+    // console.log("doing object ", {
+    //   name,
+    //   contentHash,
+    //   encodedContentHash: encodedContentHash,
+    // });
+    try {
+      const tx = await ENSInstance.setRecords(name, {
+        records: { contentHash: "ipns://" + contentHash },
+      });
+      console.log("tx is", tx);
+    } catch (e) {
+      console.log("error is", e);
+    }
   }
   useEffect(() => {
     if (!provider || unique.length === 0) return;
@@ -74,48 +82,73 @@ export default function SetENSResolver({ latestRecord }) {
 
   return (
     <div>
-      Choose a name to link:
-      <GenericDropdown
-        label={<div>{getMatchingENSName() || "Not Connected"}</div>}
-        children={ensNameList.map(
-          (item) =>
-            item && (
-              <div
-                className="flex flex-row w-full justify-between"
-                href="#"
-                onClick={() => registerContentHashToName(item.decryptedName)}
-              >
-                <div>{item.decryptedName}</div>
-                <div>
-                  {item.records.contentHash?.decoded && (
-                    <div
-                      className="badge badge-success text-white tooltip"
-                      data-tip={
-                        item.records.contentHash.protocolType +
-                        "://" +
-                        GetShortenedString(item.records.contentHash?.decoded)
-                      }
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        className="inline-block w-4 h-4 stroke-current"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="4"
-                          d="M6 18L18 6M6 6l12 12"
-                        ></path>
-                      </svg>
+      Choose a name to link: <br />
+      <div className="dropdown">
+        <label tabIndex={0} className="btn m-1">
+          {getMatchingENSName()?.decryptedName || "Not Connected"}
+        </label>
+        <ul
+          tabIndex={0}
+          className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+        >
+          {ensNameList.map(
+            (item) =>
+              item && (
+                <li>
+                  <div
+                    className="flex flex-row w-full justify-between"
+                    href="#"
+                    onClick={() =>
+                      registerContentHashToName(
+                        item.decryptedName,
+                        latestRecord
+                      )
+                    }
+                  >
+                    <div>{item.decryptedName}</div>
+                    <div>
+                      {item.records.contentHash?.decoded && (
+                        <div
+                          className="tooltip"
+                          data-tip={
+                            item.records.contentHash.protocolType +
+                            "://" +
+                            GetShortenedString(
+                              item.records.contentHash?.decoded
+                            )
+                          }
+                        >
+                          <div
+                            className={`badge ${
+                              item.records.contentHash.decoded == latestRecord
+                                ? "badge-success"
+                                : "badge-warning"
+                            } text-white flex flex-row align-center`}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={2}
+                              stroke="currentColor"
+                              className="w-4 h-4 -ml-2 -mr-2"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M4.5 12.75l6 6 9-13.5"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              </div>
-            )
-        )}
-      />
+                  </div>
+                </li>
+              )
+          )}
+        </ul>
+      </div>
       {/* if record matches current ipns name, show that record as 'connected' */}
       {/* <div>{JSON.stringify(data)}</div>
       <div>{JSON.stringify(isLoading)}</div>
@@ -123,25 +156,3 @@ export default function SetENSResolver({ latestRecord }) {
     </div>
   );
 }
-
-const sampleEnsObject = {
-  address: "0x88289ac519eFb1cba5F522970E63264a969BeD06",
-  records: {
-    contentHash: {
-      protocolType: "ipns",
-      decoded: "k51qzi5uqu5dli4pt62pv41rvnja26w19b40p273n7p34kqeiri5vexz8wi1a9",
-    },
-    coinTypes: [
-      {
-        key: "60",
-        type: "addr",
-        coin: "ETH",
-        addr: "0x88289ac519eFb1cba5F522970E63264a969BeD06",
-      },
-    ],
-  },
-  resolverAddress: "0x231b0Ee14048e9dCcD1d247744d114a4EB5E8E63",
-  isMigrated: true,
-  createdAt: "1683542459",
-  decryptedName: "miladycam.eth",
-};
