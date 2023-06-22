@@ -52,6 +52,7 @@ export default function PageSettingsModal({ siteData, onComplete }) {
         <>
           <div className={"flex flex-col items-center space-y-2"}>
             <NameUpdater siteData={siteData} />
+            <ChangeTheme />
             <HeadUpdater siteData={siteData} />
             <DevTools siteData={siteData} />
           </div>
@@ -127,7 +128,7 @@ const NameUpdater = ({ siteData }) => {
     <>
       <div className="w-full">
         <label className="label w-full">
-          <span className="label-text text-lg">Page Name</span>
+          <span className="label-text text-lg">Page URL</span>
         </label>
         <label className="input-group input-group-sm flex flex-row justify-center">
           <span className="input input-bordered input-sm">
@@ -158,7 +159,7 @@ const NameUpdater = ({ siteData }) => {
 
 const HeadUpdater = ({ siteData }) => {
   const [head, setHead] = React.useState(
-    siteData.page.head || {
+    siteData.page?.head || {
       title: "My Dragd Page",
       description: "",
       keywords: "",
@@ -204,6 +205,24 @@ const HeadUpdater = ({ siteData }) => {
 
 const trimIfLongerThan = (str, maxLength) => {
   return str.length > maxLength ? "..." + str.slice(-maxLength) : str;
+};
+
+const ChangeTheme = () => {
+  return (
+    <>
+      <label className="label w-full">
+        <span className="label-text text-lg">Page Template</span>
+      </label>{" "}
+      <button
+        className="btn btn-sm btn-ghost btn-outline"
+        onClick={() => {
+          globalThis.showTemplatePicker();
+        }}
+      >
+        Choose a new template
+      </button>
+    </>
+  );
 };
 
 const DevTools = ({ siteData }) => {

@@ -1,50 +1,73 @@
-import React, { useContext } from 'react';
-import { Input } from '../helpers/helper';
-import ReactPlayer from 'react-player/lazy';
-import EditItem from './DDEditor/EditItem';
-import SiteContext from '../siteContext';
+import React, { useContext, useEffect, useState } from "react";
+import { Input } from "../helpers/helper";
 
+import EditItem from "./DDEditor/EditItem";
+import SiteContext from "../siteContext";
+import dynamic from "next/dynamic";
+const ReactPlayer = dynamic(() => import("react-player"));
 
-function PanelControls({id}) {
-    const {items, onUpdateDiv} = useContext(SiteContext);
-    const elemData = items[id];
-    const onLocalUpdate = (newProps) => onUpdateDiv(elemData.id, newProps);
+function PanelControls({ id }) {
+  const { items, onUpdateDiv } = useContext(SiteContext);
+  const elemData = items[id];
+  const onLocalUpdate = (newProps) => onUpdateDiv(elemData.id, newProps);
 
-    return (
-        <>
-            <Input
-                placeholder={'url'}
-                value={elemData.videoUri}
-                onChange={(value) => {
-                    onLocalUpdate({videoUri: value});
-                }}
-            />
-        </>
-    );
+  return (
+    <>
+      <div className="form-control w-full max-w-xs">
+        <label className="label">
+          <span className="label-text">Enter a video URL</span>
+        </label>
+        <input
+          type="text"
+          placeholder={"Youtube/Twitch/Soundcloud URL"}
+          value={elemData.videoUri}
+          onChange={(value) => {
+            onLocalUpdate({ videoUri: value });
+          }}
+          className="input input-bordered w-full max-w-xs"
+        />
+        <label className="label">
+          <span className="label-text-alt">
+            Youtube | Twitch | Soundcloud | Vimeo
+          </span>
+        </label>
+      </div>
+    </>
+  );
 }
 
 function DraggableVideo(props) {
-    const { elemData } = props;
+  const { elemData } = props;
 
-    return (
-        <>
-            <EditItem
-                elemData={elemData}
-                selected={props.selected}
-                renderPanel={PanelControls}
-            >
-                {!elemData.videoUri ? (
-                    <center>Set a video URL</center>
-                ) : (
-                    <ReactPlayer
-                        url={elemData.videoUri}
-                        style={{ width: '100%', height: '100%' }}
-                        playsinline={true}
-                    />
-                )}
-            </EditItem>
-        </>
-    );
+  const [hasWindow, setHasWindow] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setHasWindow(true);
+    }
+  }, []);
+
+  return (
+    <>
+      <EditItem
+        elemData={elemData}
+        selected={props.selected}
+        renderPanel={PanelControls}
+      >
+        {!elemData.videoUri ? (
+          <center>Set a video URL</center>
+        ) : (
+          hasWindow && (
+            <ReactPlayer
+              url={elemData.videoUri}
+              width={elemData.size.width}
+              height={elemData.size.height}
+              playsinline={true}
+            />
+          )
+        )}
+      </EditItem>
+    </>
+  );
 }
 
 export default DraggableVideo;

@@ -72,7 +72,7 @@ export default function StylePanelControls({ id }) {
           className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
         >
           <ColorPicker
-            color={elemData.style?.backgroundColor || "transparent"}
+            color={elemData.style?.borderColor || "transparent"}
             onChange={(color) => {
               onLocalUpdate({
                 style: { ...elemData.style, borderColor: `${color}` },

@@ -45,7 +45,7 @@ export default function SiteList({ siteData, currentPath, setModal }) {
         });
 
   return (
-    <div>
+    <div className="flex flex-row items-center">
       <GenericDropdown
         label={
           <>
@@ -56,6 +56,23 @@ export default function SiteList({ siteData, currentPath, setModal }) {
         }
         children={siteList}
       />
+      <button
+        onClick={(e) => {
+          setModal(
+            <NewSiteModal
+              site={currentPath.split("/")[0]}
+              onComplete={() => {
+                setModal(false);
+              }}
+            />
+          );
+        }}
+        className="btn btn-xs btn-circle btn-outline"
+      >
+        <div className="flex flex-row h-full w-full justify-center items-center text-2xl">
+          +
+        </div>
+      </button>
     </div>
   );
 }
@@ -70,7 +87,7 @@ const SiteCard = ({ index, item, setShowModal }) => {
           dra.gd/{GetShortenedString(item[0].siteName)}
         </div>
         <button
-          className={"btn btn-xs btn-primary min-h-6 h-2 p-1 ml-2"}
+          className="btn btn-xs btn-circle btn-outline"
           onClick={(e) => {
             setShowModal(
               <NewSiteModal
@@ -82,7 +99,9 @@ const SiteCard = ({ index, item, setShowModal }) => {
             );
           }}
         >
-          NEW
+          <div className="flex flex-row h-full w-full justify-center items-center text-2xl">
+            +
+          </div>
         </button>
       </div>
 

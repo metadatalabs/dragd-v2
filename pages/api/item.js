@@ -47,14 +47,23 @@ const handler = requireAuth(async (req, res) => {
         });
 
       var connectedWallet = req.session.siwe?.address;
-      const walletNames = await getBlockchainNames(connectedWallet);
 
-      if (walletNames.includes(req.body.siteName)) null;
-      else
-        return res.send({
-          status: "error",
-          message: "You don't own this name.",
-        });
+      if (req.body.siteName?.includes(".eth")) {
+        // case A: .eth
+        const walletNames = await getBlockchainNames(connectedWallet);
+        if (!walletNames.includes(req.body.siteName))
+          return res.send({
+            status: "error",
+            message: "You don't own this name.",
+          });
+      } else if (req.body.siteName.startsWith("0x")) {
+        // case B: wallet address
+        if (req.body.siteName != connectedWallet)
+          return res.send({
+            status: "error",
+            message: "You don't own this address.",
+          });
+      }
 
       var siteForName = await getItemByName(
         req.body.siteName + "/" + req.body.pageName
