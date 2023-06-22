@@ -109,7 +109,7 @@ const SiteCard = ({ index, item, setShowModal }) => {
         {item.map((pageItem, index) => {
           return (
             <div key={index}>
-              <Link
+              <a
                 onClick={(e) => {
                   e.stopPropagation();
                 }}
@@ -121,7 +121,7 @@ const SiteCard = ({ index, item, setShowModal }) => {
                 <div>
                   <p>/{pageItem.fake ? "index" : pageItem.pageName}</p>
                 </div>
-              </Link>
+              </a>
             </div>
           );
         })}

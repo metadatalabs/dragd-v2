@@ -24,7 +24,10 @@ function GenericPage({ data, sitePath, ...props }) {
 
   // if user is not logged in, we dont show the omnibar or the edit view
   return (
-    <main className="flex w-full min-h-screen flex-1 flex-col text-center">
+    <main
+      className="flex w-full min-h-screen flex-1 flex-col text-center"
+      key={currentPath}
+    >
       {(isPageOwner || isDemoPage) && (
         <Omnibar siteData={siteDataJson} currentPath={currentPath} />
       )}

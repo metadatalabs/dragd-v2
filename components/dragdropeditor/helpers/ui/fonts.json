@@ -1,18 +1,18 @@
 {
-    "googleFonts": [
-        "Anton",
-        "Comic Neue",
-        "EB Garamond",
-        "Open Sans",
-        "Poppins",
-        "Bangers",
-        "Bebas Neue",
-        "Lato",
-        "Nanum Pen Script",
-        "Pacifico",
-        "Playfair Display",
-        "Space Mono",
-        "VT323",
-        "Zilla Slab Highlight"
-    ]
+  "googleFonts": [
+    "Comic Neue",
+    "Prata",
+    "Poltawski Nowy",
+    "EB Garamond",
+    "Open Sans",
+    "Poppins",
+    "Bebas Neue",
+    "Lato",
+    "Nanum Pen Script",
+    "Pacifico",
+    "Playfair Display",
+    "Space Mono",
+    "VT323",
+    "Zilla Slab Highlight"
+  ]
 }
