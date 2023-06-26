@@ -11,7 +11,7 @@ export default function GenericDropdown({ children, border, ...props }) {
           border && "outline rounded"
         }`}
       >
-        <label tabIndex={0} className="btn btn-sm m-1">
+        <label tabIndex={0} className="btn btn-ghost btn-sm m-1">
           {props.label}
         </label>
         <ul

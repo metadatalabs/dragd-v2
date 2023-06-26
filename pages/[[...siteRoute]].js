@@ -85,7 +85,7 @@ export async function getStaticProps({ params, preview, previewData }) {
       sitePath: siteName,
       data: data ? data : {},
     },
-    revalidate: 2,
+    revalidate: 1,
   };
 }
 

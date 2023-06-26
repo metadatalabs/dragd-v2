@@ -46,33 +46,47 @@ export default function SiteList({ siteData, currentPath, setModal }) {
 
   return (
     <div className="flex flex-row items-center">
-      <GenericDropdown
-        label={
-          <>
-            {GetShortenedString(currentPath.split("/")[0])}/
-            {currentPath.split("/")[1]}
-            <DownChevron />
-          </>
-        }
-        children={siteList}
-      />
-      <button
-        onClick={(e) => {
-          setModal(
-            <NewSiteModal
-              site={currentPath.split("/")[0]}
-              onComplete={() => {
-                setModal(false);
-              }}
-            />
-          );
-        }}
-        className="btn btn-xs btn-circle btn-outline"
-      >
-        <div className="flex flex-row h-full w-full justify-center items-center text-2xl">
-          +
-        </div>
-      </button>
+      <div className="dropdown dropdown-bottom dropdown-end">
+        <label tabIndex={0} className="btn btn-ghost btn-sm m-1 text-xs">
+          {GetShortenedString(currentPath.split("/")[0])}/
+          {currentPath.split("/")[1]}
+          <DownChevron />{" "}
+        </label>
+        <ul
+          tabIndex={0}
+          className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box max-w-screen-sm w-full"
+        >
+          <div className="p-1 w-full flex flex-row justify-between">
+            <div>Sites</div>
+            <div>
+              <button
+                onClick={(e) => {
+                  setModal(
+                    <NewSiteModal
+                      site={currentPath.split("/")[0]}
+                      onComplete={() => {
+                        setModal(false);
+                      }}
+                    />
+                  );
+                }}
+                className="btn btn-xs btn-circle btn-ghost"
+              >
+                <div className="flex flex-row h-full w-full justify-center items-center text-2xl">
+                  +
+                </div>
+              </button>
+            </div>
+          </div>
+          <div className="divider my-0"></div>
+          <div className="max-h-[50vh] overflow-y-scroll">
+            {siteList?.map((item, index) => {
+              return <li key={index}>{item}</li>;
+            })}
+          </div>
+        </ul>
+      </div>
+      {/* <GenericDropdown label={<></>} children={} /> */}
     </div>
   );
 }
@@ -80,13 +94,14 @@ export default function SiteList({ siteData, currentPath, setModal }) {
 const SiteCard = ({ index, item, setShowModal }) => {
   return (
     <div
-      className={`flex flex-col w-full p-0 gap-y-0 items-start border-t-2 border p-1 -my-1 bg-base-100 border-base-300`}
+      className={`flex flex-col w-full gap-y-0 p-1 items-start cursor-default`}
     >
       <div className="flex flex-row items-center justify-between w-full">
-        <div className={"text-sm font-bold pl-2"}>
-          dra.gd/{GetShortenedString(item[0].siteName)}
+        <div className={"text-xs font-bold"}>
+          {/* dra.gd/ */}
+          {GetShortenedString(item[0].siteName)}
         </div>
-        <button
+        {/* <button
           className="btn btn-xs btn-circle btn-outline"
           onClick={(e) => {
             setShowModal(
@@ -102,10 +117,10 @@ const SiteCard = ({ index, item, setShowModal }) => {
           <div className="flex flex-row h-full w-full justify-center items-center text-2xl">
             +
           </div>
-        </button>
+        </button> */}
       </div>
 
-      <div className={"flex flex-col w-full pb-2"}>
+      <div className={"flex flex-col w-full"}>
         {item.map((pageItem, index) => {
           return (
             <div key={index}>
@@ -115,7 +130,7 @@ const SiteCard = ({ index, item, setShowModal }) => {
                 }}
                 href={`/${pageItem.siteName}/${pageItem.pageName}`}
                 className={
-                  "w-full flex flex-row justify-between transition-all pl-4"
+                  "w-full flex flex-row justify-between transition-all rounded-md p-1 hover:bg-gray-100 "
                 }
               >
                 <div>

@@ -27,7 +27,7 @@ export default function LoginButton(props) {
           <GenericDropdown
             label={
               <div className="avatar -mx-2 ">
-                <div className="w-8 bg-primary rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                <div className="w-5 bg-primary rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                   <img src={ensImage} />
                 </div>
               </div>
