@@ -131,8 +131,13 @@ const whitelistedAccountDomains = {
     "ideacoe.eth",
     "willsolanamakeit",
     "oldmanali",
+    "1dollarjobs",
   ],
-  "0xE5E98Df807c3C4F8e57eeeED0968895b2EA5FEfb": ["l.eth", "loveposters.eth"],
+  "0xE5E98Df807c3C4F8e57eeeED0968895b2EA5FEfb": [
+    "l.eth",
+    "loveposters.eth",
+    "1dollarjobs",
+  ],
   "0x4DF83971f6f1bFD8D33a2E79584bDFDe75F4DF60": [
     "nounshack.eth",
     "willsolanamakeit",

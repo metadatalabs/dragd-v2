@@ -58,9 +58,9 @@
 
 .dragHandle {
   position: absolute;
-  border: 1px solid black;
+  border: 2px solid rgb(50, 139, 255);
   border-radius: 2px;
-  background-color: white;
+  background-color: transparent;
   padding: 3px;
   cursor: nesw-resize;
 

@@ -99,6 +99,9 @@ export default function VisibleCanvas(props) {
         overflow: "hidden",
         height: pageVisibleHeight,
         minHeight: "100vh",
+        backgroundImage: `url(${items["style"]?.background?.backgroundImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
       }}
       onMouseDown={(e) => {
         if (mode !== EditorModes.EDIT) return;

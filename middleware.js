@@ -48,4 +48,6 @@ const web2DomainMapping = {
   "ideacoe.com": "ideacoe.eth",
   "willsolanamakeit.wtf": "willsolanamakeit",
   "oldmanali.info": "oldmanali",
+  "1dollaraijobs.com": "1dollarjobs",
+  "1dollarjobs.com": "1dollarjobs",
 };

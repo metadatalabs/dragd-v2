@@ -3,6 +3,7 @@ import Head from "next/head";
 // import { useForm } from "react-hook-form";
 import SiteContext from "../siteContext";
 import ThemeSelector from "./EditMenu/ThemeSelector";
+import FilePicker, { loadImageToUri } from "../helpers/ui/FilePicker";
 
 function NextHead(props) {
   const { elemData, onSelect, onUpdated, selected, mode } = props;
@@ -46,7 +47,7 @@ export function HeadConfigurator({ addItemToList }) {
   console.log("current head is ", styleData);
 
   return (
-    <div className="p-2">
+    <div className="p-2 w-auto">
       {/* <form onSubmit={handleSubmit(onSubmit)}>
             <div>
                 <div style={{fontSize: 14, fontWeight: "bold"}}>Page Title</div>
@@ -56,12 +57,56 @@ export function HeadConfigurator({ addItemToList }) {
             
             <input type="submit" value="Save"/>
             </form> */}
+      <label className="label">
+        <span className="label-text"> Page Theme</span>
+      </label>
       <ThemeSelector
         selectedTheme={styleData?.theme}
         onSelect={(theme) => {
           onLocalUpdate({ theme });
         }}
       />
+      <div>
+        <label className="label">
+          <span className="label-text"> Background Settings</span>
+        </label>
+        <div>
+          Color Picker
+          {[
+            "red",
+            "blue",
+            "green",
+            "yellow",
+            "purple",
+            "pink",
+            "indigo",
+            "gray",
+            "white",
+            "black",
+          ].map((color) => (
+            <button
+              className={`btn btn-circle btn-sm`}
+              style={{ backgroundColor: color }}
+              onClick={() => {
+                onLocalUpdate({
+                  ...styleData,
+                  background: { backgroundColor: color },
+                });
+              }}
+            ></button>
+          ))}
+        </div>
+        <FilePicker
+          selected={styleData?.background?.backgroundImage}
+          setSelected={(dataUrl) => {
+            onLocalUpdate({
+              ...styleData,
+              background: { backgroundImage: dataUrl },
+            });
+          }}
+        />
+        <div>Reset to theme default</div>
+      </div>
     </div>
   );
 }

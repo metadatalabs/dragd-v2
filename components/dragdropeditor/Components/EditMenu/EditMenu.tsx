@@ -229,10 +229,10 @@ function FloatingPanel({ children, style = null, isMinimized, setMinimized }) {
 
   return (
     <div
-      className={"flex flex-col card bg-base-100 outline transition-all"}
+      className={
+        "flex flex-col card bg-base-100 outline transition-all max-w-[80vw] max-h-[75vh]"
+      }
       style={{
-        // height: isMinimized ? "50px" : "70vh",
-        maxWidth: "80vw",
         marginBottom: -pos.y,
         marginRight: -pos.x,
         transition: `width 0.2s, height 0.2s ${

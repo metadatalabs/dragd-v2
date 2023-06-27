@@ -43,8 +43,8 @@ export default function ThemeSelector({ selectedTheme, onSelect }) {
     );
   };
   return (
-    <div className="p-2">
-      <div class="rounded-box grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
+    <div className="p-2 max-h-[50vh] overflow-y-scroll my-1 rounded-box border border-slate-400">
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
         {[
           undefined,
           "light",

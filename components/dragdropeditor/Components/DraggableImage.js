@@ -4,6 +4,7 @@ import SiteContext from "../siteContext";
 import EditItem from "./DDEditor/EditItem";
 import StylePanelControls, { TabSwitcher } from "./EditMenu/StyleControlPanel";
 import NextImage from "next/image";
+import { loadImageToUri } from "../helpers/ui/FilePicker";
 
 function PanelControls({ id }) {
   const { items, onUpdateDiv } = useContext(SiteContext);
@@ -59,54 +60,6 @@ function DraggableImage(props) {
 const Prompter = ({ imageUri, setImageUri }) => {
   // const [imageUri, setImageUri] = useState(props.imageUri);
 
-  function toDataURL(src, callback, outputFormat) {
-    var img = new Image();
-    img.crossOrigin = "Anonymous";
-    img.onload = function () {
-      var canvas = document.createElement("CANVAS");
-      // @ts-expect-error TODO: getContext exists on canvas, investigate
-      var ctx = canvas.getContext("2d");
-      var dataURL;
-      // @ts-expect-error TODO: naturalHeight exists on canvas, investigate
-      canvas.height = this.naturalHeight;
-      // @ts-expect-error TODO: naturalWidth exists on canvas, investigate
-      canvas.width = this.naturalWidth;
-      ctx.drawImage(this, 0, 0);
-      // @ts-expect-error TODO: toDateURL exists on canvas, investigate
-      dataURL = canvas.toDataURL(outputFormat);
-      callback(dataURL);
-      return dataURL;
-    };
-    img.src = src;
-    if (img.complete || img.complete === undefined) {
-      img.src =
-        "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
-      img.src = src;
-    }
-  }
-
-  async function loadImageToUri() {
-    // @ts-expect-error TODO: window fs access not allowed in strict
-    try {
-      const [file] = await window.showOpenFilePicker();
-      const locFile = await file.getFile();
-      console.log(locFile);
-      const stream = await locFile.arrayBuffer();
-      console.log(stream);
-      var blob = new Blob([stream], { type: locFile.type });
-      var urlCreator = window.URL || window.webkitURL;
-      var imageUrl = urlCreator.createObjectURL(blob);
-      toDataURL(
-        imageUrl,
-        (dataUrl) => {
-          console.log("converted to ", dataUrl);
-          setImageUri(dataUrl);
-        },
-        locFile.type
-      );
-    } catch (e) {}
-  }
-
   return (
     <>
       <center>
@@ -134,7 +87,9 @@ const Prompter = ({ imageUri, setImageUri }) => {
           <button
             className={"btn btn-ghost btn-outline"}
             onClick={() => {
-              loadImageToUri();
+              loadImageToUri((dataUrl) => {
+                setImageUri(dataUrl);
+              });
             }}
           >
             <img className="h-6 w-11" src="https://i.imgur.com/rFn3Kjx.png" />
