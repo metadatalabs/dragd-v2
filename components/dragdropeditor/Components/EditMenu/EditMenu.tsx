@@ -29,11 +29,6 @@ export default function Menu({ selected }) {
       }}
     >
       <FloatingPanel isMinimized={isMinimized} setMinimized={setMinimized}>
-        <TitleBar
-          onClose={() => {
-            setMinimized(true);
-          }}
-        />
         <NestedMenu
           buttonData={defaultButtons}
           addItemToList={siteData.addItemToList}
@@ -42,9 +37,6 @@ export default function Menu({ selected }) {
           setParentSelected={setSelected}
         />
       </FloatingPanel>
-      {/* <Row>
-                
-            </Row> */}
     </div>
   );
 }
@@ -72,27 +64,36 @@ function NestedMenu({
 
   return (
     <>
-      <div className="h-8 -mt-8 flex items-center">
-        {
+      <div className="h-8 flex items-center justify-between">
+        <div
+          className={
+            "cursor-pointer w-6 px-0 ml-1 hover:bg-gray-200 rounded-full"
+          }
+          style={{ pointerEvents: "all" }}
+          onClick={() => {
+            setParentSelected?.(null);
+            setSelector(null);
+            setSelectedItem("bg");
+          }}
+        >
+          {`←`}
+        </div>
+        <div>
           <div
             className={
-              "cursor-pointer w-6 px-0 ml-1 hover:bg-gray-200 rounded-full"
+              "cursor-pointer w-5 px-1 mr-1 hover:bg-gray-200 rounded-full"
             }
             style={{ pointerEvents: "all" }}
-            onClick={() => {
-              setParentSelected?.(null);
-              setSelector(null);
-              setSelectedItem("bg");
-            }}
+            onClick={() => setMinimized(true)}
           >
-            {`←`}
+            <CloseIcon />
           </div>
-        }
+        </div>
       </div>
 
       {/* stack of menus */}
       <div className="flex" onMouseDown={(e) => e.stopPropagation()}>
-        <div className="flex flex-col bg-slate-100">
+        <div className="flex flex-col bg-slate-500/10 overflow-y-scroll">
           {/* child menu in the stack */}
 
           {/* menu */}
@@ -140,25 +141,6 @@ function NestedMenu({
         </div>
       </div>
     </>
-  );
-}
-
-function TitleBar({ onClose }) {
-  return (
-    <div className="flex justify-between items-center h-8">
-      <div></div>
-      <div>
-        <div
-          className={
-            "cursor-pointer w-5 px-1 mr-1 hover:bg-gray-200 rounded-full"
-          }
-          style={{ pointerEvents: "all" }}
-          onClick={() => onClose()}
-        >
-          <CloseIcon />
-        </div>
-      </div>
-    </div>
   );
 }
 

@@ -28,12 +28,8 @@ function DraggableButton(props) {
         {
           <button
             key={elemData.id}
-            className={"btn btn-primary"}
+            className={"btn btn-primary w-full h-full text-lg"}
             style={{
-              width: "100%",
-              height: "100%",
-              fontSize: elemData.size.height / 2.2,
-              fontWeight: 500,
               ...elemData.style,
             }}
             onClick={() => {
