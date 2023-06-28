@@ -20,7 +20,7 @@ const session_persist_key = "CRYPTO_SESSION";
 
 export function CryptoAuthProvider(props) {
   const [session, setSession] = useState(null);
-  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false); // uses object to determine what auth methods to show
 
   useEffect(() => {
     if (session == null) return;
@@ -58,8 +58,8 @@ export function CryptoAuthProvider(props) {
     return () => window.removeEventListener("focus", handler);
   }, []);
 
-  globalThis.showAuthModal = () => {
-    setShowAuthModal(true);
+  globalThis.showAuthModal = (params) => {
+    setShowAuthModal({ ...params });
   };
 
   const saveSession = () => {
@@ -128,7 +128,7 @@ export function CryptoAuthProvider(props) {
     <WagmiConfig client={client}>
       <CryptoAuthContext.Provider value={providerValues}>
         {props.children}
-        {showAuthModal && <WalletModal />}
+        {showAuthModal && <WalletModal initProps={showAuthModal} />}
       </CryptoAuthContext.Provider>
     </WagmiConfig>
   );

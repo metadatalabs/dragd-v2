@@ -136,9 +136,7 @@ export default function VisibleEditor(props) {
           }}
         >
           <div className="flex flex-col" style={{ alignItems: "flex-end" }}>
-            {mode == EditorModes.EDIT && (
-              <Menu selected={selected} addItemToList={undefined} />
-            )}
+            {mode == EditorModes.EDIT && <Menu selected={selected} />}
 
             <div style={{ padding: 5 }}></div>
 

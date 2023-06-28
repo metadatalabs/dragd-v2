@@ -10,6 +10,7 @@ import {
   WindowIcon,
   IconStickerEmoji,
   IconVideo,
+  IconCurrencyEthereum,
 } from "../../helpers/helper";
 
 const defaultButtons = {
@@ -160,6 +161,12 @@ const defaultButtons = {
         action: "modal",
         selector: "eth",
       },
+      payButton: {
+        icon: <IconCurrencyEthereum />,
+        label: "Pay Button",
+        action: "modal",
+        selector: "payButton",
+      },
       template: {
         icon: <WindowIcon />,
         action: "modal",
@@ -167,7 +174,7 @@ const defaultButtons = {
         label: "Template",
       },
       diffusion: {
-        icon: "fas fa-project-diagram",
+        icon: <ImageIcon />,
         label: "Stable Diffusion Image",
         action: "add",
         object: {

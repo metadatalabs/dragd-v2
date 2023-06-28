@@ -13,6 +13,7 @@ const DraggableDiffusion = dynamic(() => import("./DraggableDiffusion"));
 const DraggableGiphy = dynamic(() => import("./DraggableGiphy"));
 const DraggableVideo = dynamic(() => import("./DraggableVideo"));
 const DraggableAudio = dynamic(() => import("./DraggableAudio"));
+const PaymentButton = dynamic(() => import("./PaymentButton"));
 const DraggableEth = dynamic(() => import("./DraggableEth"));
 const DraggableHtml = dynamic(() => import("./DraggableHtml"));
 const DraggableForm = dynamic(() => import("./DraggableForm"));
@@ -39,6 +40,8 @@ function ComponentSelector({ elem, selected }) {
       return <DraggableVideo elemData={elem} selected={isSelected} />;
     case "audio":
       return <DraggableAudio elemData={elem} selected={isSelected} />;
+    case "payButton":
+      return <PaymentButton elemData={elem} selected={isSelected} />;
     case "smartcontract":
       return <DraggableEth elemData={elem} selected={isSelected} />;
     case "markdown":

@@ -12,69 +12,11 @@ import { v4 as uuidv4 } from "uuid";
 import { HeadConfigurator } from "../PageStyle";
 import SiteContext from "../../siteContext";
 import { ButtonSelector } from "../DraggableButton/ButtonSelector";
+import { PaymentSelector } from "../PaymentButton/PaymentSelector";
 import { TemplateSelector } from "../DraggableTemplate";
 import { EthContractSelector } from "../DraggableEth/EthContractSelector";
 
-export function AddButton({ item, showMenu, setSelector }) {
-  const siteData = useContext(SiteContext);
-
-  const SELECTORS: any = {
-    // giphy: <GiphySelector addItemToList={siteData.addItemToList} />,
-    headconf: <HeadConfigurator addItemToList={siteData.addItemToList} />,
-  };
-
-  const FUNCS: any = {
-    button: (
-      <ButtonSelector
-        addItemToList={siteData.addItemToList}
-        close={() => siteData.setModal(null)}
-      />
-    ),
-    template: (
-      <TemplateSelector
-        addItemToList={siteData.addItemToList}
-        close={() => siteData.setModal(null)}
-      />
-    ),
-    eth: (
-      <EthContractSelector
-        addItemToList={siteData.addItemToList}
-        close={() => siteData.setModal(null)}
-      />
-    ),
-  };
-
-  return (
-    <li className="tooltip tooltip-left w-12" data-tip={item[1].label}>
-      <a
-        className="flex items-center justify-center px-0"
-        onClick={(e) => {
-          switch (item[1].action) {
-            case "add":
-              siteData.addItemToList(item[1].object);
-              showMenu(null);
-              // analytics.track('editor_add_item', item[1].object.type);
-              break;
-            case "menu":
-              showMenu(item[1].objects);
-              break;
-            case "selector":
-              setSelector(SELECTORS[item[1].selector]);
-              break;
-            case "modal":
-              siteData.setModal(FUNCS[item[1].selector]);
-              break;
-          }
-          e.stopPropagation();
-        }}
-      >
-        {item[1].icon}
-      </a>
-    </li>
-  );
-}
-
-function Menu({ addItemToList, selected }) {
+export default function Menu({ selected }) {
   const siteData = useContext(SiteContext);
   const { setSelected } = siteData;
   const [isMinimized, setMinimized] = useState(false);
@@ -87,8 +29,13 @@ function Menu({ addItemToList, selected }) {
       }}
     >
       <FloatingPanel isMinimized={isMinimized} setMinimized={setMinimized}>
+        <TitleBar
+          onClose={() => {
+            setMinimized(true);
+          }}
+        />
         <NestedMenu
-          data={defaultButtons}
+          buttonData={defaultButtons}
           addItemToList={siteData.addItemToList}
           parentSelected={selected.length == 0 ? null : selected}
           setMinimized={setMinimized}
@@ -103,7 +50,7 @@ function Menu({ addItemToList, selected }) {
 }
 
 function NestedMenu({
-  data,
+  buttonData,
   addItemToList,
   parentSelected,
   setParentSelected = null,
@@ -125,92 +72,93 @@ function NestedMenu({
 
   return (
     <>
-      {!selected && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            pointerEvents: "none",
-            marginTop: -30,
-            marginBottom: 10,
-            height: 20,
-          }}
-        >
-          {(selector || parentSelected) && (
-            <div
-              className={
-                "cursor-pointer w-6 px-0 ml-1 hover:bg-gray-200 rounded-full"
-              }
-              style={{ pointerEvents: "all" }}
-              onClick={() => {
-                setParentSelected?.(null);
-                setSelector(null);
-                setSelectedItem("bg");
-              }}
-            >
-              {`←`}
-            </div>
-          )}
-          <div className="px-2">
-            <DragHandle />
-            {selected}
-          </div>
+      <div className="h-8 -mt-8 flex items-center">
+        {
           <div
             className={
-              "cursor-pointer w-5 px-1 mr-1 hover:bg-gray-200 rounded-full"
+              "cursor-pointer w-6 px-0 ml-1 hover:bg-gray-200 rounded-full"
             }
             style={{ pointerEvents: "all" }}
             onClick={() => {
-              setMinimized(true);
+              setParentSelected?.(null);
+              setSelector(null);
+              setSelectedItem("bg");
             }}
           >
-            <CloseIcon />
+            {`←`}
           </div>
-        </div>
-      )}
+        }
+      </div>
 
-      {Array.isArray(parentSelected) ? (
-        <div className="flex flex-grow px-3 text-left max-h-full">
-          {controlPanel}
-        </div>
-      ) : (
-        !selected &&
-        !selector && (
-          <>
-            <ul className="menu bg-base-100 p-2 rounded-box">
-              {Object.entries(data).map((item) => {
-                return (
-                  <AddButton
-                    key={uuidv4()}
-                    item={item}
-                    showMenu={setSelected}
-                    setSelector={setSelector}
-                  />
-                );
-              })}
-            </ul>
-          </>
-        )
-      )}
+      {/* stack of menus */}
+      <div className="flex" onMouseDown={(e) => e.stopPropagation()}>
+        <div className="flex flex-col bg-slate-100">
+          {/* child menu in the stack */}
 
-      {selector && (
-        <Column
-          className={"w-max items-center cpanel-col h-[90%] overflow-y-auto"}
-        >
-          {selector}
-        </Column>
-      )}
-      {/* todo make this truly recursive by adding editmenu again */}
-      {selected != null && (
-        <NestedMenu
-          data={selected}
-          addItemToList={addItemToList}
-          parentSelected={selected}
-          setParentSelected={setSelected}
-        />
-      )}
+          {/* menu */}
+          {selected != null && (
+            <NestedMenu
+              buttonData={selected}
+              addItemToList={addItemToList}
+              parentSelected={selected}
+              setParentSelected={setSelected}
+            />
+          )}
+
+          {/* selector */}
+          {selector != null && (
+            <Column
+              className={
+                "w-max items-center cpanel-col h-[90%] overflow-y-auto"
+              }
+            >
+              {selector}
+            </Column>
+          )}
+
+          {/* control panel */}
+          {Array.isArray(parentSelected) && (
+            <div className="flex flex-grow px-3 text-left max-h-full">
+              {controlPanel}
+            </div>
+          )}
+        </div>
+        <div className="flex flex-col">
+          {/* parent menu in the stack */}
+          <ul className="menu bg-base-100 p-2 rounded-box">
+            {Object.entries(buttonData).map((item) => {
+              return (
+                <AddButton
+                  key={uuidv4()}
+                  item={item}
+                  showMenu={setSelected}
+                  setSelector={setSelector}
+                />
+              );
+            })}
+          </ul>
+        </div>
+      </div>
     </>
+  );
+}
+
+function TitleBar({ onClose }) {
+  return (
+    <div className="flex justify-between items-center h-8">
+      <div></div>
+      <div>
+        <div
+          className={
+            "cursor-pointer w-5 px-1 mr-1 hover:bg-gray-200 rounded-full"
+          }
+          style={{ pointerEvents: "all" }}
+          onClick={() => onClose()}
+        >
+          <CloseIcon />
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -232,6 +180,23 @@ function FloatingPanel({ children, style = null, isMinimized, setMinimized }) {
       className={
         "flex flex-col card bg-base-100 outline transition-all max-w-[80vw] max-h-[75vh]"
       }
+      onMouseDown={(e) => {
+        setDragging(true);
+        // setClickOffset({ x: e.clientX - (window.innerWidth - pos.x), y: e.clientY - pos.y});
+        setClickOffset({ x: e.clientX - pos.x, y: e.clientY - pos.y });
+      }}
+      onMouseUp={(e) => {
+        setDragging(false);
+      }}
+      onMouseMove={(e) => {
+        if (dragging) {
+          setPos({
+            x: e.clientX - clickOffset.x,
+            y: e.clientY - clickOffset.y,
+          });
+          // setPos({ x: window.innerWidth - (e.clientX - clickOffset.x), y: e.clientY - clickOffset.y});
+        }
+      }}
       style={{
         marginBottom: -pos.y,
         marginRight: -pos.x,
@@ -240,7 +205,7 @@ function FloatingPanel({ children, style = null, isMinimized, setMinimized }) {
         }`,
       }}
     >
-      {isMinimized ? (
+      {isMinimized && (
         <div
           className="pt-3 px-4"
           onClick={() => {
@@ -249,50 +214,64 @@ function FloatingPanel({ children, style = null, isMinimized, setMinimized }) {
         >
           <AppsIcon />
         </div>
-      ) : (
-        <div
-          className="h-10 cursor-grab"
-          onMouseDown={(e) => {
-            setDragging(true);
-            // setClickOffset({ x: e.clientX - (window.innerWidth - pos.x), y: e.clientY - pos.y});
-            setClickOffset({ x: e.clientX - pos.x, y: e.clientY - pos.y });
-          }}
-          onMouseUp={(e) => {
-            setDragging(false);
-          }}
-          onMouseMove={(e) => {
-            if (dragging) {
-              setPos({
-                x: e.clientX - clickOffset.x,
-                y: e.clientY - clickOffset.y,
-              });
-              // setPos({ x: window.innerWidth - (e.clientX - clickOffset.x), y: e.clientY - clickOffset.y});
-            }
-          }}
-        ></div>
       )}
       {!isMinimized && children}
     </div>
   );
 }
 
-export default Menu;
+export function AddButton({ item: [_, item], showMenu, setSelector }) {
+  const { addItemToList, setModal } = useContext(SiteContext);
 
-const DragHandle = () => {
+  const getSelectorComponent = (selector) => {
+    const commonProps = {
+      addItemToList,
+      close: () => setModal(null),
+    };
+
+    switch (selector) {
+      case "headconf":
+        return <HeadConfigurator {...commonProps} />;
+      case "button":
+        return <ButtonSelector {...commonProps} />;
+      case "template":
+        return <TemplateSelector {...commonProps} />;
+      case "eth":
+        return <EthContractSelector {...commonProps} />;
+      case "payButton":
+        return <PaymentSelector {...commonProps} />;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-      className="w-4 h-4"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-      />
-    </svg>
+    <li className="tooltip tooltip-left w-12" data-tip={item.label}>
+      <a
+        className="flex items-center justify-center px-0"
+        onClick={(e) => {
+          e.stopPropagation();
+          const { action, object, objects, selector } = item;
+          switch (action) {
+            case "add":
+              addItemToList(object);
+              showMenu(null);
+              break;
+            case "menu":
+              showMenu(objects);
+              break;
+            case "selector":
+            case "modal":
+              const component = getSelectorComponent(selector);
+              action === "selector"
+                ? setSelector(component)
+                : setModal(component);
+              break;
+          }
+        }}
+      >
+        {item.icon}
+      </a>
+    </li>
   );
-};
+}

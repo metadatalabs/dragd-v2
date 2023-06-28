@@ -13,11 +13,8 @@ const TemplateModal = dynamic(() => import("./TemplateModal"));
 const PageSettings = dynamic(() => import("./Settings/PageSettings"));
 
 export default function Omnibar(props) {
-  const { session, setSession, showAuthModal, setShowAuthModal } =
-    React.useContext(CryptoAuthContext);
+  const { session } = React.useContext(CryptoAuthContext);
   const { siteData, currentPath } = props;
-  const { disconnect } = useDisconnect();
-  const { data: ensName } = useEnsName({ address: session?.address });
   const [isReady, setIsReady] = React.useState(false);
   const [modal, setModal] = React.useState(null);
   const router = useRouter();

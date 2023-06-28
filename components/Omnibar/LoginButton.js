@@ -54,7 +54,7 @@ export default function LoginButton(props) {
       ) : (
         <button
           onClick={() => {
-            setShowAuthModal(true);
+            setShowAuthModal({ connect: true, sign: true });
           }}
         >
           <a

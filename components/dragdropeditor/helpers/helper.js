@@ -314,6 +314,25 @@ export const SmartContractIcon = () => {
   );
 };
 
+export const IconCurrencyEthereum = (props) => {
+  return (
+    <svg
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      className="w-6 h-6"
+      {...props}
+    >
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <path d="M6 12l6-9 6 9-6 9z" />
+      <path d="M6 12l6-3 6 3-6 2z" />
+    </svg>
+  );
+};
+
 export const CodeIcon = () => {
   return (
     <svg

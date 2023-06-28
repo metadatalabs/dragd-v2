@@ -13,13 +13,21 @@ import GenericModal from "./UI/GenericModal";
 import { ModalHeading, ShinyButton } from "./ui-helpers";
 import { useRouter } from "next/navigation";
 import NFTImage from "./UI/NFTImage";
-function WalletModal(props) {
+function WalletModal({ initProps }) {
   const { setShowAuthModal } = React.useContext(CryptoAuthContext);
   const { isConnected, address } = useAccount();
   const [isShowing, setIsShowing] = useState(false);
   useEffect(() => {
     setIsShowing(true);
   }, []);
+
+  useEffect(() => {
+    // if in connect-only mode, and we are connected, close the modal
+    if (initProps.connect && !initProps.sign && isConnected) {
+      setShowAuthModal && setShowAuthModal(false);
+    }
+  }, [isConnected]);
+
   return (
     <div
       class="relative"
