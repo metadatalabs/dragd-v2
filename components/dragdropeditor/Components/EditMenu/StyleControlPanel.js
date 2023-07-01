@@ -158,6 +158,7 @@ export const TabSwitcher = ({ tabs, tabicons, color = "green" }) => {
         {tabs.map((tab, index) => {
           return (
             <a
+              key={"tab-" + index}
               className={` tab  ${activeTab === index ? "tab-active" : ""}`}
               onClick={() => setActiveTab(index)}
             >

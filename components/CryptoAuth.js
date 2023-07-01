@@ -1,7 +1,13 @@
 import { createContext, useEffect, useState } from "react";
 import { WagmiConfig, createClient, configureChains } from "wagmi";
 
-import { mainnet, goerli, polygon, polygonMumbai } from "wagmi/chains";
+import {
+  mainnet,
+  goerli,
+  polygon,
+  polygonMumbai,
+  arbitrum,
+} from "wagmi/chains";
 
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { WalletConnectLegacyConnector } from "wagmi/connectors/walletConnectLegacy";
@@ -68,7 +74,7 @@ export function CryptoAuthProvider(props) {
 
   const { chains, provider, webSocketProvider } = configureChains(
     // defaultChains
-    [mainnet],
+    [mainnet, arbitrum, polygon],
     [
       jsonRpcProvider({
         rpc: (thisChain) => {
@@ -77,10 +83,13 @@ export function CryptoAuthProvider(props) {
               http: `https://ethereum.publicnode.com`,
               // ws: `wss://rpc.flashbots.net/ws`,
             };
-          else if (thisChain.id == polygonMumbai.id)
+          else if (thisChain.id == polygon.id)
             return {
               http: `https://rpc-mumbai.maticvigil.com/`,
-              ws: `wss://rpc-mumbai.maticvigil.com/ws`,
+            };
+          else if (thisChain.id == arbitrum.id)
+            return {
+              http: `https://arbitrum-one.publicnode.com`,
             };
 
           return {

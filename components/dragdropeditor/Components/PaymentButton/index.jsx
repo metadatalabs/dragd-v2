@@ -7,6 +7,8 @@ import {
   useAccount,
   usePrepareSendTransaction,
   useSendTransaction,
+  useNetwork,
+  useSwitchNetwork,
 } from "wagmi";
 import { parseEther, formatEther } from "ethers/lib/utils.js";
 import { GetShortenedString } from "../../../ui-helpers";
@@ -27,6 +29,12 @@ function PaymentButton(props) {
     sendTransaction,
   } = useSendTransaction(config);
   const { setShowAuthModal } = React.useContext(CryptoAuthContext);
+  const { chain } = useNetwork();
+  const {
+    error: networkSwitchError,
+    isLoading,
+    switchNetwork,
+  } = useSwitchNetwork();
 
   const siteData = useContext(SiteContext);
   const {
@@ -64,8 +72,8 @@ function PaymentButton(props) {
 
     setModal(
       <PaymentSuccessModal
-        amount={config.request.value}
-        toAddress={config.request.to}
+        amount={config?.request?.value}
+        toAddress={config?.request?.to}
       />
     );
   };
@@ -84,6 +92,12 @@ function PaymentButton(props) {
 
   if (!hydrated) return null;
 
+  const shouldShowPaymentOption = isConnected || elemData.testMode;
+  const needSwitchNetwork =
+    elemData.paymentNetwork?.id &&
+    chain?.id !== elemData.paymentNetwork?.id &&
+    !elemData.testMode;
+
   return (
     <>
       <EditItem
@@ -95,7 +109,7 @@ function PaymentButton(props) {
         renderPanel={PanelControls}
         mode={mode}
       >
-        {!isConnected && (
+        {!shouldShowPaymentOption && (
           <button
             key={elemData.id}
             className={"btn btn-primary h-full w-full"}
@@ -113,10 +127,32 @@ function PaymentButton(props) {
           </button>
         )}
 
-        {isConnected && (
+        {/* {chain && <div>({chain.name})</div>} */}
+        {needSwitchNetwork && (
           <button
             className="btn btn-outline h-full w-full"
-            disabled={!sendTransaction}
+            onClick={() => {
+              switchNetwork?.(elemData.paymentNetwork.id);
+            }}
+          >
+            <span className="text-xl">{elemData.label}</span>
+            <span className="text-sm">
+              Switch To {elemData.paymentNetwork?.name}
+              <br />
+              {isLoading && " (switching)"}
+              {networkSwitchError && (
+                <span className="text-red-500">
+                  {networkSwitchError.message}
+                </span>
+              )}
+            </span>
+          </button>
+        )}
+
+        {!needSwitchNetwork && shouldShowPaymentOption && (
+          <button
+            className="btn btn-outline h-full w-full"
+            disabled={!sendTransaction && !elemData.testMode}
             onClick={() => {
               sendTransactionOrTest?.();
             }}
@@ -126,7 +162,10 @@ function PaymentButton(props) {
           >
             <div className="flex flex-col items-center">
               <span className="text-xl">{elemData.label}</span>
-              <span className="text-sm">{elemData.amountToSend} ETH</span>
+              <span className="text-sm">
+                {elemData.amountToSend}{" "}
+                {elemData.paymentNetwork?.nativeCurrency?.symbol || "ETH"}
+              </span>
             </div>
           </button>
         )}
@@ -151,7 +190,7 @@ const PaymentSuccessModal = ({ amount, toAddress }) => {
       <span className="text-xl text-success pb-2">Payment Success!</span>
       <div className="flex flex-col items-center border rounded-lg bg-secondary-content p-2">
         <span className="text-md text-success">
-          Paid {formatEther(amount.toString())}
+          Paid {amount && formatEther(amount?.toString())}
         </span>
         <span className="text-sm text-success">
           To {GetShortenedString(toAddress)}
