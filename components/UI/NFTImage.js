@@ -1,5 +1,4 @@
 import { useState } from "react";
-import AnimatedGrid from "./AnimatedGrid";
 
 export default function NFTImage({
   isConnected,
@@ -66,19 +65,6 @@ export default function NFTImage({
           className={`border border-black/25 rounded-[22px] h-full flex flex-col items-center justify-between py-4`}
           style={{ color: "black" }}
         >
-          <AnimatedGrid
-            animateGrid={isConnected}
-            intro={false}
-            COORDS={[
-              [50, 10],
-              [90, 10],
-              [50, 30],
-              [60, 40],
-              [70, 40],
-              [80, 40],
-              [90, 30],
-            ]}
-          />
           {children}
         </div>
       </div>

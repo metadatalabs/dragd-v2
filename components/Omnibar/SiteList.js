@@ -54,7 +54,7 @@ export default function SiteList({ siteData, currentPath, setModal }) {
         </label>
         <ul
           tabIndex={0}
-          className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box max-w-screen-sm w-full"
+          className="dropdown-content z-[1] menu py-2 shadow bg-base-100 rounded-box max-w-screen-sm w-auto"
         >
           <div className="p-1 w-full flex flex-row justify-between">
             <div>Sites</div>

@@ -20,7 +20,6 @@
     "@giphy/react-components": "^6.8.1",
     "@monaco-editor/react": "^4.4.6",
     "@next/font": "13.2.4",
-    "@react-spring/web": "^9.7.2",
     "@types/node": "^18.15.5",
     "@types/react": "^18.0.28",
     "concurrently": "^7.6.0",

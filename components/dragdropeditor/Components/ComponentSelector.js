@@ -23,6 +23,9 @@ const DraggableTemplate = dynamic(() => import("./DraggableTemplate"));
 function ComponentSelector({ elem, selected }) {
   const isSelected = selected && selected.includes(elem.id);
 
+  // uncomment to enable mobile overrides
+  // elem = { ...elem, ...elem.mobileOverrides };
+
   switch (elem.type) {
     case "test":
       return <EditItem elemData={elem} selected={isSelected} />;

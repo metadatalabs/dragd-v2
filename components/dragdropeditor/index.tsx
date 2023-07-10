@@ -73,6 +73,9 @@ function BCDragDrop({
 
   function onUpdateDiv(divId: string, newProps: elemItem) {
     var oldItems = items[divId] || {};
+
+    // uncomment to enable mobile overrides
+    // newProps = { mobileOverrides: { ...newProps } };
     const updatedItems = {
       ...items,
       [divId]: { ...mergeDeep(oldItems, newProps) },

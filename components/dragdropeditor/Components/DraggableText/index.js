@@ -157,7 +157,7 @@ function EditableDiv(props) {
             setIsEditorFocused(false);
             emitChange();
           }}
-          onChange={emitChange}
+          onChange={() => emitChange()}
           style={{ cursor: "cursor", ...style, height: "100%" }}
           dangerouslySetInnerHTML={{ __html: text }}
         >

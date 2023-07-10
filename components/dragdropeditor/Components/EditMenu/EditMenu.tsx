@@ -93,7 +93,7 @@ function NestedMenu({
 
       {/* stack of menus */}
       <div className="flex" onMouseDown={(e) => e.stopPropagation()}>
-        <div className="flex flex-col bg-slate-500/10 overflow-y-scroll">
+        <div className="flex flex-col bg-slate-500/10">
           {/* child menu in the stack */}
 
           {/* menu */}
