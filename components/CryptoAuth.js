@@ -10,7 +10,6 @@ import {
 } from "wagmi/chains";
 
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
-import { WalletConnectLegacyConnector } from "wagmi/connectors/walletConnectLegacy";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
@@ -108,18 +107,18 @@ export function CryptoAuthProvider(props) {
     webSocketProvider,
     connectors: [
       new MetaMaskConnector({ chains }),
-      new WalletConnectLegacyConnector({
-        chains,
-        options: {
-          qrcode: true,
-        },
-      }),
-      // new WalletConnectConnector({
+      // new WalletConnectLegacyConnector({
       //   chains,
       //   options: {
-      //     projectId: "1711c1747051d53005c6ab33182f13c2",
+      //     qrcode: true,
       //   },
       // }),
+      new WalletConnectConnector({
+        chains,
+        options: {
+          projectId: "1711c1747051d53005c6ab33182f13c2",
+        },
+      }),
       new CoinbaseWalletConnector({ chains }),
       new InjectedConnector({ chains, options: { appName: "dragd" } }),
     ],
