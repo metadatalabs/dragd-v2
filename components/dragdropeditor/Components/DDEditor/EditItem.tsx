@@ -4,13 +4,10 @@ import { EditorModes } from "../..";
 import {
   usePrevious,
   getElementOffset,
-  getAngle,
-  getLength,
   degToRadian,
-  Input,
   isMobile,
   getMobileScaleRatio,
-  isMobileViewport,
+  getInputCoordinatesFromEvent,
 } from "../../helpers/helper";
 import SiteContext from "../../siteContext";
 
@@ -96,12 +93,7 @@ function EditItem(props) {
     if (mode != "edit") return;
     var pos = getElementOffset(divRef.current);
 
-    var startX = e.pageX
-      ? e.pageX
-      : e?.changedTouches && e?.changedTouches[0]?.pageX;
-    var startY = e.pageY
-      ? e.pageY
-      : e?.changedTouches && e?.changedTouches[0]?.pageY;
+    const { x: startX, y: startY } = getInputCoordinatesFromEvent(e);
 
     var newState = {
       rel: {
@@ -128,12 +120,7 @@ function EditItem(props) {
     var pos = getElementOffset(divRef.current);
     const rect = getElementOffset(divRef.current);
 
-    var startX = e.pageX
-      ? e.pageX
-      : e?.changedTouches && e?.changedTouches[0]?.pageX;
-    var startY = e.pageY
-      ? e.pageY
-      : e?.changedTouches && e?.changedTouches[0]?.pageY;
+    const { x: startX, y: startY } = getInputCoordinatesFromEvent(e);
 
     const startVector = {
       x: startX - pos.left - pos.width / 2,
@@ -149,12 +136,8 @@ function EditItem(props) {
   function onMouseDownRes(e) {
     const rect = getElementOffset(divRef.current);
 
-    var startX = e.pageX
-      ? e.pageX
-      : e?.changedTouches && e?.changedTouches[0]?.pageX;
-    var startY = e.pageY
-      ? e.pageY
-      : e?.changedTouches && e?.changedTouches[0]?.pageY;
+    const { x: startX, y: startY } = getInputCoordinatesFromEvent(e);
+
     setState({ ...state, res: { startX, startY, rect } });
     setMovementType(movementTypes.RESIZING);
     e.stopPropagation();
@@ -164,28 +147,28 @@ function EditItem(props) {
   const [coincides, setCoincides] = useState([]);
 
   function SnapToGrid(toPosition) {
-    if (
-      toPosition.pos.x > -pageCenterSnapDistance &&
-      toPosition.pos.x < pageCenterSnapDistance
-    ) {
-      toPosition.pos.x = 0;
-    }
+    const { pos } = toPosition;
 
-    var coincidingItems = [];
-    Object.values(siteData.items).forEach((item) => {
-      if (item.id == elemData.id) return;
+    if (Math.abs(pos.x) < pageCenterSnapDistance) pos.x = 0;
 
-      var xDel = toPosition.pos.x - item.pos?.x,
-        yDel = toPosition.pos.y - item.pos?.y;
-      if (xDel < itemAlignSnapDistance && xDel > -itemAlignSnapDistance) {
-        coincidingItems.push(item);
-        toPosition.pos.x = item.pos.x;
-      }
-      if (yDel < itemAlignSnapDistance && yDel > -itemAlignSnapDistance) {
-        coincidingItems.push(item);
-        toPosition.pos.y = item.pos.y;
-      }
+    const coincidingItems = Object.values(siteData.items).filter((item) => {
+      if (item.id === elemData.id) return false;
+
+      const { pos: itemPos } = item;
+      const deltaX = pos.x - itemPos?.x;
+      const deltaY = pos.y - itemPos?.y;
+
+      const xCoincides = Math.abs(deltaX) < itemAlignSnapDistance;
+      const yCoincides = Math.abs(deltaY) < itemAlignSnapDistance;
+
+      // Update pos if necessary
+      if (xCoincides) pos.x = itemPos.x;
+      if (yCoincides) pos.y = itemPos.y;
+
+      // Return whether the item coincides
+      return xCoincides || yCoincides;
     });
+
     setCoincides(coincidingItems);
     return toPosition;
   }
@@ -198,12 +181,7 @@ function EditItem(props) {
   }
 
   function onMouseMove(e) {
-    var clientX = e.pageX
-      ? e.pageX
-      : e?.changedTouches && e?.changedTouches[0]?.pageX;
-    var clientY = e.pageY
-      ? e.pageY
-      : e?.changedTouches && e?.changedTouches[0]?.pageY;
+    const { x: clientX, y: clientY } = getInputCoordinatesFromEvent(e);
 
     if (selectedItems.length > 1) {
       var newPos = {
@@ -243,8 +221,19 @@ function EditItem(props) {
         x: clientX - state.rot.center.x,
         y: clientY - state.rot.center.y,
       };
-      let angle =
-        elemData.rot.deg + getAngle(state.rot.startVector, rotateVector);
+      const startAngle = Math.atan2(
+        state.rot.startVector.y,
+        state.rot.startVector.x
+      );
+      const rotateAngle = Math.atan2(rotateVector.y, rotateVector.x);
+      let angleChange = rotateAngle - startAngle;
+
+      // Convert angleChange to degrees and ensure it is between -180 to 180.
+      angleChange = (angleChange * 180) / Math.PI;
+      if (angleChange > 180) angleChange -= 360;
+      else if (angleChange < -180) angleChange += 360;
+
+      let angle = elemData.rot.deg + angleChange;
       saveElemJson({ rot: { deg: SnapToAngle(angle) } });
     } else if (movementType == movementTypes.RESIZING) {
       var deltaX =

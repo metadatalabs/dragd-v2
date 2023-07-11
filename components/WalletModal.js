@@ -88,6 +88,12 @@ function ConnectWalletPage(props) {
     <div>
       <div className={"flex flex-col"}>
         <div className={"text-center"}>
+          <div>Connect Wallet</div>
+          <div className="text text-xs text-blue-700 -pt-2 pb-4">
+            <a href="https://www.coinbase.com/wallet" target="_blank">
+              What is a wallet?
+            </a>
+          </div>
           {connectors.map((connector) => (
             <>
               <button

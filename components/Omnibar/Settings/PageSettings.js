@@ -1,9 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { CryptoAuthContext } from "../../CryptoAuth";
 import { deleteSite } from "../../DataProvider";
 import { ThreeDots, UserIcon } from "../../ui-helpers";
-import GenericDropdown from "../../UI/GenericDropdown";
-import PageSettingsModal from "./PageSettingsModal";
+import dynamic from "next/dynamic";
+const PageSettingsModal = dynamic(() => import("./PageSettingsModal"));
 
 export default function PageSettings({ siteData }) {
   const { session } = useContext(CryptoAuthContext);

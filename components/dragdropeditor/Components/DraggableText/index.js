@@ -2,6 +2,7 @@ import React, { useState, useRef, useContext, useEffect } from "react";
 import dynamic from "next/dynamic";
 import EditItem from "../DDEditor/EditItem";
 import SiteContext from "../../siteContext";
+import { getInputCoordinatesFromEvent } from "../../helpers/helper";
 const PanelControls = dynamic(() => import("./PanelControls"));
 
 const defaultTextSize = 24;
@@ -43,6 +44,7 @@ function DraggableText(props) {
         )}
         <EditableDiv
           value={elemData.text}
+          id={elemData.id}
           contentEditable={props.selected}
           key={elemData.id + "-" + elemData.fontSize + "-"}
           selected={selected && siteData.selected?.length == 1}
@@ -73,6 +75,7 @@ export default DraggableText;
 function EditableDiv(props) {
   const {
     value,
+    id,
     contentEditable,
     onChange,
     style,
@@ -85,23 +88,16 @@ function EditableDiv(props) {
   const inputRef = useRef();
 
   useEffect(() => {
-    if (document.activeElement !== inputRef.current) setText(value);
-  }, [value]);
-
-  useEffect(() => {
     if (isEditorFocused) {
       inputRef.current.focus();
+    } else {
+      onChange && onChange(text);
     }
   }, [isEditorFocused]);
 
   useEffect(() => {
     if (!selected) setIsEditorFocused(false);
   }, [selected]);
-
-  function emitChange() {
-    var value = inputRef.current.innerHTML;
-    onChange && onChange(value);
-  }
 
   function onPaste(e) {
     e.preventDefault();
@@ -111,19 +107,12 @@ function EditableDiv(props) {
 
   const onMouseDown = (e) => {
     if (selected) {
-      var xPos = e.pageX
-        ? e.pageX
-        : e?.changedTouches && e?.changedTouches[0]?.pageX;
-      var yPos = e.pageY
-        ? e.pageY
-        : e?.changedTouches && e?.changedTouches[0]?.pageY;
-      setStartPos({ x: xPos, y: yPos });
+      setStartPos(getInputCoordinatesFromEvent(e));
     }
   };
 
   const onMouseUp = (e) => {
-    var xPos = e.pageX ? e.pageX : e?.changedTouches[0]?.pageX;
-    var yPos = e.pageY ? e.pageY : e?.changedTouches[0]?.pageY;
+    const { x: xPos, y: yPos } = getInputCoordinatesFromEvent(e);
     if (startPos && startPos?.x === xPos && startPos?.y === yPos)
       setIsEditorFocused(true);
     setStartPos(undefined);
@@ -133,7 +122,7 @@ function EditableDiv(props) {
     <>
       {!isEditorFocused && (
         <div
-          key={"not-selected"}
+          key={"not-selected-" + id}
           style={{ ...style, height: "100%" }}
           dangerouslySetInnerHTML={{ __html: value }}
           onMouseDown={onMouseDown}
@@ -144,22 +133,13 @@ function EditableDiv(props) {
       )}
       {isEditorFocused && (
         <div
-          key={"selected-" + props.value}
+          key={"selected-" + id}
           ref={inputRef}
-          onPaste={onPaste}
-          // onInput={emitChange}
-          // onBlur={emitChange}
-          contentEditable={contentEditable}
-          onFocus={() => {
-            // inputRef.current.focus();
-          }}
-          onBlur={() => {
-            setIsEditorFocused(false);
-            emitChange();
-          }}
-          onChange={() => emitChange()}
           style={{ cursor: "cursor", ...style, height: "100%" }}
-          dangerouslySetInnerHTML={{ __html: text }}
+          onPaste={onPaste}
+          contentEditable={contentEditable}
+          onInput={() => setText(inputRef.current.innerHTML)}
+          dangerouslySetInnerHTML={{ __html: value }}
         >
           {/* {text} */}
         </div>

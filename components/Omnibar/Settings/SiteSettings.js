@@ -7,7 +7,9 @@ import {
 import { ErrorText, GetShortenedString, LinkIcon } from "../../ui-helpers";
 import { CopyIcon } from "../../dragdropeditor/helpers/helper";
 import CopyToClipboard from "../../UI/CopyToClipboard";
-import SetENSResolver from "./SetENSResolver";
+import dynamic from "next/dynamic";
+const SetENSResolver = dynamic(() => import("./SetENSResolver"));
+
 export const DeployToIpfs = ({ siteData }) => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);

@@ -30,6 +30,15 @@ export function isMobileViewport() {
   if (typeof window !== "undefined" && window.innerWidth < 600) return true;
 }
 
+export function getInputCoordinatesFromEvent(event) {
+  var xPos = event.pageX ? event.pageX : event?.changedTouches?.[0]?.pageX;
+  var yPos = event.pageY ? event.pageY : event?.changedTouches?.[0]?.pageY;
+  return {
+    x: xPos,
+    y: yPos,
+  };
+}
+
 export function getMobileScaleRatio() {
   return isMobileViewport() ? window.innerWidth / 600 : 1;
 }
