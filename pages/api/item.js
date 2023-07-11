@@ -86,6 +86,7 @@ const handler = requireAuth(async (req, res) => {
 
       var site = await createItem(siteData);
       console.log("created site: ", site.pageName, "/", site.siteName);
+      await res.revalidate("/" + req.body.siteName + "/" + req.body.pageName);
       res.send({ site: site });
       break;
     case "PATCH":
@@ -108,6 +109,7 @@ const handler = requireAuth(async (req, res) => {
       };
 
       var site = await updateItem(req.body._id, siteData);
+      await res.revalidate("/" + req.body.siteName + "/" + req.body.pageName);
       res.send({ site: site });
       break;
     case "DELETE":
