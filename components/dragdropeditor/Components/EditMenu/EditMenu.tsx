@@ -1,12 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import {
-  AppsIcon,
-  CloseIcon,
-  Column,
-  isMobile,
-  isMobileViewport,
-  Row,
-} from "../../helpers/helper";
+import { Column, isMobile, isMobileViewport, Row } from "../../helpers/helper";
+import { CloseIcon, AppsIcon } from "../DDEditor/EditorIcons";
 import defaultButtons from "./defaultButtons";
 import { v4 as uuidv4 } from "uuid";
 import { HeadConfigurator } from "../PageStyle";
@@ -189,7 +183,7 @@ function FloatingPanel({ children, style = null, isMinimized, setMinimized }) {
     >
       {isMinimized && (
         <div
-          className="pt-3 px-4"
+          className="p-2"
           onClick={() => {
             setMinimized(false);
           }}

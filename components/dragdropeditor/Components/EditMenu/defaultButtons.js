@@ -11,7 +11,8 @@ import {
   IconStickerEmoji,
   IconVideo,
   IconCurrencyEthereum,
-} from "../../helpers/helper";
+  IconSound,
+} from "../DDEditor/EditorIcons";
 
 const defaultButtons = {
   text: {
@@ -31,32 +32,25 @@ const defaultButtons = {
       },
     },
   },
-  image: {
-    icon: <ImageIcon />,
-    label: "Image",
-    action: "add",
-    object: {
-      type: "image",
-      size: {
-        width: 100,
-        height: 100,
-      },
-      imageUri:
-        "https://raw.githubusercontent.com/metadatalabs/static-assets/main/logos/dragd_logo.png",
-    },
-  },
-  button: {
-    icon: <IconLinkBoxOutline />,
-    action: "modal",
-    selector: "button",
-    label: "Button",
-  },
-
   media: {
     label: "Media",
     action: "menu",
     icon: <PuzzleIcon />,
     objects: {
+      image: {
+        icon: <ImageIcon />,
+        label: "Image",
+        action: "add",
+        object: {
+          type: "image",
+          size: {
+            width: 100,
+            height: 100,
+          },
+          imageUri:
+            "https://raw.githubusercontent.com/metadatalabs/static-assets/main/logos/dragd_logo.png",
+        },
+      },
       giphy: {
         icon: <IconStickerEmoji />,
         action: "add",
@@ -85,7 +79,7 @@ const defaultButtons = {
         },
       },
       audio: {
-        icon: "fas fa-volume-up",
+        icon: <IconSound />,
         label: "Audio",
         action: "add",
         object: {
@@ -98,28 +92,28 @@ const defaultButtons = {
             "https://upload.wikimedia.org/wikipedia/commons/c/c8/Example.ogg",
         },
       },
-      shapes: {
-        icon: "fas fa-shapes",
-        label: "Shape",
-        action: "menu",
-        objects: {
-          square: {
-            icon: "fas fa-square-full",
-            label: "Rectangle",
-            action: "add",
-            object: {
-              type: "color",
-              size: {
-                width: 100,
-                height: 100,
-              },
-              style: {
-                backgroundColor: "grey",
-              },
-            },
-          },
-        },
-      },
+      // shapes: {
+      //   icon: "fas fa-shapes",
+      //   label: "Shape",
+      //   action: "menu",
+      //   objects: {
+      //     square: {
+      //       icon: "fas fa-square-full",
+      //       label: "Rectangle",
+      //       action: "add",
+      //       object: {
+      //         type: "color",
+      //         size: {
+      //           width: 100,
+      //           height: 100,
+      //         },
+      //         style: {
+      //           backgroundColor: "grey",
+      //         },
+      //       },
+      //     },
+      //   },
+      // },
     },
   },
   // form: {
@@ -135,6 +129,12 @@ const defaultButtons = {
   //         style: { textAlign: 'left' },
   //     },
   // },
+  button: {
+    icon: <IconLinkBoxOutline />,
+    action: "modal",
+    selector: "button",
+    label: "Button",
+  },
   code: {
     icon: <CodeIcon />,
     label: "Code",

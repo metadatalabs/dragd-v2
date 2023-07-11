@@ -1,14 +1,15 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
+import { guidGenerator } from "../../helpers/helper";
+import SiteContext from "../../siteContext";
+
 import {
   CopyIcon,
-  guidGenerator,
-  LayerDownIcon,
   LayerIcon,
   LayerUpIcon,
+  LayerDownIcon,
   LinkIcon,
   TrashIcon,
-} from "../../helpers/helper";
-import SiteContext from "../../siteContext";
+} from "../DDEditor/EditorIcons";
 
 function DefaultControlPanel({
   saveElemJson,
