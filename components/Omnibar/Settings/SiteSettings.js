@@ -5,9 +5,13 @@ import {
   useSiteBuildByName,
 } from "../../DataProvider";
 import { ErrorText, GetShortenedString, LinkIcon } from "../../ui-helpers";
-import { CopyIcon } from "../../dragdropeditor/Components/DDEditor/EditorIcons";
+import {
+  CopyIcon,
+  TickIcon,
+} from "../../dragdropeditor/Components/DDEditor/EditorIcons";
 import CopyToClipboard from "../../UI/CopyToClipboard";
 import dynamic from "next/dynamic";
+import { timeDiff } from "../../dragdropeditor/helpers/helper";
 const SetENSResolver = dynamic(() =>
   import("./SettingsModules/SetENSResolver")
 );
@@ -39,131 +43,141 @@ export const DeployToIpfs = ({ siteData }) => {
   return (
     <>
       <div className="w-full">
-        <div className="flex flex-row justify-between items-center py-4">
-          <div className="text-xl font-bold text-left">
-            Permaweb <br />
-            <span className="text-sm opacity-50">
-              Manage your ENS and IPFS Settings
-            </span>
-          </div>
-
-          <button
-            onClick={async () => deployIpfs()}
-            className={`btn sm:btn-sm md:btn-md ml-4 ${
-              loading ? "loading" : ""
-            }`}
-          >
-            Publish To IPFS
-          </button>
-        </div>
-
-        <div className="grid grid-cols-2 gap-2 m-2 text-left">
-          <div className="card border">
-            <h2>IPFS</h2>
-          </div>
-
-          <div className="card card-compact outline bg-base-200">
+        <div className="grid md:grid-cols-2 gap-2 m-2 text-left">
+          <div className="card card-compact border bg-base-200">
             <div className="card-body">
-              <h2>ENS</h2>
+              <div className="flex justify-between items-center">
+                <div className="text-xl font-bold text-left">Permaweb</div>
+                {siteBuildData && (
+                  <button
+                    onClick={async () => deployIpfs()}
+                    className={`btn btn-sm ml-4 ${loading ? "loading" : ""}`}
+                  >
+                    Publish
+                  </button>
+                )}
+              </div>
+              <div className="text-xs opacity-50 -mt-2">
+                {siteBuildData?.buildCIDs?.[0]?.timestamp &&
+                  `Last published ${timeDiff(
+                    new Date(siteBuildData.buildCIDs[0].timestamp)
+                  )} ago`}
+              </div>
+
+              {!siteBuildData && (
+                <button
+                  onClick={async () => deployIpfs()}
+                  className={`btn btn-sm ${loading ? "loading" : ""}`}
+                >
+                  Publish to Permaweb
+                </button>
+              )}
+
+              {siteBuildData?.ipns && (
+                <div className="flex flex-row justify-between  items-center">
+                  <h2>IPNS</h2>
+                  <div>
+                    <tr>
+                      {/* <td>{GetShortenedString(siteBuildData.ipns)}</td> */}
+                      <th>
+                        {siteBuildData?.ipns && (
+                          <div
+                            className={`flex flex-row items-center space-x-2`}
+                          >
+                            <div
+                              className={`badge badge-xs badge-success h-auto`}
+                            >
+                              <TickIcon />
+                            </div>
+                            <div
+                              className="tooltip"
+                              data-tip="Copy IPNS Content Hash"
+                            >
+                              <CopyToClipboard
+                                textToCopy={"ipns://" + siteBuildData.ipns}
+                              />
+                            </div>
+                            <a
+                              href={`https://name.web3.storage/name/${siteBuildData.ipns}`}
+                              target="_blank"
+                            >
+                              <LinkIcon />
+                            </a>
+                          </div>
+                        )}
+                      </th>
+                    </tr>
+                  </div>
+                </div>
+              )}
+
+              {siteBuildData && (
+                <div className="flex flex-row justify-between items-center">
+                  <h2>IPFS</h2>
+                  <div>
+                    <tr>
+                      <td>
+                        {/* {siteBuildData.cid &&
+                          GetShortenedString(siteBuildData.cid, 10)} */}
+                      </td>
+                      <th>
+                        {siteBuildData.status == "deployed" ? (
+                          <div
+                            className={`flex flex-row items-center space-x-2`}
+                          >
+                            <div
+                              className={`badge badge-xs badge-success h-auto`}
+                            >
+                              <TickIcon />
+                            </div>
+                            <div className="tooltip" data-tip="Copy IPFS">
+                              <CopyToClipboard
+                                textToCopy={"ipfs://" + siteBuildData.cid}
+                              />
+                            </div>
+                            <a
+                              href={`https://ipfs.io/ipfs/${siteBuildData.cid}`}
+                              target="_blank"
+                            >
+                              <LinkIcon />
+                            </a>
+                          </div>
+                        ) : (
+                          <div className="badge badge-warning">
+                            In Progress
+                            <button
+                              onClick={() => {
+                                invalidateSiteBuildCache(siteData.siteName);
+                              }}
+                            >
+                              🔄
+                            </button>
+                          </div>
+                        )}
+                      </th>
+                    </tr>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="card card-compact bg-base-200">
+            <div className="card-body">
+              <div className="flex justify-between items-center">
+                <div className="text-xl font-bold text-left">ENS</div>
+              </div>
+              {siteBuildData?.ipns ? (
+                <SetENSResolver latestRecord={siteBuildData?.ipns} />
+              ) : (
+                `Publish to Permaweb to set ENS`
+              )}
             </div>
           </div>
         </div>
-
-        <table className="table table-compact w-full">
-          <tbody>
-            {/* row 1 */}
-            {siteBuildData?.ipns && (
-              <tr>
-                <td>
-                  <div className="flex items-center space-x-3">
-                    <div>
-                      <div className="font-bold">IPNS</div>
-                    </div>
-                  </div>
-                </td>
-                <td>{GetShortenedString(siteBuildData.ipns)}</td>
-                <th>
-                  {siteBuildData.ipns && (
-                    <div className={`flex flex-row items-center space-x-2`}>
-                      <div className={`badge badge-success h-auto`}>
-                        Deployed
-                      </div>
-                      <div
-                        className="tooltip"
-                        data-tip="Copy Content Hash for ENS"
-                      >
-                        <CopyToClipboard
-                          textToCopy={"ipns://" + siteBuildData.ipns}
-                        />
-                      </div>
-                      <a
-                        href={`https://name.web3.storage/name/${siteBuildData.ipns}`}
-                        target="_blank"
-                      >
-                        <LinkIcon />
-                      </a>
-                    </div>
-                  )}
-                </th>
-              </tr>
-            )}
-
-            {/* row 1 */}
-            {siteBuildData && (
-              <tr>
-                <td>
-                  <div className="flex items-center space-x-3">
-                    <div>
-                      <div className="font-bold">IPFS</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  {siteBuildData.cid &&
-                    GetShortenedString(siteBuildData.cid, 10)}
-                  <br />
-                </td>
-                <th>
-                  {siteBuildData.status == "deployed" ? (
-                    <div className={`flex flex-row items-center space-x-2`}>
-                      <div className={`badge badge-success h-auto`}>
-                        Deployed
-                      </div>
-                      <div className="tooltip" data-tip="Copy IPFS">
-                        <CopyToClipboard
-                          textToCopy={"ipfs://" + siteBuildData.cid}
-                        />
-                      </div>
-                      <a
-                        href={`https://ipfs.io/ipfs/${siteBuildData.cid}`}
-                        target="_blank"
-                      >
-                        <LinkIcon />
-                      </a>
-                    </div>
-                  ) : (
-                    <div className="badge badge-warning">
-                      In Progress
-                      <button
-                        onClick={() => {
-                          invalidateSiteBuildCache(siteData.siteName);
-                        }}
-                      >
-                        🔄
-                      </button>
-                    </div>
-                  )}
-                </th>
-              </tr>
-            )}
-          </tbody>
-        </table>
       </div>
 
       {error && <ErrorText>{error}</ErrorText>}
-      {siteBuildData?.ipns && (
-        <SetENSResolver latestRecord={siteBuildData?.ipns} />
-      )}
 
       {siteBuildData && (
         <>

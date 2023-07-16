@@ -81,9 +81,9 @@ export default function SetENSResolver({ latestRecord }) {
   }, [provider, siteList]);
 
   return (
-    <div>
+    <div className="text-center">
       Choose a name to link: <br />
-      <div className="dropdown">
+      <div className="dropdown dropdown-center">
         <label tabIndex={0} className="btn m-1">
           {getMatchingENSName()?.decryptedName || "Not Connected"}
         </label>
@@ -146,6 +146,13 @@ export default function SetENSResolver({ latestRecord }) {
                   </div>
                 </li>
               )
+          )}
+          {ensNameList.length === 0 && (
+            <li>
+              <div className="flex flex-row w-full justify-between">
+                <div>No ENS names found</div>
+              </div>
+            </li>
           )}
         </ul>
       </div>

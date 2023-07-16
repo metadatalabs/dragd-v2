@@ -246,3 +246,20 @@ export const SliderWithInput = ({
     </>
   );
 };
+
+export function timeDiff(date) {
+  const now = new Date();
+  const diffMilliseconds = now - date;
+  const diffSeconds = diffMilliseconds / 1000;
+  const diffMinutes = diffSeconds / 60;
+  const diffHours = diffMinutes / 60;
+  const diffDays = diffHours / 24;
+
+  if (diffDays >= 1) {
+    return Math.floor(diffDays) + " day(s)";
+  } else if (diffHours >= 1) {
+    return Math.floor(diffHours) + " hour(s)";
+  } else {
+    return Math.floor(diffMinutes) + " minute(s)";
+  }
+}

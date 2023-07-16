@@ -455,3 +455,11 @@ export function IconSquareOpacity(props) {
     </svg>
   );
 }
+
+export function TickIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4" {...props}>
+      <path d="M9 16.17l-4.17-4.17-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+    </svg>
+  );
+}

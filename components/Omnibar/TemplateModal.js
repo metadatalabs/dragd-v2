@@ -84,13 +84,19 @@ export default function TemplateModal({ site, onComplete }) {
                   "https://github.com/metadatalabs/static-assets/blob/main/images/template-linktree.png?raw=true",
               },
               {
-                path: "docs.eth/blog",
+                path: "docs.eth/template-blog",
                 name: "Blog",
+                image:
+                  "https://github.com/metadatalabs/static-assets/blob/main/images/template-blog2.png?raw=true",
+              },
+              {
+                path: "docs.eth/blog",
+                name: "Vitalik's Blog",
                 image:
                   "https://github.com/metadatalabs/static-assets/blob/main/images/template-blog.png?raw=true",
               },
               {
-                path: "docs.eth/store",
+                path: "docs.eth/template-store",
                 name: "Store",
                 image:
                   "https://github.com/metadatalabs/static-assets/blob/main/images/template-store.png?raw=true",
@@ -108,7 +114,7 @@ export default function TemplateModal({ site, onComplete }) {
                   onClick={() => setSelectedTemplate(item.path)}
                 >
                   <figure
-                    className="w-full h-36 bg-base-300"
+                    className="w-full h-36 bg-gray-100"
                     style={{ alignItems: "flex-start" }}
                   >
                     <img
@@ -116,6 +122,7 @@ export default function TemplateModal({ site, onComplete }) {
                         item.image ||
                         "https://studio.uxpincdn.com/studio/wp-content/uploads/2016/06/12-Timeless-UI-Layouts.png.webp"
                       }
+                      className={!item.image && "pt-4"}
                       alt="Template Image"
                     />
                   </figure>
