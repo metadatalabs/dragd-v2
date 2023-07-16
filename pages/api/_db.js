@@ -16,7 +16,7 @@ function getUserByWalletId(walletId) {
   return fetch(`${JSON_SERVER}/users?walletId=${walletId}`)
     .then((r) => r.json())
     .then((results) => {
-      return results[0];
+      return results;
     });
 }
 

@@ -3,7 +3,8 @@ import Head from "next/head";
 // import { useForm } from "react-hook-form";
 import SiteContext from "../siteContext";
 import ThemeSelector from "./EditMenu/ThemeSelector";
-import FilePicker, { loadImageToUri } from "../helpers/ui/FilePicker";
+import FilePicker, { loadImageToUri } from "../helpers/ui/ImagePicker";
+import ColorPicker from "../helpers/ui/ColorPicker";
 
 function NextHead(props) {
   const { elemData, onSelect, onUpdated, selected, mode } = props;
@@ -70,32 +71,19 @@ export function HeadConfigurator({ addItemToList }) {
         <label className="label">
           <span className="label-text"> Background Settings</span>
         </label>
-        <div>
-          Color Picker
-          {[
-            "red",
-            "blue",
-            "green",
-            "yellow",
-            "purple",
-            "pink",
-            "indigo",
-            "gray",
-            "white",
-            "black",
-          ].map((color) => (
-            <button
-              className={`btn btn-circle btn-sm`}
-              style={{ backgroundColor: color }}
-              onClick={() => {
-                onLocalUpdate({
-                  ...styleData,
-                  background: { backgroundColor: color },
-                });
-              }}
-            ></button>
-          ))}
-        </div>
+
+        <ColorPicker
+          color={styleData?.background?.backgroundColor || "transparent"}
+          onChange={(color) => {
+            onLocalUpdate({
+              ...styleData,
+              background: { backgroundColor: color },
+            });
+          }}
+        />
+
+        <br />
+
         <FilePicker
           selected={styleData?.background?.backgroundImage}
           setSelected={(dataUrl) => {
@@ -105,7 +93,20 @@ export function HeadConfigurator({ addItemToList }) {
             });
           }}
         />
-        <div>Reset to theme default</div>
+
+        <br />
+
+        <button
+          className="btn btn-sm"
+          onClick={() => {
+            onLocalUpdate({
+              ...styleData,
+              background: { backgroundImage: null, backgroundColor: null },
+            });
+          }}
+        >
+          Reset
+        </button>
       </div>
     </div>
   );

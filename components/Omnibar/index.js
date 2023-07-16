@@ -41,7 +41,7 @@ export default function Omnibar(props) {
         <div className="flex-1" />
         {/* <a className="btn btn-ghost normal-case text-xl">dragd</a> */}
 
-        <div className="flex-none rounded-xl gap-0.5 bg-base-300 pointer-events-auto">
+        <div className="flex-none rounded-xl gap-0.5 bg-base-100 pointer-events-auto shadow">
           {session?.address && currentPath && (
             <>
               <SiteList currentPath={currentPath} setModal={setModal} />

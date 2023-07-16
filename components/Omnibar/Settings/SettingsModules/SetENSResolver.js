@@ -1,8 +1,8 @@
 import { use, useContext, useEffect, useState } from "react";
 import { ENS } from "@ensdomains/ensjs";
 import { useProvider, useConnect, useAccount, useSigner } from "wagmi";
-import { useSitesByOwner } from "../../DataProvider";
-import { GetShortenedString } from "../../ui-helpers";
+import { useSitesByOwner } from "../../../DataProvider";
+import { GetShortenedString } from "../../../ui-helpers";
 
 export default function SetENSResolver({ latestRecord }) {
   const provider = useProvider();

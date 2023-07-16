@@ -5,10 +5,12 @@ import {
   useSiteBuildByName,
 } from "../../DataProvider";
 import { ErrorText, GetShortenedString, LinkIcon } from "../../ui-helpers";
-import { CopyIcon } from "../../dragdropeditor/helpers/helper";
+import { CopyIcon } from "../../dragdropeditor/Components/DDEditor/EditorIcons";
 import CopyToClipboard from "../../UI/CopyToClipboard";
 import dynamic from "next/dynamic";
-const SetENSResolver = dynamic(() => import("./SetENSResolver"));
+const SetENSResolver = dynamic(() =>
+  import("./SettingsModules/SetENSResolver")
+);
 
 export const DeployToIpfs = ({ siteData }) => {
   const [loading, setLoading] = React.useState(false);
@@ -36,8 +38,8 @@ export const DeployToIpfs = ({ siteData }) => {
   };
   return (
     <>
-      <div className=" w-full">
-        <div className="flex flex-row justify-between items-center py-4 border-b">
+      <div className="w-full">
+        <div className="flex flex-row justify-between items-center py-4">
           <div className="text-xl font-bold text-left">
             Permaweb <br />
             <span className="text-sm opacity-50">
@@ -53,6 +55,18 @@ export const DeployToIpfs = ({ siteData }) => {
           >
             Publish To IPFS
           </button>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2 m-2 text-left">
+          <div className="card border">
+            <h2>IPFS</h2>
+          </div>
+
+          <div className="card card-compact outline bg-base-200">
+            <div className="card-body">
+              <h2>ENS</h2>
+            </div>
+          </div>
         </div>
 
         <table className="table table-compact w-full">
@@ -192,14 +206,6 @@ const CIDViewer = ({ siteBuildData }) => {
                 <tr>
                   <td>
                     <div className="flex items-center space-x-3">
-                      {/* <div className="avatar">
-                      <div className="mask mask-squircle w-12 h-12">
-                        <img
-                          src="/tailwind-css-component-profile-2@56w.png"
-                          alt="Avatar Tailwind CSS Component"
-                        />
-                      </div>
-                    </div> */}
                       <div className="font-bold">
                         {GetShortenedString(cid.cid)}
                       </div>

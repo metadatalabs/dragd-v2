@@ -5,6 +5,7 @@ import { deleteSite, updateSite } from "../../DataProvider";
 import { useRouter } from "next/navigation";
 import { DeployToIpfs } from "./SiteSettings";
 import KVPEditor from "./KVPEditor";
+import NameUpdater from "./SettingsModules/NameUpdater";
 
 const pages = ["Page Settings", "Site Settings", "Delete"];
 export default function PageSettingsModal({ siteData, onComplete }) {
@@ -98,65 +99,6 @@ export default function PageSettingsModal({ siteData, onComplete }) {
   );
 }
 
-const NameUpdater = ({ siteData }) => {
-  const router = useRouter();
-
-  const [pageName, setPageName] = React.useState(siteData.pageName);
-  const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState(null);
-  const updateSiteSubmit = async () => {
-    setLoading(true);
-    const updatedSite = {
-      ...siteData,
-      pageName,
-    };
-
-    var query = updateSite(siteData._id, updatedSite);
-
-    query
-      .then((result) => {
-        setError(null);
-        setLoading(false);
-        router.push(updatedSite.siteName + "/" + updatedSite.pageName);
-      })
-      .catch((error) => {
-        setError(error.message);
-        setLoading(false);
-      });
-  };
-  return (
-    <>
-      <div className="w-full">
-        <label className="label w-full">
-          <span className="label-text text-lg">Page URL</span>
-        </label>
-        <label className="input-group input-group-sm flex flex-row justify-center">
-          <span className="input input-bordered input-sm">
-            {trimIfLongerThan(siteData.siteName, 10)}/
-          </span>
-          <input
-            type="text"
-            className="input input-bordered input-sm"
-            placeholder="your page name"
-            value={pageName}
-            onChange={(e) => setPageName(e.target.value)}
-          />
-          {pageName != siteData.pageName ? (
-            <button
-              onClick={async () => updateSiteSubmit()}
-              className={`btn btn-sm ${loading ? "loading" : ""}`}
-            >
-              Save
-            </button>
-          ) : null}
-        </label>
-      </div>
-
-      {error && <ErrorText>{error}</ErrorText>}
-    </>
-  );
-};
-
 const HeadUpdater = ({ siteData }) => {
   const [head, setHead] = React.useState(
     siteData.page?.head || {
@@ -201,10 +143,6 @@ const HeadUpdater = ({ siteData }) => {
       {error && <ErrorText>{error}</ErrorText>}
     </>
   );
-};
-
-const trimIfLongerThan = (str, maxLength) => {
-  return str.length > maxLength ? "..." + str.slice(-maxLength) : str;
 };
 
 const ChangeTheme = () => {

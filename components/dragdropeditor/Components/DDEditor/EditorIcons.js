@@ -421,3 +421,37 @@ export const CloseIcon = () => {
     </svg>
   );
 };
+
+export function IconCornerBottomRight(props) {
+  return (
+    <svg fill="none" viewBox="0 0 15 15" className="w-6 h-6" {...props}>
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        d="M5.123 12H3.5a.5.5 0 010-1h1.6c1.128 0 1.945 0 2.586-.053.637-.052 1.057-.152 1.403-.329a3.5 3.5 0 001.53-1.529c.176-.346.276-.766.328-1.403C11 7.045 11 6.228 11 5.1V3.5a.5.5 0 011 0v1.623c0 1.1 0 1.958-.056 2.645-.057.698-.175 1.265-.435 1.775a4.5 4.5 0 01-1.966 1.966c-.51.26-1.077.378-1.775.435C7.08 12 6.224 12 5.123 12z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+}
+
+export function IconPadding(props) {
+  return (
+    <svg fill="none" viewBox="0 0 15 15" className="w-6 h-6" {...props}>
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        d="M2.857 2h9.286c.473 0 .857.384.857.857v9.286a.857.857 0 01-.857.857H2.857A.857.857 0 012 12.143V2.857C2 2.384 2.384 2 2.857 2zM1 2.857C1 1.831 1.831 1 2.857 1h9.286C13.168 1 14 1.831 14 2.857v9.286A1.857 1.857 0 0112.143 14H2.857A1.857 1.857 0 011 12.143V2.857zM7.5 5a.5.5 0 100-1 .5.5 0 000 1zm-3 6a.5.5 0 100-1 .5.5 0 000 1zM5 7.5a.5.5 0 11-1 0 .5.5 0 011 0zM4.5 5a.5.5 0 100-1 .5.5 0 000 1zm6.5 5.5a.5.5 0 11-1 0 .5.5 0 011 0zM10.5 8a.5.5 0 100-1 .5.5 0 000 1zm.5-3.5a.5.5 0 11-1 0 .5.5 0 011 0zM7.5 11a.5.5 0 100-1 .5.5 0 000 1z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+}
+
+export function IconSquareOpacity(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6" {...props}>
+      <path d="M19 13v-2h2v2h-2m2-4V7h-2v2h2m0-6h-2v2h2V3m-4 12h2v-2h-2v2m4 2v-2h-2v2h2m-8 0v-2h2v-2h-2v-2h2V9h-2V7h2V5h-2V3H3v18h10v-2h2v-2h-2m2 4h2v-2h-2v2m2-18h-2v2h2V3m0 8h2V9h-2v2m-2 6h2v-2h-2v2m2 2h2v-2h-2v2m4 2v-2h-2v2h2M15 9h2V7h-2v2m0 4h2v-2h-2v2m2-8v2h2V5h-2z" />
+    </svg>
+  );
+}

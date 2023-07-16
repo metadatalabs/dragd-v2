@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { CopyIcon } from "../dragdropeditor/helpers/helper";
-
+import { CopyIcon } from "../dragdropeditor/Components/DDEditor/EditorIcons";
 export default function CopyToClipboard({ textToCopy = "Copy default" }) {
   const [copied, setCopied] = useState(false);
 

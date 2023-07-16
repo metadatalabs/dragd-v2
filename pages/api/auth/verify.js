@@ -27,8 +27,9 @@ const handler = async (req, res) => {
 
         // update user table
         var users = await getUserByWalletId(verificationResult.data.address);
+
         if (users.length > 0) {
-          updateUser(users[0].uid, { lastSeen: Date.now() });
+          updateUser(users[0]._id, { lastSeen: Date.now() });
         } else {
           createUser(verificationResult.data.address);
         }

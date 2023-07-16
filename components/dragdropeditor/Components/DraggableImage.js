@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Input } from "../helpers/helper";
+import React, { useContext } from "react";
 import SiteContext from "../siteContext";
 import EditItem from "./DDEditor/EditItem";
 import StylePanelControls, { TabSwitcher } from "./EditMenu/StyleControlPanel";
-import NextImage from "next/image";
-import { loadImageToUri } from "../helpers/ui/FilePicker";
+import Image from "next/image";
+import FilePicker, { loadImageToUri } from "../helpers/ui/ImagePicker";
+
+const imageFitModes = ["contain", "cover", "fill", "scale-down", "none"];
 
 function PanelControls({ id }) {
   const { items, onUpdateDiv } = useContext(SiteContext);
@@ -18,7 +19,32 @@ function PanelControls({ id }) {
     <TabSwitcher
       tabs={[
         <>
-          <Prompter setImageUri={setImageUri} imageUri={elemData?.imageUri} />
+          <FilePicker
+            selected={elemData?.imageUri}
+            setSelected={(dataUrl) => {
+              setImageUri(dataUrl);
+            }}
+          />
+          <div
+            onClick={() => {
+              onLocalUpdate({
+                style: {
+                  ...elemData.style,
+                  objectFit:
+                    imageFitModes[
+                      (imageFitModes.indexOf(elemData.style?.objectFit) + 1) %
+                        imageFitModes.length
+                    ],
+                },
+              });
+            }}
+          >
+            <button className="btn btn-sm">
+              <p class="subtitle is-7 text-subtitle">
+                {elemData.style?.objectFit}
+              </p>
+            </button>
+          </div>
         </>,
         <StylePanelControls id={id} />,
       ]}
@@ -45,7 +71,7 @@ function DraggableImage(props) {
         {!elemData.imageUri ? (
           <center>Set an image URL</center>
         ) : (
-          <NextImage
+          <Image
             width={elemData.size.width}
             height={elemData.size.height}
             style={{ width: "100%", height: "100%", ...elemData.style }}
@@ -56,61 +82,5 @@ function DraggableImage(props) {
     </>
   );
 }
-
-const Prompter = ({ imageUri, setImageUri }) => {
-  // const [imageUri, setImageUri] = useState(props.imageUri);
-
-  return (
-    <>
-      <center>
-        <p class="title is-6 text-title">Choose or upload an image</p>
-      </center>{" "}
-      <br />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          flexDirection: "row",
-        }}
-      >
-        <input
-          className="input input-bordered"
-          placeholder={"Image URL"}
-          value={imageUri}
-          onChange={(e) => {
-            setImageUri(e.target.value);
-          }}
-          style={{ overflow: "hidden" }}
-        />
-        <div style={{ width: 18 }} />
-        <div className="tooltip" data-tip="Upload image">
-          <button
-            className={"btn btn-ghost btn-outline"}
-            onClick={() => {
-              loadImageToUri((dataUrl) => {
-                setImageUri(dataUrl);
-              });
-            }}
-          >
-            <img className="h-6 w-11" src="https://i.imgur.com/rFn3Kjx.png" />
-          </button>
-        </div>
-      </div>
-      <div className="flex flex-col items-center pt-4">
-        <p
-          class="subtitle is-7 text-subtitle"
-          style={{ color: "#949494", marginBottom: 10 }}
-        >
-          Preview:
-        </p>
-        {imageUri ? (
-          <img className="max-h-48 h-full" src={imageUri} />
-        ) : (
-          <center>No image selected</center>
-        )}
-      </div>
-    </>
-  );
-};
 
 export default DraggableImage;

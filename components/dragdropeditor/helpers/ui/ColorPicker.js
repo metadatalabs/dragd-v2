@@ -6,45 +6,48 @@ export default function ColorPicker({ color, onChange, onClose }) {
   const [pos, setPos] = useState();
 
   return (
-    <div className="dropdown is-active">
+    <div className="inline-block">
       <div
-        className={"dropdown-trigger outline my-1"}
-        onClick={() => {
-          setSelected(!selected);
+        onMouseLeave={() => {
+          setSelected(false);
         }}
-        style={{
-          borderRadius: 100,
-          width: 25,
-          height: 25,
-          backgroundColor: color,
-          cursor: "pointer",
-        }}
-      />
-      {selected && (
-        <div
-          class="card flex flex-col items-center outline"
-          id="dropdown-menu"
-          role="menu"
-          style={{
-            position: "absolute",
-            zIndex: 99999999,
-            right: 0,
-            background: "white",
-            padding: 10,
+      >
+        <button
+          onClick={() => {
+            setSelected(!selected);
           }}
-          onMouseLeave={() => {
-            setSelected(false);
+          tabIndex={0}
+          className="outline m-1 btn btn-sm"
+          style={{
+            backgroundColor: color,
+            cursor: "pointer",
           }}
         >
-          <RgbaStringColorPicker color={color || "black"} onChange={onChange} />
-          <input
-            style={{ marginTop: 5 }}
-            className="input"
-            value={color}
-            onChange={(e) => onChange(e.target.value)}
-          ></input>
-        </div>
-      )}
+          Choose Color
+        </button>
+        {selected && (
+          <div className="flex flex-col items-center">
+            <div
+              className={"p-2 mb-4 mt-0 bg-base-100 rounded-md shadow-lg"}
+              style={{
+                // position: "absolute",
+                width: 220,
+              }}
+            >
+              <RgbaStringColorPicker
+                color={color || "black"}
+                onChange={onChange}
+              />
+              <input
+                style={{ marginTop: 5 }}
+                className="input input-sm input-bordered"
+                value={color}
+                onChange={(e) => onChange(e.target.value)}
+              ></input>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

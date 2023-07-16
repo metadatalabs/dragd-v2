@@ -46,7 +46,12 @@ function NestedMenu({
   const [selector, setSelector] = useState(null);
   const siteData = useContext(SiteContext);
 
-  const { items, controlPanel, setSelected: setSelectedItem } = siteData;
+  const {
+    items,
+    controlPanel,
+    setControlPanel,
+    setSelected: setSelectedItem,
+  } = siteData;
   useEffect(() => {
     setSelected(null);
     setSelector(null);
@@ -56,13 +61,15 @@ function NestedMenu({
     setSelector(null);
   }, [selected]);
 
+  useEffect(() => {
+    setControlPanel(null);
+  }, [selector]);
+
   return (
     <>
       <div className="h-8 flex items-center justify-between">
         <div
-          className={
-            "cursor-pointer w-6 px-0 ml-1 hover:bg-gray-200 rounded-full"
-          }
+          className={"cursor-pointer w-6 pl-1/2 hover:bg-gray-200 rounded-full"}
           style={{ pointerEvents: "all" }}
           onClick={() => {
             setParentSelected?.(null);
@@ -86,8 +93,8 @@ function NestedMenu({
       </div>
 
       {/* stack of menus */}
-      <div className="flex" onMouseDown={(e) => e.stopPropagation()}>
-        <div className="flex flex-col bg-slate-500/10">
+      <div className="flex flex-row" onMouseDown={(e) => e.stopPropagation()}>
+        <div className="flex flex-col bg-slate-500/10 max-h-[72vh] overflow-y-auto">
           {/* child menu in the stack */}
 
           {/* menu */}
@@ -102,11 +109,7 @@ function NestedMenu({
 
           {/* selector */}
           {selector != null && (
-            <Column
-              className={
-                "w-max items-center cpanel-col h-[90%] overflow-y-auto"
-              }
-            >
+            <Column className={"w-max items-center cpanel-col"}>
               {selector}
             </Column>
           )}
@@ -120,7 +123,7 @@ function NestedMenu({
         </div>
         <div className="flex flex-col">
           {/* parent menu in the stack */}
-          <ul className="menu bg-base-100 p-2 rounded-box">
+          <ul className="menu bg-base-100 rounded-box">
             {Object.entries(buttonData).map((item) => {
               return (
                 <AddButton
@@ -149,12 +152,10 @@ function FloatingPanel({ children, style = null, isMinimized, setMinimized }) {
     setPos(originPos);
   }, [isMinimized]);
 
-  const isMobile = isMobileViewport();
-
   return (
     <div
       className={
-        "flex flex-col card bg-base-100 outline transition-all max-w-[80vw] max-h-[75vh]"
+        "flex flex-col card bg-base-100 outline transition-all max-w-[90vw] max-h-[75vh]"
       }
       onMouseDown={(e) => {
         setDragging(true);

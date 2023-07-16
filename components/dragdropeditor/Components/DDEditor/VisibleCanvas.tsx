@@ -99,7 +99,12 @@ export default function VisibleCanvas(props) {
         overflow: "hidden",
         height: pageVisibleHeight,
         minHeight: "100vh",
-        backgroundImage: `url(${items["style"]?.background?.backgroundImage})`,
+        backgroundImage:
+          items["style"]?.background?.backgroundImage &&
+          `url(${items["style"]?.background?.backgroundImage})`,
+        backgroundColor:
+          items["style"]?.background?.backgroundColor &&
+          `${items["style"]?.background?.backgroundColor}`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}

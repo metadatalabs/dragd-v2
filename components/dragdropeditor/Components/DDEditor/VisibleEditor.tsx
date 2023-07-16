@@ -123,7 +123,12 @@ export default function VisibleEditor(props) {
   }, [pressedKeys]);
 
   return (
-    <div data-theme={items["style"]?.theme}>
+    <div
+      data-theme={
+        "lofi"
+        // items["style"]?.theme
+      }
+    >
       {props.children}
       {mode == EditorModes.EDIT && selected[0]?.length > 20 && (
         <MobileBoundary />
