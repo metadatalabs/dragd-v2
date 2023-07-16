@@ -71,7 +71,7 @@ export default function TemplateModal({ site, onComplete }) {
 
   return (
     <GenericModal onDone={() => onComplete()}>
-      <div className={"flex flex-col w-[95vw] md:w-[60vw] items-center"}>
+      <div className={"flex flex-col w-[88vw] md:w-[60vw] items-center"}>
         <center className={"text-2xl"}>Choose a template</center>
 
         {!customPageToggled ? (
@@ -82,28 +82,33 @@ export default function TemplateModal({ site, onComplete }) {
                 name: "Linktree",
                 image:
                   "https://github.com/metadatalabs/static-assets/blob/main/images/template-linktree.png?raw=true",
+                tags: ["links"],
               },
               {
                 path: "docs.eth/template-blog",
                 name: "Blog",
                 image:
                   "https://github.com/metadatalabs/static-assets/blob/main/images/template-blog2.png?raw=true",
+                tags: ["blog"],
               },
               {
                 path: "docs.eth/blog",
                 name: "Vitalik's Blog",
                 image:
                   "https://github.com/metadatalabs/static-assets/blob/main/images/template-blog.png?raw=true",
+                tags: ["blog", "minimal"],
               },
               {
                 path: "docs.eth/template-store",
                 name: "Store",
                 image:
                   "https://github.com/metadatalabs/static-assets/blob/main/images/template-store.png?raw=true",
+                tags: ["payment"],
               },
               {
                 path: "docs.eth/profile",
-                name: "Profile",
+                name: "Blank Starter",
+                tags: ["minimal"],
               },
             ].map((item, index) => {
               return (
@@ -133,8 +138,11 @@ export default function TemplateModal({ site, onComplete }) {
                       </h2>
                     </div>
                     <div>
-                      <div className="badge badge-secondary">NEW</div>
-                      <div className="badge badge-outline">Links</div>
+                      {/* <div className="badge badge-secondary">NEW</div> */}
+                      {item.tags &&
+                        item.tags.map((tag) => (
+                          <div className="badge badge-outline mx-1">{tag}</div>
+                        ))}
                     </div>
                   </div>
                 </div>
