@@ -25,7 +25,8 @@ function PanelControls({ id }) {
               setImageUri(dataUrl);
             }}
           />
-          <div
+          <button
+            className="btn btn-sm"
             onClick={() => {
               onLocalUpdate({
                 style: {
@@ -39,12 +40,10 @@ function PanelControls({ id }) {
               });
             }}
           >
-            <button className="btn btn-sm">
-              <p class="subtitle is-7 text-subtitle">
-                {elemData.style?.objectFit}
-              </p>
-            </button>
-          </div>
+            <p class="subtitle is-7 text-subtitle">
+              {elemData.style?.objectFit}
+            </p>
+          </button>
         </>,
         <StylePanelControls id={id} />,
       ]}
