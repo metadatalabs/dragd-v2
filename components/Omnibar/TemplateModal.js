@@ -92,13 +92,6 @@ export default function TemplateModal({ site, onComplete }) {
                 tags: ["blog"],
               },
               {
-                path: "docs.eth/template-terminal",
-                name: "Terminal",
-                image:
-                  "https://github.com/metadatalabs/static-assets/blob/main/images/template-terminal.png?raw=true",
-                tags: ["portfolio", "minimal"],
-              },
-              {
                 path: "docs.eth/blog",
                 name: "Vitalik's Blog",
                 image:
@@ -159,11 +152,11 @@ export default function TemplateModal({ site, onComplete }) {
         ) : (
           <div className="form-control w-full max-w-xs">
             <label className="label">
-              <span className="label-text">Full path of page to clone:</span>
+              <span className="label-text">Choose an existing page</span>
             </label>
             <input
               type="text"
-              placeholder="sitename/pagename"
+              placeholder="Type here"
               value={selectedTemplate}
               onChange={(e) => setSelectedTemplate(e.target.value)}
               className="input input-bordered w-full max-w-xs"
@@ -171,23 +164,20 @@ export default function TemplateModal({ site, onComplete }) {
           </div>
         )}
 
+        <button
+          className={`btn mt-4 ${loading ? `loading` : ``}`}
+          disabled={loading}
+          onClick={async () => createSiteSubmit()}
+        >
+          Apply to {JSON.stringify(site.pageName)}
+        </button>
         {error && <ErrorText>{error}</ErrorText>}
-
-        <div className="flex w-full justify-between items-center">
-          <a
-            className="link mt-4"
-            onClick={() => setCustomPageToggled(!customPageToggled)}
-          >
-            {!customPageToggled ? "Choose an existing page" : "Use a template"}
-          </a>
-          <button
-            className={`btn mt-4 ${loading ? `loading` : ``}`}
-            disabled={loading}
-            onClick={async () => createSiteSubmit()}
-          >
-            Apply to {JSON.stringify(site.pageName)}
-          </button>
-        </div>
+        <a
+          className="link mt-4"
+          onClick={() => setCustomPageToggled(!customPageToggled)}
+        >
+          {!customPageToggled ? "Choose a custom page" : "Use a template"}
+        </a>
       </div>
     </GenericModal>
   );
