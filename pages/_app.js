@@ -5,6 +5,7 @@ import "/styles/globals.css";
 // const space_font = Space_Grotesk({ subsets: ['latin'] })
 import "../components/dragdropeditor/App.css";
 import Script from "next/script";
+import Head from "next/head";
 
 export default function App({ Component, pageProps }) {
   return (
@@ -22,6 +23,17 @@ export default function App({ Component, pageProps }) {
           gtag('config', 'G-46S27RB587');
         `}
       </Script>
+
+      <Head>
+        <Script type="text/javascript">
+          {`window.smartlook||(function(d) {
+    var o=smartlook=function(){ o.api.push(arguments)},h=d.getElementsByTagName('head')[0];
+    var c=d.createElement('script');o.api=new Array();c.async=true;c.type='text/javascript';
+    c.charset='utf-8';c.src='https://web-sdk.smartlook.com/recorder.js';h.appendChild(c);
+    })(document);
+    smartlook('init', 'a82dfff5fa5f68490a115592a528f6635b0452e1', { region: 'eu' });`}
+        </Script>
+      </Head>
 
       <QueryClientProvider>
         {/* <div className={space_font.className}> */}
