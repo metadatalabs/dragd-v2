@@ -13,6 +13,7 @@ export default function SetENSResolver({ latestRecord }) {
     error: itemsError,
   } = useSitesByOwner();
 
+  const [fetchedENS, setFetchedENS] = useState(false);
   const [ensNameList, setEnsNameList] = useState([]);
   const unique = [...new Set(siteList?.data.map((item) => item.siteName))];
   const { address } = useAccount();
@@ -50,6 +51,7 @@ export default function SetENSResolver({ latestRecord }) {
         const filteredProfiles = profiles.filter((profile) => !!profile);
         console.log("filtered profiles are", filteredProfiles);
         setEnsNameList(filteredProfiles);
+        setFetchedENS(true);
       })
       .catch((error) => {
         console.error("Error retrieving ENS profiles:", error);
@@ -85,7 +87,9 @@ export default function SetENSResolver({ latestRecord }) {
       Choose a name to link: <br />
       <div className="dropdown dropdown-center">
         <label tabIndex={0} className="btn m-1">
-          {getMatchingENSName()?.decryptedName || "Not Connected"}
+          {getMatchingENSName()?.decryptedName ||
+            (fetchedENS && "Not Connected") ||
+            "Loading..."}
         </label>
         <ul
           tabIndex={0}

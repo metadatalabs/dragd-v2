@@ -4,6 +4,7 @@ import * as React from "react";
 import { useDisconnect, useEnsName, useEnsAvatar } from "wagmi";
 import { CryptoAuthContext } from "../CryptoAuth";
 import { useRouter } from "next/navigation";
+import { GetShortenedString } from "../ui-helpers";
 
 export default function LoginButton(props) {
   const { session, setSession, showAuthModal, setShowAuthModal } =
@@ -34,7 +35,7 @@ export default function LoginButton(props) {
             }
             children={[
               <div className="badge bg-base-100 badge-outline w-60 pointer-events-none h-12">
-                {ensName || session.address}
+                {ensName || GetShortenedString(session.address)}
               </div>,
               // <textarea>{JSON.stringify(session)}</textarea>,
               <button
