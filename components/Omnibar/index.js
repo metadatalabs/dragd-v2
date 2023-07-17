@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 
-import GenericDropdown from "../../UI/GenericDropdown";
+import GenericDropdown from "/components/UI/GenericDropdown";
 import * as React from "react";
 import { useDisconnect, useEnsName } from "wagmi";
 import { CryptoAuthContext } from "../CryptoAuth";
