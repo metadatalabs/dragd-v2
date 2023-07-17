@@ -1,4 +1,4 @@
-import GenericDropdown from "../ui/GenericDropdown";
+import GenericDropdown from "../UI/GenericDropdown";
 import * as React from "react";
 import { useDisconnect, useEnsName, useEnsAvatar } from "wagmi";
 import { CryptoAuthContext } from "../CryptoAuth";
