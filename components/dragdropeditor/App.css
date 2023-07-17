@@ -214,3 +214,7 @@ text-subtitle {
 body {
   max-width: 100vw;
 }
+
+:root {
+  --w3m-z-index: 99999999 !important;
+}
