@@ -62,7 +62,7 @@ export default function NFTImage({
       </svg>
       <div style={{ marginTop: "-448px", height: 448, padding: 11 }}>
         <div
-          className={`border border-black/25 rounded-[22px] h-full flex flex-col items-center justify-between py-4 w-[216px]`}
+          className={`border border-black/25 rounded-[22px] h-full flex flex-col items-center justify-between py-4`}
           style={{ color: "black" }}
         >
           {children}

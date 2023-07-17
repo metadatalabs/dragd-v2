@@ -117,7 +117,7 @@ function ConnectWalletPage(props) {
         </div>
       </div>
       {error && (
-        <div className="alert alert-error text-xs shadow-lg p-2 pr-4">
+        <div className="alert alert-error shadow-lg p-2 pr-4">
           <ErrorIcon />
           {error.message}
         </div>

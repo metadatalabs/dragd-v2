@@ -16,7 +16,7 @@ export default function GenericDropdown({ children, border, ...props }) {
         </label>
         <ul
           tabIndex={0}
-          className={`flex mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-300 rounded-box min-w-full max-h-96 flex-nowrap overflow-y-auto ${
+          className={`flex mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-300 rounded-box min-w-full max-h-96 flex-nowrap overflow-y-scroll ${
             border && "outline"
           }`}
         >
