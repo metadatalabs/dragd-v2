@@ -7,11 +7,14 @@ import {
   IconPadding,
   IconSquareOpacity,
 } from "../DDEditor/EditorIcons";
+import { FloatingCard } from "../../helpers/ui/ImagePicker";
 
 export default function StylePanelControls({ id }) {
   const { items, onUpdateDiv } = useContext(SiteContext);
   const elemData = items[id];
   const onLocalUpdate = (newProps) => onUpdateDiv(elemData.id, newProps);
+
+  const [editBorder, setEditBorder] = useState(false);
 
   const ControlList = [
     {
@@ -83,64 +86,85 @@ export default function StylePanelControls({ id }) {
     {
       label: "Border",
       control: (
-        <div className="dropdown dropdown-end">
-          <label tabIndex={0} className="btn btn-sm m-1">
+        <>
+          <label
+            tabIndex={0}
+            className="btn btn-sm m-1"
+            onClick={() => {
+              setEditBorder(!editBorder);
+            }}
+          >
             Edit Border
           </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
-          >
-            <ColorPicker
-              color={elemData.style?.borderColor || "transparent"}
-              onChange={(color) => {
-                onLocalUpdate({
-                  style: { ...elemData.style, borderColor: `${color}` },
-                });
-              }}
-            />
-            <SliderWithInput
-              value={elemData.style?.borderWidth || 0}
-              onChange={(value) => {
-                onLocalUpdate({
-                  style: { ...elemData.style, borderWidth: value + "px" },
-                });
-              }}
-              min={0}
-              max={32}
-              step={1}
-              symbol={"px"}
-            />
-            <ul>
-              {["solid", "dotted", "dashed"].map((item) => {
-                return (
-                  <li>
-                    <a
-                      onClick={() => {
-                        onLocalUpdate({
-                          style: { ...elemData.style, borderStyle: item },
-                        });
-                      }}
-                    >
-                      <div
-                        className={"w-full"}
-                        style={{
-                          borderColor:
-                            elemData.style?.borderColor || "transparent",
-                          borderWidth: elemData.style?.borderWidth || 0,
-                          borderStyle: item,
-                          borderBottom: "none",
-                          borderLeft: "none",
-                          borderRight: "none",
-                        }}
-                      ></div>
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </ul>
-        </div>
+          {editBorder && (
+            <FloatingCard>
+              Edit Border
+              <div
+                className="p-2 w-52"
+                onMouseDown={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <ColorPicker
+                  color={elemData.style?.borderColor || "transparent"}
+                  onChange={(color) => {
+                    onLocalUpdate({
+                      style: { ...elemData.style, borderColor: `${color}` },
+                    });
+                  }}
+                />
+                <SliderWithInput
+                  value={elemData.style?.borderWidth || 0}
+                  onChange={(value) => {
+                    onLocalUpdate({
+                      style: { ...elemData.style, borderWidth: value + "px" },
+                    });
+                  }}
+                  min={0}
+                  max={32}
+                  step={1}
+                  symbol={"px"}
+                />
+                <ul>
+                  {["solid", "dotted", "dashed"].map((item) => {
+                    return (
+                      <li
+                        className={
+                          "h-6 m-1 rounded-sm flex flex-col justify-center bg-base-200 hover:bg-base-300"
+                        }
+                      >
+                        <a
+                          onClick={() => {
+                            onLocalUpdate({
+                              style: {
+                                borderColor: "black",
+                                ...elemData.style,
+                                borderStyle: item,
+                              },
+                            });
+                          }}
+                        >
+                          <div
+                            className={"w-full"}
+                            style={{
+                              borderColor:
+                                elemData.style?.borderColor || "transparent",
+                              borderWidth: elemData.style?.borderWidth || 0,
+                              borderStyle: item,
+                              borderBottom: "none",
+                              borderLeft: "none",
+                              borderRight: "none",
+                            }}
+                          ></div>
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </FloatingCard>
+          )}
+        </>
       ),
     },
   ];

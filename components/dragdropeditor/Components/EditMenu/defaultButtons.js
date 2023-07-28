@@ -47,8 +47,10 @@ const defaultButtons = {
             width: 100,
             height: 100,
           },
-          imageUri:
-            "https://raw.githubusercontent.com/metadatalabs/static-assets/main/logos/dragd_logo.png",
+          style: {
+            image:
+              "https://raw.githubusercontent.com/metadatalabs/static-assets/main/logos/dragd_logo.png",
+          },
         },
       },
       giphy: {

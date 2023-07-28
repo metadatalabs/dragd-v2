@@ -1,53 +1,229 @@
-export default function FilePicker({ selected, setSelected }) {
+import { useEffect, useRef, useState } from "react";
+import { RgbaStringColorPicker } from "react-colorful";
+import { DownChevron } from "../../../ui-helpers";
+import { CloseIcon } from "../../Components/DDEditor/EditorIcons";
+
+const modes = ["image", "color"];
+const imageFitModes = ["contain", "cover", "scale-down", "fill"];
+
+export default function FilePicker({ styleObject, onStyleObjectChange }) {
+  const [selected, setSelected] = useState(false);
+  const [mode, setMode] = useState(modes[0]);
+
   return (
-    <div className="inline-block bg-base-100 p-2">
-      <div className="flex justify-center">
-        <input
-          value={selected}
-          onChange={(e) => {
-            setSelected(e.target.value);
-          }}
-          className="input input-bordered input-sm w-32 mr-2"
-        ></input>
-        <button
-          className={"btn btn-square btn-sm btn-outline"}
-          onClick={() => {
-            loadImageToUri(setSelected);
-          }}
-        >
-          <img className="h-6 w-6" src="https://i.imgur.com/rFn3Kjx.png" />
-        </button>
+    <div className="inline-block">
+      <div
+        onClick={() => {
+          setSelected(!selected);
+        }}
+        tabIndex={0}
+        className="flex items-center p-1 m-1 border border-primary"
+        style={{
+          cursor: "pointer",
+        }}
+      >
+        <div
+          className={`rounded w-4 h-4 border-2 border-primary`}
+          style={{ backgroundColor: styleObject?.backgroundColor }}
+        ></div>
+        <DownChevron />
       </div>
-
       {selected && (
-        <div className="flex justify-center bg-gray-200">
-          <div className="flex flex-row w-24 h-24">
-            <img src={selected} className="w-full"></img>
-
-            <button
-              className="btn btn-xs btn-circle btn-ghost -ml-4 w-4 h-4 min-"
-              onClick={() => {
-                setSelected(undefined);
+        <FloatingCard>
+          <div
+            className={""}
+            style={{
+              width: 220,
+            }}
+          >
+            <div className="tabs mb-2 w-full">
+              <div>
+                {modes.map((m) => (
+                  <a
+                    className={`tab tab-lifted ${
+                      mode === m ? "tab-active" : ""
+                    }`}
+                    onClick={() => {
+                      setMode(m);
+                    }}
+                  >
+                    {m}
+                  </a>
+                ))}
+              </div>
+              <div className={"flex border-b grow justify-end pb-1"}>
+                <button
+                  className="btn btn-xs btn-ghost"
+                  onClick={() => {
+                    setSelected(false);
+                  }}
+                >
+                  <CloseIcon className={"w-3"} />
+                </button>
+              </div>
+            </div>
+            <div
+              className="cursor-default"
+              onMouseDown={(e) => {
+                e.stopPropagation();
               }}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
+              {mode === "image" && (
+                <>
+                  <div className="flex justify-center">
+                    <input
+                      value={styleObject?.image || ""}
+                      placeholder="Image URL"
+                      onChange={(e) => {
+                        onStyleObjectChange({
+                          ...styleObject,
+                          image: e.target.value,
+                        });
+                      }}
+                      className="input input-bordered input-sm w-32 mr-2"
+                    ></input>
+                    <button
+                      className={"btn btn-square btn-sm btn-outline"}
+                      onClick={() => {
+                        loadImageToUri((dataUrl) => {
+                          onStyleObjectChange({
+                            ...styleObject,
+                            image: dataUrl,
+                          });
+                        });
+                      }}
+                    >
+                      <img
+                        className="h-6 w-6"
+                        src="https://i.imgur.com/rFn3Kjx.png"
+                      />
+                    </button>
+                  </div>
+
+                  {
+                    <div className="flex justify-center m-2">
+                      <div className="flex flex-row w-24 h-24">
+                        <img
+                          src={styleObject?.image}
+                          className="w-full bg-base-300"
+                        ></img>
+
+                        <button
+                          className="btn btn-xs btn-circle btn-ghost -ml-6"
+                          onClick={() => {
+                            onStyleObjectChange({
+                              ...styleObject,
+                              image: undefined,
+                            });
+                          }}
+                        >
+                          <CloseIcon className={"w-3"} />
+                        </button>
+                      </div>
+                    </div>
+                  }
+
+                  <center>
+                    <button
+                      className="btn btn-sm"
+                      onClick={() => {
+                        onStyleObjectChange({
+                          ...styleObject,
+                          objectFit:
+                            imageFitModes[
+                              (imageFitModes.indexOf(styleObject?.objectFit) +
+                                1) %
+                                imageFitModes.length
+                            ],
+                        });
+                      }}
+                    >
+                      <p class="subtitle is-7 text-subtitle">
+                        {styleObject?.objectFit || "Fill"}
+                      </p>
+                    </button>
+                  </center>
+                </>
+              )}
+              {mode === "color" && (
+                <div className={"flex flex-col items-center"}>
+                  <RgbaStringColorPicker
+                    color={styleObject?.backgroundColor || "black"}
+                    onChange={(e) =>
+                      onStyleObjectChange({
+                        ...styleObject,
+                        backgroundColor: e,
+                      })
+                    }
+                  />
+                  <input
+                    style={{ marginTop: 5 }}
+                    className="input input-sm input-bordered"
+                    value={styleObject?.backgroundColor}
+                    onChange={(e) =>
+                      onStyleObjectChange({
+                        ...styleObject,
+                        backgroundColor: e.target.value,
+                      })
+                    }
+                  ></input>
+                  <button
+                    className="btn btn-xs btn-ghost mt-2"
+                    onClick={() => {
+                      onStyleObjectChange({
+                        ...styleObject,
+                        backgroundColor: undefined,
+                      });
+                    }}
+                  >
+                    Clear
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        </FloatingCard>
       )}
+    </div>
+  );
+}
+
+export function FloatingCard({ children }) {
+  const originPos = { x: 0, y: 0 };
+
+  const [pos, setPos] = useState(originPos);
+  const [clickOffset, setClickOffset] = useState(originPos);
+  const [dragging, setDragging] = useState(false);
+
+  return (
+    <div
+      className="flex flex-col items-center absolute border border-black bg-base-100 rounded-md shadow-lg p-2"
+      style={{
+        zIndex: 99999,
+        // transform: "translateX(calc(-100%))",
+        bottom: -pos.y,
+        right: -pos.x,
+        cursor: "grabbing",
+      }}
+      onMouseDown={(e) => {
+        setDragging(true);
+        // setClickOffset({ x: e.clientX - (window.innerWidth - pos.x), y: e.clientY - pos.y});
+        setClickOffset({ x: e.clientX - pos.x, y: e.clientY - pos.y });
+      }}
+      onMouseUp={(e) => {
+        setDragging(false);
+      }}
+      onMouseMove={(e) => {
+        if (dragging) {
+          setPos({
+            x: e.clientX - clickOffset.x,
+            y: e.clientY - clickOffset.y,
+          });
+          // setPos({ x: window.innerWidth - (e.clientX - clickOffset.x), y: e.clientY - clickOffset.y});
+        }
+      }}
+    >
+      {children}
     </div>
   );
 }

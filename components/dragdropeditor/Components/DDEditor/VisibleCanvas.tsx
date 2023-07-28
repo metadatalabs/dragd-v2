@@ -100,8 +100,8 @@ export default function VisibleCanvas(props) {
         height: pageVisibleHeight,
         minHeight: "100vh",
         backgroundImage:
-          items["style"]?.background?.backgroundImage &&
-          `url(${items["style"]?.background?.backgroundImage})`,
+          items["style"]?.background?.image &&
+          `url(${items["style"]?.background?.image})`,
         backgroundColor:
           items["style"]?.background?.backgroundColor &&
           `${items["style"]?.background?.backgroundColor}`,

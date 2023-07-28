@@ -1,28 +1,18 @@
-// pages/api/magicLogin.ts
+import { sealData } from "iron-session";
 
-import { unsealData } from "iron-session";
-import { withIronSessionApiRoute } from "iron-session/next";
+export default async function generateLink(req, res) {
+  //   const user = getUserFromDatabase(req.query.userId);
 
-export default withIronSessionApiRoute(magicLoginRoute, {
-  cookieName: "myapp_cookiename",
-  password: "complex_password_at_least_32_characters_long",
-  cookieOptions: {
-    secure: process.env.NODE_ENV === "production",
-  },
-});
+  const seal = await sealData(
+    {
+      userId: user.id,
+    },
+    {
+      password: "complex_password_at_least_32_characters_long",
+    }
+  );
 
-async function magicLoginRoute(req, res) {
-  const { userId } = await unsealData(req.query.seal, {
-    password: "complex_password_at_least_32_characters_long",
-  });
-
-  const user = getUserFromDatabase(userId);
-
-  req.session.user = {
-    id: user.id,
-  };
-
-  await req.session.save();
-
-  res.redirect(`/dashboard`);
+  return res.send(
+    `Hey there ${user.name}, <a href="/api/auth/magicLogin?seal=${seal}">click here to login</a>.`
+  );
 }

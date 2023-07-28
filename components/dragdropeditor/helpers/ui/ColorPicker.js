@@ -1,9 +1,10 @@
 import { useRef, useState } from "react";
 import { RgbaStringColorPicker } from "react-colorful";
+import { DownChevron } from "../../../ui-helpers";
+import { FloatingCard } from "./ImagePicker";
 
 export default function ColorPicker({ color, onChange, onClose }) {
   const [selected, setSelected] = useState(false);
-  const [pos, setPos] = useState();
 
   return (
     <div className="inline-block">
@@ -12,26 +13,32 @@ export default function ColorPicker({ color, onChange, onClose }) {
           setSelected(false);
         }}
       >
-        <button
+        <div
           onClick={() => {
             setSelected(!selected);
           }}
           tabIndex={0}
-          className="outline m-1 btn btn-sm"
+          className="flex items-center p-1 m-1 border border-primary"
           style={{
-            backgroundColor: color,
             cursor: "pointer",
           }}
         >
-          Choose Color
-        </button>
+          <div
+            className={`rounded w-4 h-4 border-2 border-primary`}
+            style={{ backgroundColor: color }}
+          ></div>
+          <DownChevron />
+        </div>
         {selected && (
-          <div className="flex flex-col items-center">
+          <FloatingCard>
+            Color Picker
             <div
-              className={"p-2 mb-4 mt-0 bg-base-100 rounded-md shadow-lg"}
+              className={"p-2"}
               style={{
-                // position: "absolute",
                 width: 220,
+              }}
+              onMouseDown={(e) => {
+                e.stopPropagation();
               }}
             >
               <RgbaStringColorPicker
@@ -45,7 +52,15 @@ export default function ColorPicker({ color, onChange, onClose }) {
                 onChange={(e) => onChange(e.target.value)}
               ></input>
             </div>
-          </div>
+            <button
+              className="btn btn-sm btn-ghost"
+              onClick={() => {
+                onChange("transparent");
+              }}
+            >
+              Clear
+            </button>
+          </FloatingCard>
         )}
       </div>
     </div>

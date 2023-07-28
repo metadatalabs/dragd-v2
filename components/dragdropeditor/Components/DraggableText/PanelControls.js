@@ -5,6 +5,11 @@ import SiteContext from "../../siteContext";
 import { Row, SliderWithInput, StyleToggleButton } from "../../helpers/helper";
 import GenericDropdown from "../../../UI/GenericDropdown";
 import StylePanelControls, { TabSwitcher } from "../EditMenu/StyleControlPanel";
+import {
+  IconAlignCenter,
+  IconAlignLeft,
+  IconAlignRight,
+} from "../DDEditor/EditorIcons";
 
 const googleFonts = fonts["googleFonts"];
 const fontList = ["Arial", "Times New Roman", "Courier New", ...googleFonts];
@@ -15,7 +20,7 @@ export default function PanelControls({ id }) {
   const onLocalUpdate = (newProps) => onUpdateDiv(elemData.id, newProps);
 
   let alignDirections = ["left", "center", "right"];
-  let alignIcon = ["align-left", "align-center", "align-right"];
+  let alignIcons = [<IconAlignLeft />, <IconAlignCenter />, <IconAlignRight />];
   let currentDirection = alignDirections.indexOf(elemData?.style?.textAlign);
   currentDirection = currentDirection < 0 ? 1 : currentDirection;
   return (
@@ -211,7 +216,7 @@ export default function PanelControls({ id }) {
                   });
                 }}
               >
-                align
+                {alignIcons[currentDirection]}
               </StyleToggleButton>
             </Row>
           </>,

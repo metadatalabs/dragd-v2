@@ -72,41 +72,15 @@ export function HeadConfigurator({ addItemToList }) {
           <span className="label-text"> Background Settings</span>
         </label>
 
-        <ColorPicker
-          color={styleData?.background?.backgroundColor || "transparent"}
-          onChange={(color) => {
-            onLocalUpdate({
-              ...styleData,
-              background: { backgroundColor: color },
-            });
-          }}
-        />
-
-        <br />
-
         <FilePicker
-          selected={styleData?.background?.backgroundImage}
-          setSelected={(dataUrl) => {
+          styleObject={styleData?.background}
+          onStyleObjectChange={(newStyleObject) => {
             onLocalUpdate({
               ...styleData,
-              background: { backgroundImage: dataUrl },
+              background: newStyleObject,
             });
           }}
         />
-
-        <br />
-
-        <button
-          className="btn btn-sm"
-          onClick={() => {
-            onLocalUpdate({
-              ...styleData,
-              background: { backgroundImage: null, backgroundColor: null },
-            });
-          }}
-        >
-          Reset
-        </button>
       </div>
     </div>
   );
