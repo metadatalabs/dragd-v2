@@ -132,6 +132,7 @@ const whitelistedAccountDomains = {
     "willsolanamakeit",
     "oldmanali",
     "1dollarjobs",
+    "mog.eth",
   ],
   "0xE5E98Df807c3C4F8e57eeeED0968895b2EA5FEfb": [
     "l.eth",
