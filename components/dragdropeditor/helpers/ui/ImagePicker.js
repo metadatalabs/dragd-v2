@@ -17,16 +17,20 @@ export default function FilePicker({ styleObject, onStyleObjectChange }) {
           setSelected(!selected);
         }}
         tabIndex={0}
-        className="flex items-center p-1 m-1 border border-primary"
+        className="flex items-center p-1 m-1 border border-primary rounded text-sm bg-base-100 hover:bg-base-200"
         style={{
           cursor: "pointer",
         }}
       >
+        Select Image
         <div
-          className={`rounded w-4 h-4 border-2 border-primary`}
-          style={{ backgroundColor: styleObject?.backgroundColor }}
+          className={`rounded w-8 h-4 ml-2 border-2 border-primary`}
+          style={{
+            backgroundColor: styleObject?.backgroundColor,
+            backgroundImage: `url(${styleObject?.image})`,
+            backgroundSize: "contain",
+          }}
         ></div>
-        <DownChevron />
       </div>
       {selected && (
         <FloatingCard>
@@ -83,7 +87,9 @@ export default function FilePicker({ styleObject, onStyleObjectChange }) {
                       className="input input-bordered input-sm w-32 mr-2"
                     ></input>
                     <button
-                      className={"btn btn-square btn-sm btn-outline"}
+                      className={
+                        "btn btn-sm btn-outline text-xs flex flex-row px-2"
+                      }
                       onClick={() => {
                         loadImageToUri((dataUrl) => {
                           onStyleObjectChange({
@@ -93,8 +99,9 @@ export default function FilePicker({ styleObject, onStyleObjectChange }) {
                         });
                       }}
                     >
+                      <div>UPLOAD</div>
                       <img
-                        className="h-6 w-6"
+                        className="h-4 w-4 ml-1"
                         src="https://i.imgur.com/rFn3Kjx.png"
                       />
                     </button>

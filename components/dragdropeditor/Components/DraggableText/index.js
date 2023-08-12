@@ -83,15 +83,13 @@ function EditableDiv(props) {
     isEditorFocused,
     setIsEditorFocused,
   } = props;
-  const [text, setText] = useState(value);
   const [startPos, setStartPos] = useState({ x: undefined, y: undefined });
   const inputRef = useRef();
+  const inputValue = useRef(value);
 
   useEffect(() => {
     if (isEditorFocused) {
       inputRef.current.focus();
-    } else {
-      onChange && onChange(text);
     }
   }, [isEditorFocused]);
 
@@ -138,8 +136,8 @@ function EditableDiv(props) {
           style={{ cursor: "cursor", ...style, height: "100%" }}
           onPaste={onPaste}
           contentEditable={contentEditable}
-          onInput={() => setText(inputRef.current.innerHTML)}
-          dangerouslySetInnerHTML={{ __html: value }}
+          onInput={() => onChange(inputRef.current.innerHTML)}
+          dangerouslySetInnerHTML={{ __html: inputValue.current }}
         >
           {/* {text} */}
         </div>

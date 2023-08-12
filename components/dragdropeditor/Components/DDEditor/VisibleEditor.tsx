@@ -125,7 +125,7 @@ export default function VisibleEditor(props) {
   return (
     <div
       data-theme={
-        "lofi"
+        "winter"
         // items["style"]?.theme
       }
     >

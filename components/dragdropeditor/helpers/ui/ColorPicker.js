@@ -18,7 +18,7 @@ export default function ColorPicker({ color, onChange, onClose }) {
             setSelected(!selected);
           }}
           tabIndex={0}
-          className="flex items-center p-1 m-1 border border-primary"
+          className="flex items-center p-1 m-1 border border-primary rounded text-sm bg-base-100 hover:bg-base-200"
           style={{
             cursor: "pointer",
           }}

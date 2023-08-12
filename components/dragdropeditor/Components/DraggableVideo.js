@@ -21,8 +21,8 @@ function PanelControls({ id }) {
           type="text"
           placeholder={"Youtube/Twitch/Soundcloud URL"}
           value={elemData.videoUri}
-          onChange={(value) => {
-            onLocalUpdate({ videoUri: value });
+          onChange={(e) => {
+            onLocalUpdate({ videoUri: e.target.value });
           }}
           className="input input-bordered w-full max-w-xs"
         />

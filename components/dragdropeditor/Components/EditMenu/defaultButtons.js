@@ -194,7 +194,7 @@ const defaultButtons = {
 
   head: {
     icon: <StylesIcon />,
-    label: "Page Styles",
+    label: "Page Theme",
     selector: "headconf",
     action: "selector",
   },

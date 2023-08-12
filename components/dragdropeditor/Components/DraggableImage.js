@@ -15,8 +15,9 @@ function PanelControls({ id }) {
       tabs={[
         <>
           <div className="flex flex-col">
-            <div className="flex flex-row justify-between items-center">
-              <div>Image</div>
+            <div>Image</div>
+
+            <div className="flex flex-row justify-center">
               <FilePicker
                 styleObject={elemData.style}
                 onStyleObjectChange={(newStyle) => {
