@@ -12,11 +12,13 @@ import {
   IconVideo,
   IconCurrencyEthereum,
   IconSound,
+  FormIcon,
+  MoreIcon,
 } from "../DDEditor/EditorIcons";
 
 const defaultButtons = {
   text: {
-    icon: <div className={"font-bold"}>Aa</div>,
+    icon: <div className={"font-bold text-xl"}>Aa</div>,
     label: "Text",
     action: "add",
     object: {
@@ -32,27 +34,38 @@ const defaultButtons = {
       },
     },
   },
+  image: {
+    icon: <ImageIcon />,
+    label: "Image",
+    action: "add",
+    object: {
+      type: "image",
+      size: {
+        width: 100,
+        height: 100,
+      },
+      style: {
+        image:
+          "https://raw.githubusercontent.com/metadatalabs/static-assets/main/logos/dragd_logo.png",
+      },
+    },
+  },
+  button: {
+    icon: <IconLinkBoxOutline />,
+    action: "modal",
+    selector: "button",
+    label: "Button",
+  },
   media: {
     label: "Media",
     action: "menu",
-    icon: <PuzzleIcon />,
+    icon: (
+      <div className="stack">
+        <IconStickerEmoji />
+        <IconSound />
+      </div>
+    ),
     objects: {
-      image: {
-        icon: <ImageIcon />,
-        label: "Image",
-        action: "add",
-        object: {
-          type: "image",
-          size: {
-            width: 100,
-            height: 100,
-          },
-          style: {
-            image:
-              "https://raw.githubusercontent.com/metadatalabs/static-assets/main/logos/dragd_logo.png",
-          },
-        },
-      },
       giphy: {
         icon: <IconStickerEmoji />,
         action: "add",
@@ -118,77 +131,72 @@ const defaultButtons = {
       // },
     },
   },
-  // form: {
-  //     icon: 'fas fa-poll-h',
-  //     label: 'Form',
-  //     action: 'add',
-  //     object: {
-  //         type: 'form',
-  //         size: {
-  //             width: 200,
-  //             height: 150,
-  //         },
-  //         style: { textAlign: 'left' },
-  //     },
-  // },
-  button: {
-    icon: <IconLinkBoxOutline />,
-    action: "modal",
-    selector: "button",
-    label: "Button",
-  },
-  code: {
-    icon: <CodeIcon />,
-    label: "Code",
-    action: "add",
-    object: {
-      type: "code",
-      size: {
-        width: 100,
-        height: 100,
-      },
-      text: "your code here!",
-      subtype: "html",
-    },
-  },
   experimental: {
-    icon: "fas fa-photo-video",
-    label: "Experimental",
+    label: "More",
     action: "menu",
-    icon: <LabsIcon />,
+    icon: <MoreIcon />,
     objects: {
-      ethereum: {
-        icon: <SmartContractIcon />,
-        label: "Contract",
-        action: "modal",
-        selector: "eth",
-      },
       payButton: {
         icon: <IconCurrencyEthereum />,
         label: "Pay Button",
         action: "modal",
         selector: "payButton",
       },
+      form: {
+        icon: <FormIcon />,
+        label: "Form",
+        action: "add",
+        object: {
+          type: "form",
+          size: {
+            width: 200,
+            height: 150,
+          },
+          style: { textAlign: "left" },
+        },
+      },
+      code: {
+        icon: <CodeIcon />,
+        label: "Code",
+        action: "add",
+        object: {
+          type: "code",
+          size: {
+            width: 100,
+            height: 100,
+          },
+          text: "your code here!",
+          subtype: "html",
+        },
+      },
+
       template: {
         icon: <WindowIcon />,
         action: "modal",
         selector: "template",
         label: "Template",
       },
-      diffusion: {
-        icon: <ImageIcon />,
-        label: "Stable Diffusion Image",
-        action: "add",
-        object: {
-          type: "diffusion",
-          size: {
-            width: 512,
-            height: 512,
-          },
-          imageUri:
-            "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K",
-        },
+      ethereum: {
+        icon: <SmartContractIcon />,
+        label: "Contract",
+        action: "modal",
+        selector: "eth",
       },
+
+      // diffusion: {
+      //   icon: <ImageIcon />,
+      //   label: "Stable Diffusion Image",
+      //   action: "add",
+      //   object: {
+      //     type: "diffusion",
+      //     size: {
+      //       width: 512,
+      //       height: 512,
+      //     },
+      //     imageUri:
+      //       "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K",
+      //   },
+      // },
     },
   },
 

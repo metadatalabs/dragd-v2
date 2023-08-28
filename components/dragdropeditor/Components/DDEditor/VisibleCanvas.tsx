@@ -123,6 +123,11 @@ export default function VisibleCanvas(props) {
         setDragging(false);
       }}
     >
+      <style>
+        {`[data-theme=${items["style"]?.theme}] {
+        // --p: 10 40% 40%;
+        }`}
+      </style>
       <div
         style={{ transform: `scale(${pageWidth ? getMobileScaleRatio() : 1})` }}
       >

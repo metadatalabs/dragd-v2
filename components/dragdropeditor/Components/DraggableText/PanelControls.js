@@ -29,14 +29,14 @@ export default function PanelControls({ id }) {
         tabs={[
           <>
             Text Block
-            <textarea
+            {/* <textarea
               rows={4}
               className={"ring-1 rounded-md p-1 my-2"}
               value={elemData?.text}
               onChange={(e) => {
                 onLocalUpdate({ text: e.target.value });
               }}
-            />
+            /> */}
             <table style={{ margin: 2 }}>
               <tr>
                 <td className={"w-2/6 text-sm py-3"}>Font</td>

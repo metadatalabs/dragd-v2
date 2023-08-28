@@ -55,7 +55,7 @@ export default function ColorPicker({ color, onChange, onClose }) {
             <button
               className="btn btn-sm btn-ghost"
               onClick={() => {
-                onChange("transparent");
+                onChange(undefined);
               }}
             >
               Clear

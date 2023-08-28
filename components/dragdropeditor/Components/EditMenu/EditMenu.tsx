@@ -25,8 +25,7 @@ export default function Menu({ selected }) {
       <FloatingPanel isMinimized={isMinimized} setMinimized={setMinimized}>
         <NestedMenu
           buttonData={defaultButtons}
-          addItemToList={siteData.addItemToList}
-          parentSelected={selected.length == 0 ? null : selected}
+          parentSelected={selected}
           setMinimized={setMinimized}
           setParentSelected={setSelected}
         />
@@ -37,73 +36,83 @@ export default function Menu({ selected }) {
 
 function NestedMenu({
   buttonData,
-  addItemToList,
   parentSelected,
   setParentSelected = null,
   setMinimized = null,
+  depth = 0,
 }) {
-  const [selected, setSelected] = useState(null);
-  const [selector, setSelector] = useState(null);
-  const siteData = useContext(SiteContext);
-
   const {
-    items,
-    controlPanel,
+    addItemToList,
     setControlPanel,
     setSelected: setSelectedItem,
-  } = siteData;
+    controlPanel,
+  } = useContext(SiteContext);
+
+  const [selected, setSelected] = useState(null);
+  const [selector, setSelector] = useState(null);
+
   useEffect(() => {
     setSelected(null);
     setSelector(null);
   }, [parentSelected]);
 
   useEffect(() => {
-    setSelector(null);
+    if (selected) {
+      setSelector(null);
+      setControlPanel(null);
+    }
   }, [selected]);
 
   useEffect(() => {
-    setControlPanel(null);
+    if (selector) {
+      setSelected(null);
+      setControlPanel(null);
+    }
   }, [selector]);
 
   return (
     <>
-      <div className="h-8 flex items-center justify-between">
-        <div
-          className={"cursor-pointer w-6 pl-1/2 hover:bg-gray-200 rounded-full"}
-          style={{ pointerEvents: "all" }}
-          onClick={() => {
-            setParentSelected?.(null);
-            setSelector(null);
-            setSelectedItem("bg");
-          }}
-        >
-          {`←`}
-        </div>
-        <div>
+      {depth == 0 && (
+        <div className="h-8 flex items-center justify-between">
           <div
             className={
-              "cursor-pointer w-5 px-1 mr-1 hover:bg-gray-200 rounded-full"
+              "cursor-pointer w-6 pl-1/2 hover:bg-gray-200 rounded-full"
             }
             style={{ pointerEvents: "all" }}
-            onClick={() => setMinimized(true)}
+            onClick={() => {
+              setParentSelected?.(null);
+              setSelector(null);
+              setSelectedItem("bg");
+            }}
           >
-            <CloseIcon />
+            {`←`}
+          </div>
+          <div>
+            <div
+              className={
+                "cursor-pointer w-5 px-1 mr-1 hover:bg-gray-200 rounded-full"
+              }
+              style={{ pointerEvents: "all" }}
+              onClick={() => setMinimized(true)}
+            >
+              -
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* stack of menus */}
       <div className="flex flex-row" onMouseDown={(e) => e.stopPropagation()}>
-        <div className="flex flex-col bg-slate-500/10 max-h-[72vh] overflow-y-auto">
+        <div className="flex flex-col bg-slate-500/10 max-h-[72vh]">
           {/* child menu in the stack */}
 
           {/* menu */}
-          {selected != null && (
+          {selected && (
             <NestedMenu
               buttonData={selected}
-              addItemToList={addItemToList}
               parentSelected={selected}
               setParentSelected={setSelected}
+              depth={depth + 1}
             />
           )}
 
@@ -115,7 +124,7 @@ function NestedMenu({
           )}
 
           {/* control panel */}
-          {Array.isArray(parentSelected) && (
+          {Array.isArray(parentSelected) && parentSelected.length == 1 && (
             <div className="flex flex-grow px-3 text-left max-h-full">
               {controlPanel}
             </div>
@@ -123,7 +132,7 @@ function NestedMenu({
         </div>
         <div className="flex flex-col">
           {/* parent menu in the stack */}
-          <ul className="menu bg-base-100 rounded-box">
+          <ul className="menu bg-base-100 p-0">
             {Object.entries(buttonData).map((item) => {
               return (
                 <AddButton
@@ -155,7 +164,7 @@ function FloatingPanel({ children, style = null, isMinimized, setMinimized }) {
   return (
     <div
       className={
-        "flex flex-col card bg-base-100 outline transition-all max-w-[90vw] max-h-[75vh]"
+        "flex flex-col card bg-base-300 outline transition-all max-w-[90vw] max-h-[75vh]"
       }
       onMouseDown={(e) => {
         setDragging(true);

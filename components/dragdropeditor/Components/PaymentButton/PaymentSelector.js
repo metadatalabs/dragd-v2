@@ -13,16 +13,14 @@ export function PaymentSelector(props) {
   return (
     <>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div className="form-control w-full -mt-4 mb-2">
-          <label className="label">
-            <span className="label-text">Enter payment address</span>
-          </label>
-          <label className="input-group w-full">
+        <div className="w-full -mt-4 mb-2 ">
+          <div className="card-title text-md">Enter wallet address</div>
+          <div className="join w-full py-2">
             <input
               type="text"
               placeholder="0xbb8d...."
               style={{ fontFamily: "Courier New" }}
-              className={`input input-bordered grow ${
+              className={`input input-bordered grow join-item ${
                 isValidWallet ? "text-green-500" : "text-red-500"
               }`}
               ref={inputRef}
@@ -33,7 +31,7 @@ export function PaymentSelector(props) {
               }}
             />
             <button
-              className={"btn btn-square"}
+              className={"btn btn-square join-item"}
               disabled={isValidWallet ? false : true}
               onClick={() => {
                 props.addItemToList({
@@ -47,9 +45,10 @@ export function PaymentSelector(props) {
                 props.close();
               }}
             >
-              Add
+              →
             </button>
-          </label>
+          </div>
+          <p className="text-sm">You will receive payments on this address.</p>
         </div>
       </div>
     </>

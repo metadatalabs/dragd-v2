@@ -162,19 +162,28 @@ function BCDragDrop({
         setSelectedItems={setSelected}
         setPressedKeys={setPressedKeys}
       >
-        {Object.keys(items).map((key) => {
-          var elem = items[key];
-          if (elem.pos?.y + elem.size?.height / 2 > pageHeight) {
-            setPageHeight(elem.pos.y + elem.size?.height / 2);
-          }
-          return (
-            <ComponentSelector
-              elem={elem}
-              key={key + "_component"}
-              selected={selected}
-            />
-          );
-        })}
+        {Object.keys(items)
+          .sort((a, b) => {
+            var elemA = items[a];
+            var elemB = items[b];
+            if (elemA.pos?.y == elemB.pos?.y) {
+              return elemA.pos?.x - elemB.pos?.x;
+            }
+            return elemA.pos?.y - elemB.pos?.y;
+          })
+          .map((key) => {
+            var elem = items[key];
+            if (elem.pos?.y + elem.size?.height / 2 > pageHeight) {
+              setPageHeight(elem.pos.y + elem.size?.height / 2);
+            }
+            return (
+              <ComponentSelector
+                elem={elem}
+                key={key + "_component"}
+                selected={selected}
+              />
+            );
+          })}
       </VisibleCanvas>
 
       <VisibleEditor

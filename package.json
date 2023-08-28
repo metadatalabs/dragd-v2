@@ -23,7 +23,7 @@
     "@types/node": "^18.15.5",
     "@types/react": "^18.0.28",
     "concurrently": "^7.6.0",
-    "daisyui": "^2.51.5",
+    "daisyui": "^3.6.1",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
     "ethers": "^5.7.2",

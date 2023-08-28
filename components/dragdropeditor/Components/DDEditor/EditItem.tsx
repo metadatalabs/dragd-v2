@@ -356,7 +356,7 @@ const Rect = React.forwardRef(({ elemData, ...props }: any, ref) => {
         width: (size?.width || 50) + "px",
         height: (size?.height || 50) + "px",
         textAlign: "center",
-        border: selected && "1px solid black",
+        border: selected && "1px dashed black",
         userSelect: mode == EditorModes.EDIT ? "none" : undefined,
       }}
       {...props}

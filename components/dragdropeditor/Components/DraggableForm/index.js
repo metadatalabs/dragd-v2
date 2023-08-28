@@ -1,73 +1,119 @@
-// import React, { useState, useRef, useContext, useEffect } from 'react';
-// import EditItem from '../DDEditor/EditItem';
+import React, { useContext, useState } from "react";
+import SiteContext from "../../siteContext";
+import EditItem from "../DDEditor/EditItem";
+import StylePanelControls, { TabSwitcher } from "../EditMenu/StyleControlPanel";
 
-// import { useForm, useFieldArray, Controller } from "react-hook-form";
-// import FormTest from './FormEditor';
-// import SiteContext from '../../siteContext';
+function PanelControls({ id }) {
+  const { items, onUpdateDiv } = useContext(SiteContext);
+  const elemData = items[id];
+  const { form, submitEmail } = elemData;
+  const onLocalUpdate = (newProps) => onUpdateDiv(elemData.id, newProps);
 
-// const defaultTextSize = 24;
+  return (
+    <TabSwitcher
+      tabs={[
+        <>
+          <div className="flex flex-col">
+            <div>Form</div>
+            <div className="flex flex-col gap-y-2">
+              {form?.inputs.map((input, index) => {
+                return (
+                  <div>
+                    <input
+                      className="input input-bordered input-sm max-w-full"
+                      placeholder={"Field Name"}
+                      value={input.label}
+                      onChange={(e) => {
+                        var newInputs = form?.inputs || [];
+                        newInputs[index].label = e.target.value;
+                        onLocalUpdate({ form: { inputs: newInputs } });
+                      }}
+                    ></input>
+                  </div>
+                );
+              })}
 
-// function DraggableForm(props) {
-//     const { elemData, selected } = props;
+              <button
+                className="btn btn-sm btn-outline"
+                onClick={() => {
+                  var newField = {
+                    type: "text",
+                    name: "name",
+                    label: "Name",
+                    required: true,
+                  };
+                  var oldInputs = form?.inputs || [];
+                  onLocalUpdate({
+                    form: { inputs: [...oldInputs, newField] },
+                  });
+                }}
+              >
+                Add Field
+              </button>
 
-//     const siteData = useContext(SiteContext);
-//     const {
-//         setSelected: onSelect,
-//         mode,
-//         setModal,
-//     } = siteData;
+              <input
+                className="input input-bordered input-sm max-w-full"
+                placeholder={"Submission Email"}
+                value={submitEmail}
+                onChange={(e) => {
+                  onLocalUpdate({ submitEmail: e.target.value });
+                }}
+              ></input>
+            </div>
+          </div>
+        </>,
+        <StylePanelControls id={id} />,
+      ]}
+      tabicons={["Properties", "Style"]}
+    />
+  );
+}
 
-//     const onLocalUpdate = (newProps) => siteData.onUpdateDiv(elemData.id, newProps);
+function DraggableForm(props) {
+  const { elemData, selected } = props;
+  const { form, submitEmail } = elemData;
+  const siteData = useContext(SiteContext);
+  const { setSelected: onSelect, onUpdateDiv: onUpdated, mode } = siteData;
 
-//     function setForm(value) {
-//         onLocalUpdate({ formInputs: value });
-//     }
-//     let renderCount = 0;
+  return (
+    <>
+      <EditItem
+        elemData={elemData}
+        onSelect={onSelect}
+        onUpdated={onUpdated}
+        selected={props.selected}
+        renderPanel={PanelControls}
+        mode={mode}
+      >
+        <form
+          action={`https://formsubmit.co/${submitEmail}`}
+          method="POST"
+          style={{
+            ...elemData.style,
+          }}
+        >
+          <div className="flex flex-col gap-y-2">
+            {form?.inputs?.map((input) => {
+              return (
+                <input
+                  className="input input-bordered input-sm max-w-full"
+                  placeholder={input.label}
+                  type={input.type}
+                  name={input.name}
+                  required={input.required}
+                ></input>
+              );
+            })}
+          </div>
+          <div className="w-full py-2">
+            <button className="btn btn-sm btn-primary w-full" type="submit">
+              Send
+            </button>
+          </div>
+        </form>
+      </EditItem>
+    </>
+  );
+}
 
-//     function PanelControls() {
-//         return (
-//             <>
-//                 <button
-//                     onClick={() => {
-//                         setModal(
-//                             <>
-//                             <FormTest
-//                             id={elemData.id}
-//                             fields={elemData.formInputs}
-//                             onSave={(form)=>{
-//                                 setForm(form);
-//                                 setModal(null);
-//                             }}/>
-//                             </>
-//                         );
-//                     }}
-//                 >
-//                     Edit Form
-//                 </button>
-
-//                 <div style={{ padding: 2 }} />
-//             </>
-//         );
-//     }
-
-//     return (
-//         <>
-//             <EditItem
-//                 elemData={elemData}
-//                 onSelect={onSelect}
-//                 onUpdated={onUpdated}
-//                 selected={props.selected}
-//                 renderPanel={PanelControls}
-//                 mode={mode}
-//             >
-//                 <FormTest 
-//                     id={elemData.id}
-//                     fields={elemData.formInputs}
-//                 />
-//             </EditItem>
-//         </>
-//     );
-// }
-
-    
-// export default DraggableForm;
+export default DraggableForm;
