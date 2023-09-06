@@ -128,6 +128,7 @@ const whitelistedAccountDomains = {
     "loveposters.eth",
     "nounshack.eth",
     "milady.eth",
+    "remichan.eth",
     "ideacoe.eth",
     "willsolanamakeit",
     "oldmanali",
