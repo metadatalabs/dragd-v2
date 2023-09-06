@@ -164,12 +164,14 @@ function BCDragDrop({
       >
         {Object.keys(items)
           .sort((a, b) => {
-            var elemA = items[a];
-            var elemB = items[b];
-            if (elemA.pos?.y == elemB.pos?.y) {
-              return elemA.pos?.x - elemB.pos?.x;
+            var elemA = items[a].pos?.y || 0;
+            var elemB = items[b].pos?.y || 0;
+
+            if (elemA == elemB) {
+              return items[a].pos?.x - items[b].pos?.x;
             }
-            return elemA.pos?.y - elemB.pos?.y;
+
+            return elemA - elemB;
           })
           .map((key) => {
             var elem = items[key];

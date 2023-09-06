@@ -27,7 +27,7 @@ export default function Omnibar(props) {
       setModal(<TemplateModal site={siteData} onComplete={setModal} />);
     };
 
-    if (siteData && !siteData._id) globalThis.showTemplatePicker();
+    // if (siteData && !siteData._id) globalThis.showTemplatePicker();
   }, [props?.currentPath]);
   console.log(currentPath);
   if (!isReady) return null;
