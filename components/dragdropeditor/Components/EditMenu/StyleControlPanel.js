@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { SliderWithInput } from "../../helpers/helper";
+import { SliderWithInput, StyleToggleButton } from "../../helpers/helper";
 import ColorPicker from "../../helpers/ui/ColorPicker";
 import SiteContext from "../../siteContext";
 import {
@@ -8,6 +8,8 @@ import {
   IconSquareOpacity,
 } from "../DDEditor/EditorIcons";
 import { FloatingCard } from "../../helpers/ui/ImagePicker";
+import FontPicker from "../../helpers/ui/FontPicker";
+import FontStyle from "../../helpers/ui/FontStyle";
 
 export default function StylePanelControls({ id }) {
   const { items, onUpdateDiv } = useContext(SiteContext);
@@ -167,10 +169,18 @@ export default function StylePanelControls({ id }) {
         </>
       ),
     },
+    {
+      label: "Font",
+      control: (
+        <>
+          <FontStyle id={elemData.id} />
+        </>
+      ),
+    },
   ];
 
   return (
-    <>
+    <div key={id}>
       <div key={id} className={"font-semibold"}>
         Style
       </div>
@@ -194,7 +204,7 @@ export default function StylePanelControls({ id }) {
         })}
       </div>
       {/* <div>OpacityPaddingRadiusBlurBorderShadow</div> */}
-    </>
+    </div>
   );
 }
 

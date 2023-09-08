@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext, useEffect } from "react";
+import React, { useState, useRef, useContext, useEffect, use } from "react";
 import dynamic from "next/dynamic";
 import EditItem from "../DDEditor/EditItem";
 import SiteContext from "../../siteContext";
@@ -45,7 +45,6 @@ function DraggableText(props) {
         <EditableDiv
           value={elemData.text}
           id={elemData.id}
-          contentEditable={props.selected}
           key={elemData.id + "-" + elemData.fontSize + "-"}
           selected={selected && siteData.selected?.length == 1}
           onChange={(text) => {
@@ -76,7 +75,6 @@ function EditableDiv(props) {
   const {
     value,
     id,
-    contentEditable,
     onChange,
     style,
     selected,
@@ -88,14 +86,15 @@ function EditableDiv(props) {
   const inputValue = useRef(value);
 
   useEffect(() => {
-    if (isEditorFocused) {
-      inputRef.current.focus();
+    if (!selected) {
+      setIsEditorFocused(false);
+      inputValue.current = value;
     }
-  }, [isEditorFocused]);
+  }, [selected]);
 
   useEffect(() => {
-    if (!selected) setIsEditorFocused(false);
-  }, [selected]);
+    inputRef.current.innerHTML = value;
+  }, [value]);
 
   function onPaste(e) {
     e.preventDefault();
@@ -107,41 +106,38 @@ function EditableDiv(props) {
     if (selected) {
       setStartPos(getInputCoordinatesFromEvent(e));
     }
+    if (isEditorFocused) {
+      e.stopPropagation();
+    }
   };
 
   const onMouseUp = (e) => {
     const { x: xPos, y: yPos } = getInputCoordinatesFromEvent(e);
-    if (startPos && startPos?.x === xPos && startPos?.y === yPos)
+    if (selected && startPos && startPos?.x === xPos && startPos?.y === yPos) {
       setIsEditorFocused(true);
+    }
     setStartPos(undefined);
   };
 
   return (
     <>
-      {!isEditorFocused && (
-        <div
-          key={"not-selected-" + id}
-          style={{ ...style, height: "100%" }}
-          dangerouslySetInnerHTML={{ __html: value }}
-          onMouseDown={onMouseDown}
-          onMouseUp={onMouseUp}
-          onTouchStart={onMouseDown}
-          onTouchEnd={onMouseUp}
-        ></div>
-      )}
-      {isEditorFocused && (
+      {
         <div
           key={"selected-" + id}
           ref={inputRef}
           style={{ cursor: "cursor", ...style, height: "100%" }}
+          onMouseDown={onMouseDown}
+          onMouseUp={onMouseUp}
+          onTouchStart={onMouseDown}
+          onTouchEnd={onMouseUp}
           onPaste={onPaste}
-          contentEditable={contentEditable}
+          contentEditable={selected && isEditorFocused}
           onInput={() => onChange(inputRef.current.innerHTML)}
           dangerouslySetInnerHTML={{ __html: inputValue.current }}
         >
           {/* {text} */}
         </div>
-      )}
+      }
     </>
   );
 }
