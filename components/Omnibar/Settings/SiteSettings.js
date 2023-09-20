@@ -43,7 +43,7 @@ export const DeployToIpfs = ({ siteData }) => {
   return (
     <>
       <div className="w-full">
-        <div className="grid md:grid-cols-2 gap-2 m-2 text-left">
+        <div className="grid md:grid-cols-2 gap-2 text-left">
           <div className="card card-compact border bg-base-200">
             <div className="card-body">
               <div className="flex justify-between items-center">

@@ -54,6 +54,7 @@ export default function PageSettingsModal({ siteData, onComplete }) {
           <div className={"flex flex-col items-center space-y-2"}>
             <NameUpdater siteData={siteData} />
             <ChangeTheme />
+            <AccessControls />
             <HeadUpdater siteData={siteData} />
             <DevTools siteData={siteData} />
           </div>
@@ -62,8 +63,8 @@ export default function PageSettingsModal({ siteData, onComplete }) {
 
       {page == pages[1] && (
         <>
-          <div className="alert shadow-xs p-2 text-xs">
-            <div>
+          <div className="alert shadow-xs p-2 text-xs mb-2">
+            <div className="flex flex-row">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -77,7 +78,7 @@ export default function PageSettingsModal({ siteData, onComplete }) {
                   d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 ></path>
               </svg>
-              <span>
+              <span className="pl-2">
                 Site settings affect all pages under <b>{siteData.siteName}</b>
               </span>
             </div>
@@ -148,9 +149,6 @@ const HeadUpdater = ({ siteData }) => {
 const ChangeTheme = () => {
   return (
     <>
-      <label className="label w-full">
-        <span className="label-text text-lg">Page Template</span>
-      </label>{" "}
       <button
         className="btn btn-sm btn-ghost btn-outline"
         onClick={() => {
@@ -160,6 +158,81 @@ const ChangeTheme = () => {
         Choose a new template
       </button>
     </>
+  );
+};
+
+const accessModes = ["public", "private", "gated"];
+const AccessControls = () => {
+  const [access, setAccess] = useState("public");
+  return (
+    <>
+      <label className="label w-full">
+        <span className="label-text text-lg">Access Control</span>
+      </label>{" "}
+      <div className="w-full">
+        {accessModes.map((item) => {
+          return (
+            <AccessOptions
+              value={item}
+              access={access}
+              onChange={(value) => {
+                setAccess(value);
+              }}
+            />
+          );
+        })}
+      </div>
+    </>
+  );
+};
+
+const AccessOptions = ({ access, value, onChange }) => {
+  return (
+    <div
+      className={"card border rounded flex flex-col p-2 my-2"}
+      key={value}
+      onClick={(e) => {
+        if (value == access) return;
+        e.preventDefault();
+        e.stopPropagation();
+        onChange(value);
+      }}
+    >
+      <div className={"flex flex-row"}>
+        <input
+          type="radio"
+          name={"access"}
+          value={value}
+          checked={value == access}
+          onClick={(e) => {
+            if (value == access) return;
+
+            e.stopPropagation(); // Prevent the event from bubbling up
+            onChange(value);
+          }}
+        />
+        <div className={"flex px-2 capitalize text-left  text-slate-600"}>
+          <label className={"font-bold w-14"}>{value}</label>
+          <label className={"text-slate-600/50"}>
+            {value == "public"
+              ? "Anyone can view this page."
+              : value == "private"
+              ? "Only you can view this page."
+              : "Set custom access controls."}
+          </label>
+        </div>
+      </div>
+      {value == "gated" && access == "gated" && (
+        <div className="flex flex-col align-start">
+          <label className="label">ERC721 Address</label>
+          <input
+            className="input input-sm input-bordered"
+            placeholder="0x..."
+            type="text"
+          />
+        </div>
+      )}
+    </div>
   );
 };
 

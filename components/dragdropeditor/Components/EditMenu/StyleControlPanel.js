@@ -3,6 +3,7 @@ import { SliderWithInput, StyleToggleButton } from "../../helpers/helper";
 import ColorPicker from "../../helpers/ui/ColorPicker";
 import SiteContext from "../../siteContext";
 import {
+  CloseIcon,
   IconCornerBottomRight,
   IconPadding,
   IconSquareOpacity,
@@ -16,11 +17,10 @@ export default function StylePanelControls({ id }) {
   const elemData = items[id];
   const onLocalUpdate = (newProps) => onUpdateDiv(elemData.id, newProps);
 
-  const [editBorder, setEditBorder] = useState(false);
-
   const ControlList = [
     {
-      label: "Background",
+      label: "Background Color",
+      image: <b>BG</b>,
       control: (
         <ColorPicker
           color={elemData.style?.backgroundColor || "transparent"}
@@ -87,121 +87,42 @@ export default function StylePanelControls({ id }) {
     },
     {
       label: "Border",
-      control: (
-        <>
-          <label
-            tabIndex={0}
-            className="btn btn-sm m-1"
-            onClick={() => {
-              setEditBorder(!editBorder);
-            }}
-          >
-            Edit Border
-          </label>
-          {editBorder && (
-            <FloatingCard>
-              Edit Border
-              <div
-                className="p-2 w-52"
-                onMouseDown={(e) => {
-                  e.stopPropagation();
-                }}
-              >
-                <ColorPicker
-                  color={elemData.style?.borderColor || "transparent"}
-                  onChange={(color) => {
-                    onLocalUpdate({
-                      style: { ...elemData.style, borderColor: `${color}` },
-                    });
-                  }}
-                />
-                <SliderWithInput
-                  value={elemData.style?.borderWidth || 0}
-                  onChange={(value) => {
-                    onLocalUpdate({
-                      style: { ...elemData.style, borderWidth: value + "px" },
-                    });
-                  }}
-                  min={0}
-                  max={32}
-                  step={1}
-                  symbol={"px"}
-                />
-                <ul>
-                  {["solid", "dotted", "dashed"].map((item) => {
-                    return (
-                      <li
-                        className={
-                          "h-6 m-1 rounded-sm flex flex-col justify-center bg-base-200 hover:bg-base-300"
-                        }
-                      >
-                        <a
-                          onClick={() => {
-                            onLocalUpdate({
-                              style: {
-                                borderColor: "black",
-                                ...elemData.style,
-                                borderStyle: item,
-                              },
-                            });
-                          }}
-                        >
-                          <div
-                            className={"w-full"}
-                            style={{
-                              borderColor:
-                                elemData.style?.borderColor || "transparent",
-                              borderWidth: elemData.style?.borderWidth || 0,
-                              borderStyle: item,
-                              borderBottom: "none",
-                              borderLeft: "none",
-                              borderRight: "none",
-                            }}
-                          ></div>
-                        </a>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            </FloatingCard>
-          )}
-        </>
-      ),
-    },
-    {
-      label: "Font",
-      control: (
-        <>
-          <FontStyle id={elemData.id} />
-        </>
-      ),
+      control: <></>,
     },
   ];
 
   return (
     <div key={id}>
-      <div key={id} className={"font-semibold"}>
+      <div key={id} className={"font-semibold text-center"}>
         Style
       </div>
 
-      {/* backround */}
       <div>
-        {ControlList.map((eachChild) => {
-          return (
-            <div
-              key={id + "-" + eachChild}
-              className="flex flex-row py-1 items-center"
-            >
-              <div className="w-1/6 text-xs">
-                <div className="tooltip" data-tip={eachChild.label}>
-                  {eachChild.image && eachChild.image}
+        <div className="flex flex-row items-center justify-center">
+          <FontStyle id={elemData.id} />
+
+          <BorderStyle elemData={elemData} onLocalUpdate={onLocalUpdate} />
+        </div>
+
+        <div class="grid gap-1 md:grid-cols-2">
+          {ControlList.map((eachChild) => {
+            return (
+              <div
+                key={id + "-" + eachChild}
+                className="flex flex-row items-center"
+              >
+                <div className="w-6 text-xs">
+                  <div className="tooltip" data-tip={eachChild.label}>
+                    {eachChild.image && eachChild.image}
+                  </div>
+                </div>
+                <div className="flex flex-row items-center">
+                  {eachChild.control}
                 </div>
               </div>
-              <div className="w-5/6">{eachChild.control}</div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
       {/* <div>OpacityPaddingRadiusBlurBorderShadow</div> */}
     </div>
@@ -218,7 +139,9 @@ export const TabSwitcher = ({ tabs, tabicons, color = "green" }) => {
           return (
             <a
               key={"tab-" + index}
-              className={` tab  ${activeTab === index ? "tab-active" : ""}`}
+              className={` tab tab-sm ${
+                activeTab === index ? "tab-active" : ""
+              }`}
               onClick={() => setActiveTab(index)}
             >
               {tabicons[index]}
@@ -226,6 +149,120 @@ export const TabSwitcher = ({ tabs, tabicons, color = "green" }) => {
           );
         })}
       </div>
+    </div>
+  );
+};
+
+const BorderStyle = ({ elemData, onLocalUpdate }) => {
+  const [editBorder, setEditBorder] = useState(false);
+
+  return (
+    <div>
+      <label
+        tabIndex={0}
+        className="btn btn-sm m-1"
+        onClick={() => {
+          setEditBorder(!editBorder);
+        }}
+      >
+        Edit Border
+      </label>
+      {editBorder && (
+        <FloatingCard>
+          <div className="flex flex-row justify-between w-full">
+            <span>Edit Border</span>
+            <CloseIcon
+              className="w-5 h-5 active:scale-90 transition-all"
+              onClick={(e) => {
+                setEditBorder(false);
+                e.stopPropagation();
+              }}
+            />
+          </div>
+          <div
+            className="p-2 w-52"
+            onMouseDown={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <div className="flex md:flex-row justify-between">
+              <ColorPicker
+                color={elemData.style?.borderColor || "transparent"}
+                onChange={(color) => {
+                  onLocalUpdate({
+                    style: { ...elemData.style, borderColor: `${color}` },
+                  });
+                }}
+              />
+              <SliderWithInput
+                value={elemData.style?.borderWidth || 0}
+                onChange={(value) => {
+                  onLocalUpdate({
+                    style: { ...elemData.style, borderWidth: value + "px" },
+                  });
+                }}
+                min={0}
+                max={32}
+                step={1}
+                symbol={"px"}
+              />
+            </div>
+            <ul>
+              {["solid", "dotted", "dashed"].map((item) => {
+                return (
+                  <li
+                    className={
+                      "h-6 m-1 rounded-sm flex flex-col justify-center bg-base-200 hover:bg-base-300"
+                    }
+                  >
+                    <a
+                      onClick={() => {
+                        onLocalUpdate({
+                          style: {
+                            borderColor: "black",
+                            ...elemData.style,
+                            borderStyle: item,
+                          },
+                        });
+                      }}
+                    >
+                      <div
+                        className={"w-full"}
+                        style={{
+                          borderColor:
+                            elemData.style?.borderColor || "transparent",
+                          borderWidth: elemData.style?.borderWidth || 0,
+                          borderStyle: item,
+                          borderBottom: "none",
+                          borderLeft: "none",
+                          borderRight: "none",
+                        }}
+                      ></div>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+
+            <div className="flex flex-row justify-center">
+              <button
+                className="btn btn-sm btn-warning"
+                onClick={() =>
+                  onLocalUpdate({
+                    style: {
+                      borderColor: undefined,
+                      borderWidth: undefined,
+                      borderStyle: undefined,
+                    },
+                  })
+                }
+              >
+                Remove Border
+              </button>
+            </div>
+          </div>
+        </FloatingCard>
+      )}
     </div>
   );
 };

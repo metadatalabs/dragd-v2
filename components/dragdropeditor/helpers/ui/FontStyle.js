@@ -9,6 +9,7 @@ import StylePanelControls, {
   TabSwitcher,
 } from "../../Components/EditMenu/StyleControlPanel";
 import {
+  CloseIcon,
   IconAlignCenter,
   IconAlignLeft,
   IconAlignRight,
@@ -40,7 +41,16 @@ export default function FontStyle({ id }) {
       </label>
       {editFont && (
         <FloatingCard>
-          Edit Font
+          <div className="flex flex-row justify-between w-full">
+            <span>Edit Font</span>
+            <CloseIcon
+              className="w-5 h-5 active:scale-90 transition-all"
+              onClick={(e) => {
+                setEditFont(false);
+                e.stopPropagation();
+              }}
+            />
+          </div>{" "}
           <div
             className="p-2 w-52"
             onMouseDown={(e) => {

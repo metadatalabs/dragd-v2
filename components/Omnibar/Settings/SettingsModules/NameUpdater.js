@@ -31,9 +31,6 @@ export default function NameUpdater({ siteData }) {
   return (
     <>
       <div className="w-full">
-        <label className="label w-full">
-          <span className="label-text text-lg">Page URL</span>
-        </label>
         <label className="input-group input-group-sm flex flex-row justify-center">
           <span className="input input-bordered input-sm">
             {GetShortenedString(siteData.siteName, 10)}/

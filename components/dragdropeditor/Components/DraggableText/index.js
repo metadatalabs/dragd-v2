@@ -93,7 +93,7 @@ function EditableDiv(props) {
   }, [selected]);
 
   useEffect(() => {
-    inputRef.current.innerHTML = value;
+    if (inputRef.current.innerHTML != value) inputRef.current.innerHTML = value;
   }, [value]);
 
   function onPaste(e) {

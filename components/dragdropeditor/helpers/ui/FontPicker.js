@@ -26,17 +26,36 @@ export default function FontPicker({ style, onChange, onClose }) {
             cursor: "pointer",
           }}
         >
-          <div
-            className={`rounded w-4 h-4 border-2 border-primary`}
-            // style={{ backgroundColor: color }}
-          ></div>
+          <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+          <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossorigin
+          ></link>
+          <link
+            href={`https://fonts.googleapis.com/css2?family=${style?.fontFamily
+              ?.split(" ")
+              .join("+")}&display=swap`}
+            rel="stylesheet"
+          ></link>
+          <span
+            style={{
+              fontFamily: style?.fontFamily,
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {style?.fontFamily}
+          </span>
           <DownChevron />
         </div>
         {selected && (
           <FloatingCard>
             Font Picker
             <div
-              className={"p-2"}
+              className={
+                "p-2 flex flex-col max-h-64 overflow-y-auto items-center"
+              }
               style={{
                 width: 220,
               }}
@@ -47,7 +66,7 @@ export default function FontPicker({ style, onChange, onClose }) {
               {fontList.map((font) => {
                 return (
                   <button
-                    className="w-44"
+                    className="btn btn-sm btn-ghost w-44 whitespace-nowrap"
                     onClick={async () => {
                       // await signOut();
                       onChange({ fontFamily: font });
@@ -74,7 +93,7 @@ export default function FontPicker({ style, onChange, onClose }) {
               })}
             </div>
             <button
-              className="btn btn-sm btn-ghost"
+              className="btn btn-sm btn-error"
               onClick={() => {
                 onChange({ fontFamily: null });
               }}

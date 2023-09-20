@@ -212,6 +212,20 @@ export const SliderWithInput = ({
   return (
     <>
       <div className={"flex flex-row items-center p-1"}>
+        <input
+          id="steps-range"
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={
+            (value?.replace && value.replace(/[^0-9.]/g, "")) || defaultValue
+          }
+          onChange={(e) => {
+            onChange(e.target.value);
+          }}
+          class="range range-xs mx-2 w-8"
+        />
         <div className="form-control text-xs">
           <label className="input-group">
             <input
@@ -228,20 +242,6 @@ export const SliderWithInput = ({
             <span className="w-4 p-0">{symbol}</span>
           </label>
         </div>
-        <input
-          id="steps-range"
-          type="range"
-          min={min}
-          max={max}
-          step={step}
-          value={
-            (value?.replace && value.replace(/[^0-9.]/g, "")) || defaultValue
-          }
-          onChange={(e) => {
-            onChange(e.target.value);
-          }}
-          class="range range-xs mx-2"
-        />
       </div>
     </>
   );

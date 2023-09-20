@@ -10,6 +10,7 @@ import {
   EditIcon,
   HelpIcon,
   SaveIcon,
+  CloseIcon,
 } from "./EditorIcons";
 export default function VisibleEditor(props) {
   if (props.immutable) return <></>;
@@ -184,14 +185,14 @@ export default function VisibleEditor(props) {
             ) : (
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <PanelButton onClick={showHelp} data-tip="Help Center">
-                  <HelpIcon />
+                  <HelpIcon className="w-6 h-6" />
                 </PanelButton>
                 <div style={{ padding: 5 }}></div>
                 <PanelButton
                   onClick={props.onDiscardClicked}
                   data-tip="Discard changes"
                 >
-                  X
+                  <CloseIcon className="w-3 h-5" />
                 </PanelButton>
                 <div style={{ padding: 5 }}></div>
                 <PanelButton onClick={props.onSaveClicked}>
@@ -207,7 +208,10 @@ export default function VisibleEditor(props) {
 }
 
 const PanelButton = (props) => (
-  <button className="btn tooltip flex flex-row pointer-events-auto" {...props}>
+  <button
+    className="btn btn-sm tooltip flex flex-row pointer-events-auto shadow"
+    {...props}
+  >
     {props.children}
   </button>
 );

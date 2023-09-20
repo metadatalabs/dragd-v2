@@ -18,7 +18,7 @@ import {
 
 const defaultButtons = {
   text: {
-    icon: <div className={"font-bold text-xl"}>Aa</div>,
+    icon: <div className={"font-bold text-md text-black"}>Aa</div>,
     label: "Text",
     action: "add",
     object: {
