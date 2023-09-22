@@ -72,8 +72,8 @@ function NestedMenu({
 
   return (
     <>
-      <div className="h-8 flex items-center justify-center">
-        {depth > 0 && (
+      {depth == 0 && (
+        <div className="h-6 flex items-center justify-between">
           <div
             className={
               "cursor-pointer w-6 pl-1/2 hover:bg-gray-200 rounded-full"
@@ -87,25 +87,29 @@ function NestedMenu({
           >
             {`←`}
           </div>
-        )}
-        {depth == 0 && (
-          <div>
-            <div
-              className={
-                "cursor-pointer w-5 px-1 mr-1 hover:bg-gray-200 rounded-full"
-              }
-              style={{ pointerEvents: "all" }}
-              onClick={() => setMinimized(true)}
-            >
-              -
+
+          {depth == 0 && (
+            <div>
+              <div
+                className={
+                  "cursor-pointer w-5 px-1 mr-1 hover:bg-gray-200 rounded-full"
+                }
+                style={{ pointerEvents: "all" }}
+                onClick={() => setMinimized(true)}
+              >
+                -
+              </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
 
       {/* stack of menus */}
-      <div className="flex flex-row" onMouseDown={(e) => e.stopPropagation()}>
-        <div className="flex flex-col max-h-[72vh] bg-base-300">
+      <div
+        className="flex flex-row justify-center"
+        onMouseDown={(e) => e.stopPropagation()}
+      >
+        <div className="flex flex-col max-h-[72vh]">
           {/* child menu in the stack */}
 
           {/* menu */}
@@ -134,7 +138,7 @@ function NestedMenu({
         </div>
         <div className="flex flex-col">
           {/* parent menu in the stack */}
-          <ul className="menu glass p-0">
+          <ul className="menu p-0 pb-1">
             {Object.entries(buttonData).map((item) => {
               return (
                 <AddButton
@@ -166,7 +170,7 @@ function FloatingPanel({ children, style = null, isMinimized, setMinimized }) {
   return (
     <div
       className={
-        "flex flex-col border border-slate-500 transition-all max-w-[90vw] max-h-[75vh]"
+        "flex flex-col border border-slate-300 bg-slate-100 rounded-md transition-all max-w-[90vw] max-h-[75vh]"
       }
       onMouseDown={(e) => {
         setDragging(true);
@@ -236,7 +240,7 @@ export function AddButton({ item: [_, item], showMenu, setSelector }) {
   return (
     <li className="tooltip tooltip-left px-1" data-tip={item.label}>
       <a
-        className="flex items-center justify-center p-0 border m-1 border-slate-400 w-7 h-7 rounded-md"
+        className="flex items-center justify-center p-0 border m-1 border-slate-300 w-7 h-7 rounded-md hover:scale-110"
         onClick={(e) => {
           e.stopPropagation();
           const { action, object, objects, selector } = item;
