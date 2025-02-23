@@ -54,3 +54,4 @@ const web2DomainMapping = {
   "1dollarjobs.com": "1dollarjobs",
   "www.pockit.world": "corporatepockit",
 };
+
