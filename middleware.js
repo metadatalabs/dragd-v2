@@ -44,7 +44,7 @@ const web2DomainMapping = {
   "prnth.com": "prnth.eth",
   "xyz.com": "anydragdpage",
   "nutter.tools": "0xE5E98Df807c3C4F8e57eeeED0968895b2EA5FEfb",
-  "thebiggestlilmovie.wtf": "nounshack.eth",
+  "thebiggestlilmovie.in": "nounshack.eth",
   "remichan.net": "remichan.eth",
   "ideacoe.com": "ideacoe.eth",
   "thehackerhouse.in": "willsolanamakeit",
